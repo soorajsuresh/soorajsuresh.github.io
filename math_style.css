@@ -1,0 +1,60 @@
+definition, .definition, .tech {
+    color: rgb(var(--bloo));
+    font-weight: bold;
+}
+
+.bad {
+    color: red;
+    font-weight: bold;
+}
+
+.boxed {
+    background-color: rgba(var(--bloo), 0.03);
+    border-radius: 8px;
+    border: solid;
+    /*border-left: solid rgb(var(--bloo));*/
+    padding: 8px;
+}
+
+.boxed + .boxed {
+    margin-top: 4px;
+}
+
+.result-title {
+    font-weight: bold;
+}
+
+.example > .result-title::after {
+    counter-increment: count;
+    content: " " counter(count);
+}
+
+display, .display {
+    text-align: center;
+    display: block;
+    padding: 16px 0px 16px 0px;
+}
+
+div {
+    position:relative;
+}
+
+.toggle {
+    font-weight:bold;
+    cursor: pointer;
+    position:absolute;
+    bottom:8px;
+    right:8px;
+}
+
+.hidden > .solution, .hidden > .proof-content {
+    display: none;
+}
+
+.visible > .solution {
+    display: block;
+}
+
+.visible > .proof-content {
+    display: inline;
+}

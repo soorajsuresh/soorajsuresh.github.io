@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="\main_style.css">
+    <link rel="stylesheet" href="\toc_style.css">
+    <link rel="stylesheet" href="\math_style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="\scroll.js"></script>
+    <script>MathJax = {
+            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
+            startup: {
+                ready() {
+                    MathJax.startup.defaultReady();
+                    MathJax.startup.document.inputJax[0].preFilters.add(
+                        ({ math }) => {
+                            if (math.display === false) {
+                                math.math = '\\displaystyle{' + math.math + '}';
+                            }
+                        }
+                    );
+                }
+            }
+        };
+    </script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+
+<body>
+    <h1> Mean Value Theorem</h1>
+    <section id="rolles_theorem">
+        <h2>1.1 Rolle's Theorem</h2>
+        <section>
+            <h3>1.1.1 What is Rolle's Theorem?</h3>
+            If $f$ is a function continuous on $[a,b]$ and differentiable on $(a,b)$ such that $f(a)=f(b)$, then there
+            exists a $c\in(a,b)$ such that $f'(c)=0$.
+        </section>
+        <section>
+            <h3>1.1.2 Verifying Rolle's Theorem</h3>
+            <p> By Rolle's Theorem, the existence of such a $c$ is guaranteed, but that does not mean we will be able to
+                find it. Let us look at some contrived examples in which we are able to find $c$.
+            </p>
+            <div class="boxed example">
+                <span class="result-title">Example</span> Let $f$ be the function defined by <display>$f(x)=x(x-1)^2$
+                </display> on $[0,1]$. Determine whether the hypotheses of Rolle's Theorem are met. If they are, find
+                $c$
+                guaranteed by the theorem.
+                <p>Note, $f$ is clearly continuous on $[0,1]$ and differentiable on $(0,1)$.</p>
+                <p>Indeed, by properties of continuous functions, $x$ and $x-1$ are continuous
+                    on $[0,1]$, and
+                    the power $(x-1)^2$ of a function that is continuous on $[0,1]$ is also continuous on $[0,1]$, and
+                    the
+                    product $x(x-1)^2$ of functions that are continuous on $[0,1]$ is continuous on $[0,1]$.</p>
+                <p>By properties of differentiable functions, $x$ and $x-1$ are
+                    differentiable on $(0,1)$, and
+                    the power $(x-1)^2$ of a function that is differentiable on $(0,1)$ is also differentiable on
+                    $(0,1)$, and the
+                    product $x(x-1)^2$ of functions that are differentiable on $(0,1)$ is differentiable on $(0,1)$.</p>
+                <p>Note, <display>$f(0)=0=f(1)$.</display>
+                </p>
+                <p>So, the hypotheses of Rolle's Theorem are met. Therefore, by Rolle's Theorem, there exists a
+                    $c\in(0,1)$ such that $f'(c)=0$.</p>
+                <p>Note, <display>$f(x)=x(x-1)^2=x(x^2-2x+1)=x^3-2x^2+x$,</display> so <display>$f'(x)=3x^2-4x+1$,
+                    </display> so <display>$f'(c)=3c^2-4c+1=0$,</display> so <display>$(3c-1)(c-1)=0$,</display> so
+                    <display>$3c-1=0$ or $c-1=0$,</display>
+                    so <display>$c=\frac13$ or $c=1$.</display>
+                </p>
+                <p>Note $c=1\notin(0,1)$ and $c=1/3\in(0,1)$. So, the $c$ we seek is $c=1/3$.</p>
+            </div>
+        </section>
+    </section>
+    <section id="mvt">
+        <h2>1.2 The Mean Value Theorem</h2>
+        <section>
+            <h3>1.2.1 What is The Mean Value Theorem?</h3>
+            If $f$ is a function continuous on $[a,b]$ and differentiable on $(a,b)$, then there
+            exists a $c\in(a,b)$ such that <display>$f'(c)=\frac{f(b)-f(a)}{b-a}$.</display>
+        </section>
+        <section>
+            <h3>1.2.2 Verifying The Mean Value Theorem</h3>
+            <p> Let us look at some contrived examples in which we are able to find $c$.
+            </p>
+            <div class="boxed example">
+                <span class="result-title">Example</span> Let $f$ be the function defined by <display>$f(x)=x^3-3x+2$
+                </display> on $[-2,2]$. Determine whether the hypotheses of the Mean Value Theorem are met. If they are,
+                find a $c$ that verifies the theorem.
+                <p>Note, $f$ is clearly continuous on $[-2,2]$ and differentiable on $(-2,2)$.</p>
+                <p>Indeed, polynomials are continuous and differentiable everywhere.</p>
+                <p>So, the hypotheses of The Mean Value Theorem are met. Therefore, by The Mean Value Theorem, there
+                    exists a $c\in(-2,2)$ such that <display>$f'(c)=\frac{f(2)-f(-2)}{2-(-2)}$.</display>
+                </p>
+                <p>Note, <display>$f(2)=2^3-3(2)+2=4$ and $f(-2)=(-2)^3-3(-2)+2=0$,</display> so <display>$f'(c)=\frac{4-0}{2-(-2)}=1$.</display></p>
+                <p>Note, <display>$f'(x)=3x^2-3$,
+                    </display> so <display>$f'(c)=3c^2-3=1$,</display> so <display>$3c^2=4$,</display> so
+                    <display>$c^2=\frac43$</display>
+                    so <display>$c=\pm\frac2{\sqrt3}$.</display>
+                </p>
+                <p>Note $\pm\frac2{\sqrt3}\in(-2,2)$, so, either of $2/\sqrt3$ and $-2/\sqrt3$ can be chosen as the $c$ we seek.</p>
+            </div>
+        </section>
+    </section>
+</body>
+
+</html>

@@ -1,0 +1,19 @@
+.example {
+    position:relative;
+    overflow-x: hidden;
+    background-color: rgba(var(--bloo),.03);
+    display: flex;
+    max-width: 600px;
+}
+
+slides {
+    overflow-x: hidden;
+    display: flex;
+    align-items: center;
+    column-gap: 0px;
+}
+
+slide {
+    padding: 8px;
+    min-width: 584px;
+}

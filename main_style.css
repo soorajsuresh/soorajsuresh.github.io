@@ -1,0 +1,63 @@
+:root {
+    --bloo: 48, 41, 255;
+}
+
+* {
+    padding: 0;
+}
+
+html {
+    display: table;
+    margin: auto;
+    counter-reset: count;
+    font-family: Arial;
+}
+
+body {
+    display: table-cell;
+    vertical-align: middle;
+    min-width: 600px;
+    max-width: 600px;
+}
+
+.menu {
+    display: flex;
+    padding-top: 12px;
+}
+
+.menu ul {
+    margin: 0;
+    padding: 0;
+}
+
+.menu li {
+    list-style:none;
+    display: inline-block;
+    padding-right: 12px;
+}
+
+h1 {
+    font: 170% sans-serif;
+}
+
+h2 {
+    font: 140% sans-serif;
+}
+
+h3 {
+    font: bold 100% sans-serif;
+    margin-right: 8px;
+}
+
+a:link, a:visited, .toggle {
+    text-decoration: none;
+    color: blue;
+ }
+
+a:hover, a:active, .toggle:hover  {
+    color: orange;
+}
+
+/*div + div {
+    margin-top: 1em;
+}*/

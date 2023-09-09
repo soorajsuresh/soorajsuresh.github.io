@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <link rel="stylesheet"
+          href="\main_style.css">
+    <link rel="stylesheet"
+          href="\toc_style.css">
+    <link rel="stylesheet"
+          href="\math_style.css">
+    <script src="\toggle_proofs.js"></script>
+    <script>MathJax = {
+            tex: {inlineMath: [['$', '$'], ['\\(', '\\)']]},
+            startup: {
+            ready() {
+              MathJax.startup.defaultReady();
+              MathJax.startup.document.inputJax[0].preFilters.add(
+                ({math}) => {
+                  if (math.display === false) {
+                    math.math = '\\displaystyle{' + math.math + '}';
+                  }
+                }
+              );
+            }
+          }
+        };
+    </script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script"
+            async
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<h1>Powers</h1>
+<div class="toc">
+    <h2>Table of Contents</h2>
+    <ul class="toc">
+        <li class="tocline1"><a href="8_powers.html">8 Powers</a>
+            <ul class="toc">
+                <li class="tocline2"><a href="8_powers.html#whole_number_powers">8.1 Whole Number Powers</a></li>
+                <li class="tocline2"><a href="8_powers.html#integer_powers">8.2 Integer Powers</a></li>
+                <li class="tocline2"><a href="8_powers.html#rational_powers">8.3 Rational Powers</a></li>
+            </ul>
+        </li>
+    </ul>
+</div>
+<div id="whole_number_powers">
+    <h2>Whole Number Powers</h2>
+    <div class="definition">
+        <span class="result-title">Definitions and Notation</span>
+        If $a$ is a real number and $n$ is a whole number, then the product \[\underbrace{a\cdot a\cdot \cdots\cdot
+        a}_{n\text{
+        factors}}\] is called the $n^{\text{th}}$ power of $a$. For convenience, we can use the notation
+        \[a^n:=\underbrace{a\cdot a\cdot\cdots\cdot a}_{n\text{
+        factors}}.\]
+        In this notation, $a$ is called the base and $n$ the exponent. The notation can be read $a$ raised
+        to the power of $n$ or $a$ (raised) to the $n^{\text{th}}$ (power).
+    </div>
+    <div class="theorem">
+        <span class="result-title">Properties of (Whole Number) Powers</span>
+        For any real numbers $a$ and $b$ and any whole numbers $n$ and $m$:
+        <ol>
+            <li>$\displaystyle a^n\cdot a^m=a^{n+m}$</li>
+            <li>$(a\cdot b)^n=a^n\cdot b^n$</li>
+            <li>$\displaystyle\left(\frac ab\right)^n=\frac{a^n}{b^n}$</li>
+            <li>$(a^n)^m=a^{n\cdot m}$</li>
+        </ol>
+    </div>
+    <div class="boxed proof">
+        <span class="result-title">Proof of 1.</span>
+        <span class="proof-content">
+        Indeed,
+        \begin{align}
+        a^n\cdot a^m&=\underbrace{a\cdot a\cdot\cdots\cdot a}_{n\text{
+        factors}}\cdot\underbrace{a\cdot a\cdot\cdots\cdot a}_{m\text{
+        factors}}\\
+        &=\underbrace{a\cdot a\cdot\cdots\cdot a}_{n+m\text{
+        factors}}\\
+        &=a^{m+n}.
+        \end{align}
+    </span>
+        <div class="toggle">Show Proof</div>
+    </div>
+    <div class="boxed proof">
+        <span class="result-title">Proof of 2.</span>
+        <span class="proof-content">
+        Indeed,
+        \begin{align}
+        (a\cdot b)^n&=\underbrace{(a\cdot b)\cdot (a\cdot b)\cdot\cdots\cdot (a\cdot b)}_{n\text{
+        factors}}\\
+        &=\underbrace{a\cdot a\cdot\cdots\cdot a}_{n\text{
+        factors}}\cdot\underbrace{b\cdot b\cdot\cdots\cdot b}_{n\text{
+        factors}}\\
+        &=a^n\cdot b^n.
+        \end{align}
+    </span>
+        <a class="toggle">Show Proof</a>
+    </div>
+    <div class="boxed proof">
+        <span class="result-title">Proof of 3.</span>
+        <span class="proof-content">
+        Indeed,
+        \begin{align}
+        \left(\frac ab\right)^n&=\underbrace{\left(\frac ab\right)\cdot\left(\frac ab\right)\cdot\cdots\cdot
+        \left(\frac
+        ab\right)}_{n\text{
+        factors}}\\
+        &=\frac{\overbrace{a\cdot a\cdot\cdots\cdot a}^{n\text{
+        factors}}}{\underbrace{b\cdot b\cdot\cdots\cdot b}_{n\text{
+        factors}}}\\&=\frac{a^n}{b^n}.
+        \end{align}
+    </span>
+        <a class="toggle">Show Proof</a>
+    </div>
+    <div class="boxed proof">
+        <span class="result-title">Proof of 4.</span>
+        <span class="proof-content">
+            Indeed,
+            \begin{align}
+            (a^n)^m&=\left(\underbrace{a\cdot a\cdot\cdots\cdot a}_{n\text{
+            factors}}\right)^m\\
+            &=\underbrace{\left(\underbrace{a\cdot a\cdot\cdots\cdot a}_{n\text{
+            factors}}\right)\cdot \left(\underbrace{a\cdot a\cdot\cdots\cdot a}_{n\text{
+            factors}}\right)\cdot\cdots\cdot \left(\underbrace{a\cdot a\cdot\cdots\cdot a}_{n\text{
+            factors}}\right)}_{m\text{
+            factors}}\\
+            &=a^{n\cdot m}.
+            \end{align}
+        <p>
+        </p>
+    </span>
+        <a class="toggle">Show Proof</a>
+    </div>
+    <div class="boxed exercise">
+        <span class="result-title">Exercise</span>
+        <span class="result-prompt">Simplify the following expression. \[\left(\frac{2x^3x^5}{3yy^4}\right)^3\]</span>
+        <span class="solution">
+        Note,
+        \[\left(\frac{2x^3x^5}{3yy^4}\right)^3=\left(\frac{2x^8}{3y^5}\right)^3=\frac{\left(2x^8\right)^3}{\left(3y^5\right)^3}=\frac{2^3x^{24}}{3^3y^{15}}=\frac{8x^{24}}{27y^{15}}.\]
+        <br>
+    </span>
+        <a class="toggle">Show Solution</a>
+    </div>
+</div>
+<div id="integer_powers">
+    <h2>Integer Powers</h2>
+    <h3>Definitions and Notation</h3>
+    <p>If $a$ is a nonzero real number, then \[a^{-1}:=\frac1a\] and \[a^0:=1.\] If $n$ is a whole number, then
+        \[a^{-n}:=\frac1{a^n}.\]</p>
+    <h3>Properties of (Integer) Powers</h3>
+    <p>For any real numbers $a$ and $b$ and any integers $n$ and $m$: \[a^n\cdot a^m=a^{n+m}\] \[(a\cdot
+        b)^n=a^n\cdot b^n\] \[\left(\frac ab\right)^n=\frac{a^n}{b^n}\text{ when }b\ne0\] \[(a^n)^m=a^{n\cdot m}\]
+        \[\frac{a^n}{a^m}=a^{n-m}\]</p>
+    <p>
+        We prove the final property for when $n$ and $m$ are positive integers first. Indeed, in this case, \[\]
+    </p>
+    <p>
+        We have proven the first for properties for positive integers, so it remains to prove them for when one or both
+        of $n$ and $m$ is $0$ and for when one or both of $n$ and $m$ is a negative integer.
+    </p>
+    <p>
+        Indeed, if $n=0$ and $m$ is any integer, then \[a^n\cdot a^m=a^0\cdot a^m=1\cdot a^m=a^m=a^{0+m},\] \[(a\cdot
+        b)^n=(a\cdot
+        b)^0=1=1\cdot
+        1=a^0\cdot b^0,\] \[\left(\frac ab\right)^n=\left(\frac ab\right)^0=1=\frac11=\frac{a^0}{b^0},\] and
+        \[(a^n)^m=(a^0)^m=1^m=1=a^0=a^{0\cdot m}.\]
+        If $m=0$ and $n$ is any integer, the first property clearly holds,
+        and
+        \[(a^n)^m=(a^n)^0=1=a^0=a^{n\cdot0}.\]
+    </p>
+    <p>
+        For example,
+    </p>
+</div>
+<div id="rational_powers">
+    <h2>Rational Powers</h2>
+    <h3>Definitions and Notation</h3>
+    <p>If $a$ is a nonzero real number and..., then $r=a^{1/n}$ is the real number satisfying $r^n=a$.</p>
+    <h3>Properties of (Rational) Powers</h3>
+    <p>For any real numbers $a$ and $b$ and any rational numbers $n$ and $m$: \[a^n\cdot a^m=a^{n+m}\] \[(a\cdot
+        b)^n=a^n\cdot b^n\] \[\left(\frac ab\right)^n=\frac{a^n}{b^n}\text{ when }b\ne0\] \[(a^n)^m=a^{n\cdot m}\]
+        \[\frac{a^n}{a^m}=a^{n-m}\]</p>
+</div>
+</body>
+</html>

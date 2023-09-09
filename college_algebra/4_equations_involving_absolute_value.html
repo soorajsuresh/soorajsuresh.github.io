@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="\main_style.css">
+    <link rel="stylesheet" href="\math_style.css">
+    <script>MathJax = {
+            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
+            startup: {
+                ready() {
+                    MathJax.startup.defaultReady();
+                    MathJax.startup.document.inputJax[0].preFilters.add(
+                        ({ math }) => {
+                            if (math.display === false) {
+                                math.math = '\\displaystyle{' + math.math + '}';
+                            }
+                        }
+                    );
+                }
+            }
+        };</script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+
+<body>
+    <nav class="menu">
+        <ul>
+            <li><a href="0_index.html">Table of Contents</a></li>
+            <li><a href="3_absolute_value_and_distance.html">Previous Chapter</a></li>
+            <li><a href="5_linear_inequalities.html">Next Chapter</a></li>
+        </ul>
+    </nav>
+    <h1>4 Equations Involving Absolute Value</h1>
+    <div id="the_three_type_of_equations_involving_absolute_value">
+        <h2>4.1 The Three Types of Equations Involving Absolute Value</h2>
+        <p>We will solve three types of equations involving absolute value, by <span class="tech">applying the
+                definition
+                of absolute
+                value</span>.</p>
+        <p>When the absolute value is
+            assumed to be equal to a positive number (e.g. $5$), we apply the definition of absolute value to find the
+            two
+            solutions.</p>
+        <div class="boxed example">
+            <span class="result-title">Example</span> Find all solutions to <span class="display">$|x|=5$.</span> Since
+            $x$ is a real number, $x\ge0$ or $x<0$. If $x\ge0$, then by definition of absolute value, $|x|=x$, so $x=5$.
+                If $x<0$, then by definition of absolute value $|x|=-x$, so $-x=5$, so $x=-5$. More simply, if $|x|=5$,
+                then, by definition of absolute value, <span class="display">$x=5$ or $x=-5$.</span>
+        </div>
+        <p>When the absolute value assumed to be equal to $0$, we apply the definition of absolute
+            value
+            to find the single solution.</p>
+        <div class="boxed example">
+            <span class="result-title">Example</span> Find all solutions to <span class="display">$|x|=0$.</span> By
+            the
+            definition of
+            absolute value, <span class="display">$x=0$.</span>
+        </div>
+        <p>When the absolute value is assumed to be equal to a negative number (e.g. $-3$), we
+            apply the definition
+            of absolute value to justify that there are no solutions.</p>
+        <div class="boxed example">
+            <span class="result-title">Example</span> Find all solutions to <span class="display">$|x|=-3$.</span> By
+            the definition of absolute value, there is no real number whose absolute value is negative, so the
+            equation $|x|=-3$ has no solutions.
+        </div>
+        <p>In summary:</p>
+        <div class="boxed example">
+            <ul>
+                <li>$|$stuff$|=$positive yields two solutions.</li>
+                <li>$|$stuff$|=0$ yields one solution.</li>
+                <li>$|$stuff$|=$negative yields no solutions.</li>
+            </ul>
+        </div>
+    </div>
+    <div id="examples_of_the_first_type">
+        <h2>4.2 Examples of The First Type</h2>
+        <p>In the following six examples, we apply the definition
+            of the absolute value to get two linear equations, each of which we <span class="tech">solve as
+                usual</span>.
+        </p>
+        <div class="boxed example">
+            <span class="result-title">Example</span> Find all solutions to <span class="display">$|x+3|=7$.</span> By
+            the
+            definition of
+            absolute value, <span class="display">$x+3=7$ or $x+3=-7$.</span>
+            By subtracting $3$ from both sides, <span class="display">$x=4$ or $x=-10$.</span>
+        </div>
+        <p>Next, we increase the level of sophistication again.</p>
+        <div class="boxed example">
+            <span class="result-title">Example</span> Find all solutions to <span
+                class="display">$\left|\frac23x+5\right|=2$
+                .</span> By the
+            definition
+            of absolute value, <span class="display">$\frac23x+5=2$ or
+                $\frac23x+5=-2$.</span> By subtracting $5$ from both sides, <span class="display">$\frac23x=-3$ or
+                $\frac23x=-7$.</span> By multiplying both sides by $3$ and dividing both sides by $2$, <span
+                class="display">$x=-\frac{9}2$ or $x=-\frac{21}2$.</span>
+        </div>
+        <p>As we further increase the level of sophistication, we
+            <span class="tech">isolate the absolute value</span> before proceeding as we did in the previous examples.
+        </p>
+        <div class="boxed example">
+            <span class="result-title">Example</span> Find all solutions to <span class="display">$|5x-1|+8=9$.</span>
+            By
+            subtracting
+            $1$ from both sides, <span class="display">$|5x-1|=1$.</span> By the definition of absolute value, <span
+                class="display">$5x-1=1$ or
+                $5x-1=-1$.</span> By adding $1$ to both sides,
+            <span class="display">$5x=2$ or
+                $5x=0$.</span> By dividing both sides by $5$, <span class="display">$x=\frac25$
+                or $x=0$.</span>
+        </div>
+        <p>We increase the level of sophistication again.</p>
+        <div class="boxed example">
+            <span class="result-title">Example</span> Find all solutions to <span
+                class="display">$2\left|8x-3\right|+5=10$.</span>
+            By subtracting $5$ from both sides,
+            <span class="display">$2\left|8x-3\right|=5$.</span>
+            By dividing both sides by $2$,
+            <span class="display">$\left|8x-3\right|=\frac52$.</span>
+            By the definition of the absolute value,
+            <span class="display">$8x-3=\frac52$ or $8x-3=-\frac52$.</span>
+            By adding $3$ to both sides,
+            <span class="display">$8x=\frac{11}2$ or $8x=\frac12$.</span>
+            By dividing both sides by $8$,
+            <span class="display">$x=\frac{11}{16}$ or $8x=\frac1{16}$.</span>
+        </div>
+        <p>Note, in the following example, the right side is negative, but we should
+            isolate the absolute value before concluding that there are no solutions to the equation.</p>
+        <div class="boxed example">
+            <span class="result-title">Example</span> Find all solutions to <span class="display">$6-3\left|2x+7\right
+                |=-9$.</span>
+            By subtracting $6$ from both sides,
+            <span class="display">$-3\left|2x+7\right
+                |=-15$.</span>
+            By dividing both sides by $-3$,
+            <span class="display">$\left|2x+7\right
+                |=5$.</span>
+            Note that the right side of the equation became positive. Next, by the definition of the absolute value,
+            <span class="display">$2x+7=5$ or $2x+7=-5$.</span> By subtracting $7$ from both sides, <span
+                class="display">$2x=-2$ or $2x=-12$.</span> By dividing both sides by $2$, <span
+                class="display">$x=-1$
+                or $x=-6$.</span>
+        </div>
+        <p>Let us increase the level of sophistication one last time.</p>
+        <div class="boxed example">
+            <span class="result-title">Example</span> Find all solutions to <span
+                class="display">$\frac{\frac{25}3\left|\frac{\frac{12}5x-3}2
+                \right|-78}4=-7$.</span> By multiplying both sides by $4$, <span
+                class="display">${\frac{25}3\left|\frac{\frac{12}5x-3}2
+                \right|-78}=-28$.</span> By adding $78$ to both sides, <span
+                class="display">$\frac{25}3\left|\frac{\frac{12}5x-3}2
+                \right|=50$.</span> By dividing both sides by $25$ and multiplying both sides by $3$, <span
+                class="display">$\left|\frac{\frac{12}5x-3}2\right|=6$.</span> By applying the definition of absolute
+            value, <span class="display">$\frac{\frac{12}5x-3}2=6$ or $\frac{\frac{12}5x-3}2=-6$.</span> By multiplying
+            both
+            sides of each equation by $2$, <span class="display">$\frac{12}5x-3=12$ or $\frac{12}5x-3=-12$.</span> By
+            adding $3$ to both sides of each
+            equation, <span class="display">$\frac{12}5x=15$ or $\frac{12}5x=-9$.</span> By dividing both sides of each
+            equation by
+            $12$ and
+            multiplying by $5$, <span class="display">$x=\frac{25}4$ or $x=-\frac{15}{4}$.</span>
+        </div>
+    </div>
+    <div class="examples_of_the_other_types">
+        <h2>4.3 Examples of The Other Types</h2>
+        <p>We
+            conclude
+            our discussion with a more sophisticated example involving the equations of the other two types that we
+            discussed.</p>
+        <div class="boxed example">
+            <span class="result-title">Example</span> Find all solutions to <span class="display">$2\left|3x-8
+                \right|+\Omega=-4$</span> when
+            <ol>
+                <li>$\Omega=-4$.</li>
+                <li>$\Omega=-\frac{15}{16}$.</li>
+            </ol>
+            By assuming $\Omega=-4$, <span class="display">$2\left|3x-8
+                \right|-4=-4$.</span> By adding $4$ to both sides, <span class="display">$2\left|3x-8
+                \right|=0$.</span> By dividing both sides by $2$, <span class="display">$\left|3x-8
+                \right|=0$.</span> By the definition of absolute value <span class="display">$3x-8
+                =0$.</span> By adding $8$ to both sides, <span class="display">$3x=8$</span> By dividing both sides by
+            $3$
+            <span class="display">$x=\frac83$.</span>
+            Next, by assuming $\Omega=-\frac{15}{16}$, <span class="display">$2\left|3x-8
+                \right|-\frac{15}{16}=-4$.</span> By adding $\frac{15}{16}$ to both sides, <span
+                class="display">$2\left|3x-8
+                \right|=-\frac{1}{16}$.</span>
+            By dividing both sides by $2$, <span class="display">$\left|3x-8
+                \right|=-\frac{1}{32}$.</span> By
+            the definition of absolute value, there is no real number whose absolute value is negative, so the
+            equation $\left|3x-8
+            \right|=-\frac{1}{32}$ has no solutions.
+        </div>
+    </div>
+</body>
+
+</html>

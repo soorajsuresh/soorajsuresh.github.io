@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <link rel="stylesheet"
+          href="\main_style.css">
+    <link rel="stylesheet"
+          href="\toc_style.css">
+    <link rel="stylesheet"
+          href="\math_style.css">
+    <script>MathJax = {
+                tex: {inlineMath: [['$', '$'], ['\\(', '\\)']]},
+                startup: {
+                ready() {
+                  MathJax.startup.defaultReady();
+                  MathJax.startup.document.inputJax[0].preFilters.add(
+                    ({math}) => {
+                      if (math.display === false) {
+                        math.math = '\\displaystyle{' + math.math + '}';
+                      }
+                    }
+                  );
+                }
+              }
+            };
+    </script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script"
+            async
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<nav class="menu">
+    <ul>
+        <li><a href="0_index.html">Table of Contents</a></li>
+        <li><a href="2_linear_equations.html">Previous Chapter</a></li>
+        <li><a href="4_equations_involving_absolute_value.html">Next Chapter</a></li>
+    </ul>
+</nav>
+<h1>3 Absolute Value and Distance</h1>
+<section class="toc">
+    <h2>Table of Contents</h2>
+    <ul class="toc">
+        <li class="tocline1"><a href="1_real_numbers.html">3 Absolute Value and Distance</a>
+            <ul class="toc">
+                <li class="tocline2"><a href="4_equations_involving_absolute_value.html#">3.1 Absolute Value</a></li>
+                <li class="tocline2"><a href="1_real_numbers.html">3.2 Distance</a></li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section id="absolute_value">
+    <h2>3.1 Absolute Value</h2>
+    <div class="definition">
+        <span class="result-title">3.1.1 Definition</span> The real number $|x|$ is called the <span class="definition">absolute
+        value of $x$</span>. If $x\ge0$, then \[|x|:=x.\] If $x<0$, then \[|x|:=-x.\]
+    </div>
+    <div class="boxed example">
+        <span class="result-title">Example</span> If $x=9$, then \[|x|=|9|=9.\] If $x=-9$, then \[|x|=|-9|=-(-9)=9.\]
+    </div>
+</section>
+<section id="distance">
+    <h2>3.2 Distance</h2>
+    <div class="definition">
+        <span class="result-title">Definition 3.2.1</span> The real number $|x-y|$ is called the <span
+            class="definition">distance between $x$ and $y$</span>.
+    </div>
+    <div class="boxed example">
+        <span class="result-title">Example</span> If $x=-5$ and $y=8$, then the distance between $x$ and $y$ is
+        \[|x-y|=|-5-8|=|-13|=13.\] If $x$ is any real number, then $|x|$ is the distance between $x$ and $0$, since
+        $|x|=|x-0|$.
+    </div>
+</section>
+</body>
+</html>
