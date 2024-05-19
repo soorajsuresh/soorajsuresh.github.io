@@ -14,8 +14,8 @@
     </ol>
 </div>
 <p>Using these 9 properties of real numbers, many others can be proven.</p>
-<div class="boxed example">
-    <span class="result-title">Example</span> If $x$, $y$, and $z$ are real numbers, then \[(x+y)z=xz+yz.\]
+<example>
+    If $x$, $y$, and $z$ are real numbers, then \[(x+y)z=xz+yz.\]
     <p>Indeed, \begin{align}
         (x+y)z&=z(x+y)&&(1.)\\
         &=zx+zy &&(9.)\\
@@ -29,10 +29,10 @@
 <div class="theorem">
     <span class="result-title">More Properties of The Real Numbers</span>
     Let $x$, $y$, and $z$ be real numbers. If $x=y$, then:
-    <display">$x+z=y+z$</span>
-    <display">$x-z=y-z$</span>
-    <display">$xz=yz$</span>
-    <display">$\frac xz=\frac yz$ when $z\ne0$</span>
+    <display>$x+z=y+z$</span>
+    <display>$x-z=y-z$</span>
+    <display>$xz=yz$</span>
+    <display>$\frac xz=\frac yz$ when $z\ne0$</span>
 </div>
 -->
 <!DOCTYPE html>
@@ -63,8 +63,11 @@
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
-
 <body>
+    $\newcommand{\R}{\mathbb{R}}$
+    $\definecolor{blue}{RGB}{48, 41, 255}$
+    $\newcommand{\qed}{\rule{3.69pt}{0.8em}}$
+    <style>body {counter-set: chapter-counter 1;}</style>
     <nav class="menu">
         <ul>
             <li><a href="0_index.html">Table of Contents</a></li>
@@ -72,7 +75,7 @@
         </ul>
     </nav>
     <h1>1 Real Numbers</h1>
-    <section class="toc">
+    <div class="toc">
         <ul class="toc">
             <li class="tocline1"><a href="1_real_numbers.html">1 Real Numbers</a>
                 <ul class="toc">
@@ -84,113 +87,115 @@
                 </ul>
             </li>
         </ul>
-    </section>
+    </div>
     <section id="distributive_property">
-        <h2>1.1 Distributive Property</h2>
-        <section>
-            <h3>1.1.1 What is The Distributive Property?</h3>
-            <definition>The Distributive Property</definition> (of multiplication of real numbers over addition
+        <hsec>Distributive Property</hsec>
+        <subsection>
+            <hsubsec>What is The Distributive Property?</hsubsec>
+            <p><definition>The Distributive Property</definition> (of multiplication of real numbers over addition
             of real
-            numbers) states that any three real numbers $x$, $y$, and $z$ satisfy <display">$x(y+z)
-                =xy+xz$.</display> Additionally, <display">$(x+y)z
-                    =xz+yz$.</display>
-        </section>
-        <section>
-            <h3>1.1.2 Applying The Distributive Property</h3>
-            <p>We will simplify real
-                expressions by applying The Distributive Property.</p>
-            <div class="boxed example">
-                <span class="result-title">Example</span> Let $a$ be a real number. Simplify <display">$3
-                    (a+4)+8$.</span> Observe, <display">$3(a+4)+8=3a+3\cdot4+8=3a+12+8=3a+20$.</display>
-            </div>
-            <p>We must be careful around minus signs.</p>
-            <div class="boxed example">
-                <span class="result-title">Example</span> Let $a$ and $b$ be real numbers. Expand <display>$5
+            numbers) is the property that any three real numbers $x$, $y$, and $z$ satisfy: <display class="boxed">$x(y+z)=xy+xz$</display>
+            The Distributive Property is also known as <definition>left distributivity</definition>.</p>
+
+            <p>We can prove <definition>right distributivity</definition> (of multiplication of real numbers over addition of real numbers), the property that any three real numbers
+            $x$, $y$, and $z$ satisfy:<display class="boxed">$(x+y)z=xz+yz$</display></p>
+            <proof> Indeed, by commutativity of multiplication of real numbers, left distributivity, and commutativity of addition 
+            of real numbers, <display>$(x+y)z=z(x+y)=zx+zy=xz+yz$. $\qed$</display></proof>
+        </subsection>
+        <subsection>
+            <hsubsec>Applying Distributivity</hsubsec>
+            <p>Let's carefully apply distributivity to simplify some real
+                expressions.</p>
+            <example>
+                Let $a\in\R$. Simplify <display>$3(a+4)+8$.</display> See, <display>$3(a+4)+8=3a+3\cdot4+8=3a+20$.</display>
+            </example>
+            <p>We'll be especially careful around minus signs.</p>
+            <example>
+                Let $a,b\in\R$. Expand <display>$5
                     (a-b)-1$.</display>
-                <span class="bad">Writing $5(a-b)=5a+5-b$ is a common mistake which causes serious problems down the
-                    road</span>. When we
+                <bad>Writing $5(a-b)=5a+5-b$ is a common mistake which causes serious problems down the
+                    road</bad>. When we
                 distribute the $5$, it should be multiplied to each the $a$ and $-b$. But, when we write $5-b$, we are
                 expressing subtraction, not multiplication. We remedy the situation using parentheses.
 
-                Observe, <display">$5(a-b)-1=5a+5(-b)-1=5a-5b-1$.</display>
-            </div>
-            <p>We use the second distributive property.</p>
-            <div class="boxed example">
-                <span class="result-title">Example</span> Let $a$ be a real number. Simplify <display>$5+(a+8)3$.
-                </display> Observe: <display>$5+(a+8)3=5+a3+8\cdot3=3a+5+24=3a+29$.</display>
-            </div>
+                See, <display>$5(a-b)-1=5a+5(-b)-1=5a-5b-1$.</display>
+                </example>
+            <p>Let's use right distributivity.</p>
+            <example>
+                Let $a$ be a real number. Simplify <display>$5+(a+8)3$.
+                </display> See, <display>$5+(a+8)3=5+a3+8\cdot3=3a+5+24=3a+29$.</display>
+            </example>
             <p>In the above example, we used commutativity of multiplication of real numbers to rewrite $a3$ as $3a$ and
                 commutativity of addition of real numbers to reorganize the sum $5+3a$ as $3a+5$. The following is
                 another example of using commutativity.</p>
-            <div class="boxed example">
-                <span class="result-title">Example</span> Let $a$ be a real number. Expand <display>$4(a+5)3$.</display>
-                Observe: <display>$4(a+5)3=4\cdot3(a+5)=12(a+5)=12a+12\cdot5=12a+60$.</display>
-                Alternatively, we could have started with distributivity, but we must be careful.<br><span
-                    class="bad">Writing $4(a+5)3=4a+4\cdot5\cdot3$ is a common mistake which causes serious problems
+            <example>
+                Let $a$ be a real number. Expand <display>$4(a+5)3$.</display>
+                See, <display>$4(a+5)3=4\cdot3(a+5)=12(a+5)=12a+12\cdot5=12a+60$.</display>
+                Alternatively, we could have started with distributivity, but we must be careful.<br><bad>Writing $4(a+5)3=4a+4\cdot5\cdot3$ is a common mistake which causes serious problems
                     down the
-                    road</span>. The $3$ was to be multiplied to both terms in the sum $a+5$, but here it is only
+                    road</bad>. The $3$ was to be multiplied to both terms in the sum $a+5$, but here it is only
                 multiplying
                 one of the terms in the sum $4a+4\cdot5$. We remedy the situation using
-                parentheses. Observe: <display>$4(a+5)3=(4a+4\cdot5)3=4a3+20\cdot3=4\cdot3a+60=12a+60$.</display>
-            </div>
+                parentheses. See, <display>$4(a+5)3=(4a+4\cdot5)3=4a3+20\cdot3=4\cdot3a+60=12a+60$.</display>
+            </example>
             <p>We increase the level of sophistication.</p>
-            <div class="boxed example">
-                <span class="result-title">Example</span> Let $a$ and $b$ be real numbers. Simplify <display>
-                    $(3+a)(b+4)-3$.</display> Observe:
+            <example>
+                Let $a$ and $b$ be real numbers. Simplify <display>
+                    $(3+a)(b+4)-3$.</display> See,
                 \begin{align}(3+a)(b+4)-3&=(3+a)b+(3+a)4-3\\
                 &=3b+ab+3\cdot4+a4-3\\
                 &=4a+3b+ab+12-3\\
                 &=4a+3b+ab+9\end{align}
-            </div>
+            </example>
             <p>Again.</p>
-            <div class="boxed example">
-                <span class="result-title">Example</span> Let $a$ and $b$ be real numbers. Simplify <display>
-                    $3(a+2)(b-9)+11$.</display> Observe:
+            <example>
+                Let $a$ and $b$ be real numbers. Simplify <display>
+                    $3(a+2)(b-9)+11$.</display> See,
                 \begin{align}3(a+2)(b-9)+11&=3((a+2)b+(a+2)(-9))+11\\
                 &=3(ab+2b+a(-9)+2(-9))+11\\
                 &=3ab+3\cdot2b+3(-9a)+3(-18)+11\\
                 &=3ab+6b-27a-54+11\\
                 &=-27a+6b+3ab-43\end{align}
-            </div>
-        </section>
+            </example>
+        </subsection>
     </section>
     <section id="negatives">
-        <h2>1.2 Negatives</h2>
-        <section>
-            <h3>1.2.1 Definition</h3>
+        <hsec>Negatives</hsec>
+        <subsection>
+            <hsubsec>Definition</hsubsec>
             <p>The <definition>negative of a real number</definition> $x$ is the number $-x$ such that $x+-x=0$.
             </p>
-        </section>
-        <section>
-            <h3>1.2.2 Properties</h3>
+        </subsection>
+        <subsection>
+            <hsubsec>Properties</hsubsec>
             <p>Let $x$ and $y$ be real numbers.</p>
-            <display">$-(-x)=x$</display>
-            <display">$-x=-1\cdot x$</display>
-            <display">$-(x+y)=-x+-y$</display>
-            <display">$-x\cdot y=x\cdot-y=-(x\cdot y)$</display>
-            <display">$-x\cdot -y=x\cdot y$</display>
+            <display>$-(-x)=x$</display>
+            <display>$-x=-1\cdot x$</display>
+            <display>$-(x+y)=-x+-y$</display>
+            <display>$-x\cdot y=x\cdot-y=-(x\cdot y)$</display>
+            <display>$-x\cdot -y=x\cdot y$</display>
             Let $y\ne0$.
-            <display">$\frac{-x}{-y}=\frac xy$</display>    
-            <display">$\frac{-x}y=\frac x{-y}=-\frac xy$</display>
-        </section>
-        <section>
-            <h3>1.2.3 Examples</h3>
+            <display>$\frac{-x}{-y}=\frac xy$</display>    
+            <display>$\frac{-x}y=\frac x{-y}=-\frac xy$</display>
+        </subsection>
+        <subsection>
+            <hsubsec>Examples</hsubsec>
             <p>Using the properties above, we will simplify negatives.</p>
-            <div class="boxed example">
-                <span class="result-title">Example</span> Let $a$ be a real number. Simplify <display">$2-
-                    (5+a)$.</display> Observe, <display">$2-(5+a)=2-5-a=-3-a$.</display>
-            </div>
+            <example>
+                Let $a$ be a real number. Simplify <display>$2-
+                    (5+a)$.</display> See, <display>$2-(5+a)=2-5-a=-3-a$.</display>
+            </example>
             <p>We increase the level of sophistication.</p>
-            <div class="boxed example">
-                <span class="result-title">Example</span> Let $u$ and $v$ be real numbers. Simplify <display>$u-
-                    (3-v)-4$.</display> Observe, <display">$u-(3-v)-4=u-3-(-v)-4=u-3+v-4=u+v-3-4=u+v-7$.</display>
-            </div>
-        </section>
+            <example>
+                Let $u$ and $v$ be real numbers. Simplify <display>$u-
+                    (3-v)-4$.</display> See, <display>$u-(3-v)-4=u-3-(-v)-4=u-3+v-4=u+v-3-4=u+v-7$.</display>
+            </example>
+        </subsection>
     </section>
     <section id="fractions">
-        <h2>1.3 Fractions</h2>
-        <section>
-            <h3>1.3.1 Definitions</h3>
+        <hsec>Fractions</hsec>
+        <subsection>
+            <hsubsec>Definitions</hsubsec>
             <p>Let $x$ and $y$ are real numbers with $y\ne0$. It is convenient to use the notation <display>$\frac
                     xy:=xy^{-1}$.</display> The object on the left is called a <definition>fraction</definition>. In
                     this
@@ -198,83 +203,83 @@
                     is called the <definition>numerator</definition> of the fraction and $y$ the <definition>denominator
                     </definition>
                     of the fraction.</p>
-        </section>
-        <section>
-            <h3>1.3.2 Properties of Fractions</h3>
+        </subsection>
+        <subsection>
+            <hsubsec>Properties of Fractions</hsubsec>
             <span class="result-title"></span> Let $a$, $b$, $c$, and $d$ be real numbers
             with $b,d\ne0$.
-            <display">$x=\frac x1$</display>
-            <display">$\frac ab+\frac cd=\frac {ad+bc}{bd}$</display>
-            <display">$\frac ab-\frac cd=\frac {ad-bc}{bd}$</display>
-            <display">$\frac ab\cdot\frac cd=\frac {a\cdot c}{b\cdot d}$</display>
-            <display">$\frac ab=\frac {a\cdot d}{b\cdot d}$</display>
+            <display>$x=\frac x1$</display>
+            <display>$\frac ab+\frac cd=\frac {ad+bc}{bd}$</display>
+            <display>$\frac ab-\frac cd=\frac {ad-bc}{bd}$</display>
+            <display>$\frac ab\cdot\frac cd=\frac {a\cdot c}{b\cdot d}$</display>
+            <display>$\frac ab=\frac {a\cdot d}{b\cdot d}$</display>
             If $c\ne0$, then
-            <display">$\left({\frac ab}\right)/\left({\frac cd}\right)=\frac{ad}{bc}$</display>
-        </section>
-        <section>
-            <h3>1.3.3 Examples</h3>
+            <display>$\left({\frac ab}\right)/\left({\frac cd}\right)=\frac{ad}{bc}$</display>
+        </subsection>
+        <subsection>
+            <hsubsec>Examples</hsubsec>
             <p>We simplify some fractions. The easiest is multiplying.
             </p>
-            <div class="boxed example">
-                <span class="result-title">Example</span> Simplify <display">$\frac32\cdot\frac57$.</display>
-            </div>
+            <example>
+                Simplify <display>$\frac32\cdot\frac57$.</display>
+            </example>
             <p>Cancelling.</p>
-            <div class="boxed example">
-                <span class="result-title">Example</span> Simplify <display>$\frac32\cdot\frac4{18}$.</display>
-            </div>
+            <example>
+                Simplify <display>$\frac32\cdot\frac4{18}$.</display>
+            </example>
             <p>The next easiest is adding fractions with like denominators.</p>
-            <div class="boxed example">
-                <span class="result-title">Example</span> Simplify <display">$\frac12+\frac52$.</display>
-                    Observe,
-            </div>
+            <example>
+                Simplify <display>$\frac12+\frac52$.</display>
+                    See,
+            </example>
             <p>Subtracting works the same.</p>
-            <div class="boxed example">
-                <span class="result-title">Example</span> Simplify <display">$\frac85-\frac25$.</display>
-                    Observe,
-            </div>
+            <example>
+                Simplify <display>$\frac85-\frac25$.</display>
+                    See,
+            </example>
             <p>Unlike denominators.</p>
-            <div class="boxed example">
-                <span class="result-title">Example</span> Simplify <display">$\frac12+\frac13$.</display>
-                    Observe, <display">$\frac12+\frac13=\frac12\cdot
+            <example>
+                Simplify <display>$\frac12+\frac13$.</display>
+                    See, <display>$\frac12+\frac13=\frac12\cdot
                         \frac33+\frac13\cdot\frac22=\frac36+\frac26=\frac56$.</display>
-            </div>
+            </example>
             <p>Another example.</p>
-            <div class="boxed example">
-                <span class="result-title">Example</span> Simplify <display">$\frac57-\frac23$.</display>
-                    Observe,
-                    <display">$ $.</display>
-            </div>
+            <example>
+                Simplify <display>$\frac57-\frac23$.</display>
+                    See,
+                    <display>$ $.</display>
+            </example>
             <p>Another example.</p>
-            <div class="boxed example">
-                <span class="result-title">Example</span> Simplify <display">$\frac8{15}-\frac15$.</display>
-                    Observe,
-                    <display">$\frac8{15}-\frac15=\frac8{15
+            <example>
+                Simplify <display>$\frac8{15}-\frac15$.</display>
+                    See,
+                    <display>$\frac8{15}-\frac15=\frac8{15
                         }-\frac15\cdot\frac33=\frac8{15}-\frac3{15}=\frac5{15}=\frac{1\cdot5}{3\cdot5}=\frac13$.</display>
-            </div>
+            </example>
             <p>Let us increase the sophistication.</p>
-            <div class="boxed example">
-                <span class="result-title">Example</span> Let $a$ be a real number. Simplify <display>$\frac8{15}-\frac
+            <example>
+                Let $a$ be a real number. Simplify <display>$\frac8{15}-\frac
                     a5$.</display>
-                    Observe,
-                    <display">$\frac8{15}-\frac a5=\frac8{15
+                    See,
+                    <display>$\frac8{15}-\frac a5=\frac8{15
                         }-\frac a5\cdot\frac33=\frac8{15}-\frac{3a}{15}=\frac{8-3a}{15}$.</display>
-            </div>
-        </section>
+            </example>
+        </subsection>
     </section>
     <section id="simplifying_real_expressions">
-        <h2>1.4 Simplifying Real Expressions</h2>
-        <section>
-            <h3>1.4.1 Examples</h3>
+        <hsec>Simplifying Real Expressions</hsec>
+        <subsection>
+            <hsubsec>Examples</hsubsec>
             <p>Now we enjoy some sophisticated examples that involve
                 everything we have covered so far.
             </p>
-            <div class="boxed example">
-                <span class="result-title">Example</span> Simplify <display">$\frac12(a-8)-\frac53$.</display>
-            </div>
-        </section>
+            <example>
+                Simplify <display>$\frac12(a-8)-\frac53$.</display>
+            </example>
+        </subsection>
     </section>
     <section id="footnotes">
-        <h2>Footnotes</h2>
+        <hsubsec>Footnotes</hsubsec>
         <p id="footnote1">[1] Understanding any full definition of a <definition>real number</definition> is a
             difficult
             task
