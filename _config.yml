@@ -1,0 +1,5 @@
+title: "Sooraj's Nonsense"
+theme: null
+markdown: kramdown
+kramdown:
+  math_engine: katex
