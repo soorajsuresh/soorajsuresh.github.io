@@ -1,6 +1,8 @@
 ---
 layout: default
 title: Desmos Demo
+libs: 
+  - desmos
 ---
 
 Words before a weakmos graph.

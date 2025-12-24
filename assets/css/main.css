@@ -1,3 +1,56 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --bloo: 48, 41, 255;
+    display: table;
+    margin: auto;
+    font-family: Arial;
+}
+
 body {
-    /*background-color: red;*/
+    display: table-cell;
+    vertical-align: middle;
+    min-width: 600px;
+    max-width: 600px;
+}
+
+h1, h2, h3 {
+    display: block;
+}
+
+h1 {
+    font: bold 170% sans-serif;
+    margin-top: 0.67em; 
+    margin-bottom: 0.67em;
+}
+
+h2 {
+    font: bold 140% sans-serif;
+    margin-top: 0.83em;
+    margin-bottom: 0.83em;
+}
+
+h3 {
+    font: bold 120% sans-serif;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    margin-right: 8px;
+}
+
+p {
+    display: block;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+a:link, a:visited, .toggle {
+    text-decoration: none;
+    color: rgb(var(--bloo));
+ }
+
+a:hover, a:active, .toggle:hover  {
+    color: orange;
 }

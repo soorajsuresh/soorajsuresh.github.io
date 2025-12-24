@@ -1,0 +1,46 @@
+---
+layout: default
+title: Multivariable Calculus
+styles:
+    - /assets/css/toc.css
+---
+
+<h1>Multivariable Calculus</h1>
+
+<div>
+    <h2>Table of Contents</h2>
+    <ul class="toc">
+    {% assign class_folder = "/pages/materials/multivariable-calculus/" %}
+    {% assign class_pages = site.pages | where_exp: "p", "p.url contains class_folder" | sort: "chapter" %}
+
+    {% for page in class_pages %}
+        {% if page.chapter %}
+        <li>
+            <a href="{{ page.url }}">{{ page.chapter }} {{ page.title }}</a>
+            {% if page.sections %}
+            <ul>
+                {% for section in page.sections %}
+                <li>
+                    <a href="{{ page.url }}#{{ section.id }}">{{ page.chapter }}.{{ forloop.index }} {{ section.title }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </li>
+        {% endif %}
+    {% endfor %}
+    </ul>
+    <!--<ul class="toc">
+        <li class="tocline1"><a href="{{ '/pages/materials/multivariable-calculus/space.html' | relative_url }}">Space</a>
+            <ul>
+                <li class="tocline2"><a href="">test</a></li>
+            </ul>
+        </li>
+        <li class="tocline1">Vectors
+            <ul>
+                <li class="tocline2"><a href="">test 2</a></li>
+            </ul>
+        </li>
+        <li class="tocline1">Surfaces</li>
+    </ul>-->
+</div>

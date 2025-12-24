@@ -1,0 +1,21 @@
+.chapter-content {
+    counter-reset: section-counter;
+}
+
+.section-heading {
+    counter-reset: subsection-counter;
+    counter-increment: section-counter;
+}
+
+.section-heading::before {
+    content: var(--chapter-number) "." counter(section-counter) " ";
+}
+
+.subsection-heading {
+    color: var(--testcolor);
+    counter-increment: subsection-counter;
+}
+
+.subsection-heading::before {
+    content: var(--chapter-number) "." counter(section-counter) "." counter(subsection-counter) " ";
+}
