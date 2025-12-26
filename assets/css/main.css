@@ -13,8 +13,8 @@
 body {
     display: table-cell;
     vertical-align: middle;
-    min-width: 600px;
-    max-width: 600px;
+    min-width: 960px;
+    max-width: 960px;
 }
 
 h1, h2, h3 {

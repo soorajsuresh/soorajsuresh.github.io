@@ -1,0 +1,162 @@
+---
+layout: section
+title: Vectors
+chapter: 1
+section: 2
+styles:
+    - /assets/css/math.css
+libs:
+    - katex
+---
+
+<h2 class="section-heading">Vectors</h2>
+
+<span style="color: red; font-weight: bold">[REWORK]</span>
+
+A <span class = "definition">vector</span> is a quantity that has both a magnitude and a direction.
+
+To distinguish vectors from numbers, vectors should be typeset in boldface ($\a$) and handwritten with an arrow or bar above them like $\overline{a}$ or $\vec{a}$.
+	
+A <span class = "definition">vector</span> is (represented by) an arrow. The arrow points in the direction of the vector and its length represents the <span class = "definition">magnitude</span> of the vector. If the arrow starts at a point $A$ and ends at another point $B$, then we write <div class="display">$\a=\overrightarrow{AB}$,</div> and $A$ is called the <span class = "definition">initial point</span> or <span class = "definition">tail</span> of the vector and $B$ is called the <span class = "definition">terminal point</span> or <span class = "definition">tip</span> or <span class = "definition">head</span> of the vector.
+
+<p>
+<span style="color: red; font-weight: bold">[displacement]</span>
+	Let $A$, $B$, and $C$ be points in space. If a particle moves from $A$ to $B$ and then from $B$ to $C$, then, in total, it has moved from $A$ to $C$. If $\a=\overrightarrow{AB}$ and $\b=\overrightarrow{BC}$, then $\c=\overrightarrow{AC}$ is called the <span class = "definition">resultant vector</span>. The vector $\c$ is also called the <span class = "definition">sum</span> of $\a$ and $\b$ denoted $\c =\a+\b$.
+</p>
+
+<p>If two vectors have the same direction, they are said to be <span class = "definition">parallel</span>.</p>
+
+<p>If $\a$ is a vector, then $-\a$ is the vector with the same magnitude as $\a$ but opposite direction.</p>
+
+<p>
+  If $\a$ is a vector, then $2\a$ is a vector parallel to $\a$ that is twice as long as $\a$. In general, if $k$ is a number, then $k\a$ is a vector $k$ times as long as $\a$ in the same direction of $\a$ if $k>0$ and in the opposite direction if $k<0$. The number $k$ is called a <span class = "definition">scalar</span> and the vector $k\a$, read as $k$ times $\a$, is called the <span class = "definition">scalar product</span> of $k$ and $\a$ and is also called a <span class = "definition">scalar multiple</span> of $\a$. Note, $-\a=-1\a$.
+</p>
+
+<p>
+  If $k\ne0$, then $\frac\a k$ denotes the vector parallel to $\a$ than which $\a$ is $k$ times longer <div class = "display">$\frac\a k=\frac1k\a$.</div>
+</p>
+	
+<p>
+  The <span class = "definition">difference</span> of $\a$ and $\b$ is the vector $\a-\b=\a+(-\b)$.
+</p>
+	
+<p>
+  Two vectors are <span class = "definition">equal</span> if they have the same length and direction.
+</p>
+
+<span style="color: red; font-weight: bold">[example here]</span>
+
+<p>There are infinitely many vectors equal to $\overrightarrow{AB}$, each with a distinct initial point. Exactly one of these vectors has an intial point at the origin. This vector is said to be in \defn{standard position} and it is called the \defn{position vector} of $\overrightarrow{AB}$. Note, a position vector is completely and uniquely determined by its terminal point.</p>
+
+<p>
+  If a position vector $\a$ has a terminal point in space described in rectangular coordinates as $(a_1,a_2,a_3)$, then it is denoted \[\a=\inner{a_1,a_2,a_3}.\] This notation is called the \defn{component form} of $\a$ and the numbers $a_1$, $a_2$, and $a_3$ are called the \defn{components} of $\a$. The symbols $\langle$ and $\rangle$ are called <span class = "definition">angle brackets</span>.
+</p>
+
+<p>
+  Two vectors $\a=\inner{a_1,a_2,a_3}$ and $\b=\inner{b_1,b_2,b_3}$ are equal if and only if their corresponding components are equal, i.e., $\a=\b$ if and only if $a_1=b_1$, $a_2=b_2$, and $a_3=b_3$.
+</p>
+
+<p>
+  The magnitude (or length) of $\a$ is denoted by $\abs{\a}$.
+</p>
+
+<div class = "theorem">
+  If $\a=\inner{a_1,a_2,a_3}$, then $\abs{\a}=\sqrt{a_1^2+a_2^2+a_3^2}$.
+</div>
+	
+<p>The \defn{zero vector}, denoted $\bm 0=\inner{0,0,0}$ has magnitude $0$ and has no direction.</p>
+
+<div class = "theorem">
+  If $P=(x_1,y_1,z_1)$ and $Q=(x_2,y_2,z_2)$, then <div class="display">$\overrightarrow{PQ}=\inner{x_2-x_1,\,y_2-y_1,\,z_2-z_1}$,</div> and <div class="display">$\abs{\overrightarrow{PQ}}=\sqrt{\parens{x_2-x_1}^2+\parens{y_2-y_1}^2+\parens{z_2-z_1}^2}$.</div>
+</div>
+
+<div class = "theorem">
+  If $\a=\inner{a_1,a_2,a_3}$ and $\b=\inner{b_1,b_2,b_3}$, then <div class="display">$\a+\b=\inner{a_1+b_1,\,a_2+b_2,\,a_3+b_3}$.</div>
+</div>
+
+<div class = "theorem">
+  If $\a=\inner{a_1,a_2,a_3}$ and $k\in\R$, then <div class="display">$k\a=\inner{ka_1,\,ka_2,\,ka_3}$.</div>
+</div>
+
+<div class = "theorem">
+		The Parallelogram Law: If $\a=\inner{a_1,a_2,a_3}$ and $\b=\inner{b_1,b_2,b_3}$ are vectors, then <div class="display">$\a+\b=\b+\a$,</div> and the direction of $\a+\b$ points along the diagonal of the parallelogram determined by $\a$ and $\b$.
+</div>
+
+\begin{example}
+		If $\bm{u}=\inner{2,-1}$, then find the magnitude of $-3\bm u$.
+	\end{example}
+
+	\begin{example}
+		If $\bm u=\inner{4,-1,3}$ and $\bm v=\inner{-1,-1,0}$, then find the component form and magnitude of $2\bm u-3\bm v$.
+	\end{example}
+
+<div class = "example">
+  An airplane is traveling with a bearing of S$25^\circ$W (i.e., $25^\circ$ west of south) at $600$ km/hr. 
+		
+	Present the component form of the velocity of the airplane, taking the positive $x$-axis to represent due east and the positive $y$-axis due north.
+</div>
+
+<p>A vector of magnitude $1$ is called a \defn{unit vector}.</p>
+
+<p>The \defn{standard unit vectors} in space are $\i=\inner{1,0,0}$, $\j=\inner{0,1,0}$, and $\k=\inner{0,0,1}$. In the plane, the standard unit vectors are $\i=\inner{1,0}$ and $\j=\inner{0,1}$.</p>
+
+<p>
+  A \defn{linear combination} of vectors \textbf{v\textsubscript1}, \textbf{v\textsubscript2}, \dots, \textbf{v\textsubscript n} is an expression of the form <div class="display">c_1\text{\textbf{v\textsubscript1}}+c_2\text{\textbf{v\textsubscript2}}+\cdots+c_n\text{\textbf{v\textsubscript n}},</div> where $c_1$, $c_2$, $\dots$, $c_n$ are scalars.
+</p>
+
+<div class="theorem">
+  Any vector $\inner{a_1,a_2,a_3}$ can be written as a linear combination of the standard unit vectors <div class="display">$\inner{a_1,a_2,a_3}=a_1\i+a_2\j+a_3\k$.</div>
+</div>
+		
+The components $a_1$, $a_2$, and $a_3$ are called the \defn{i-component}, \defn{j-component}, and \defn{k-component}, respectively, of $\inner{a_1,a_2,a_3}$.
+
+<div class="example">
+  Let $\a=10\i+2\j$, $\b=\i+\j$, and $\c=\i-\j$ be vectors in the plane.
+		
+	Present $\bm a$ as a linear combination of $\bm b$ and $\bm c$.
+</div>
+<div class="example">
+  Present the unit vector parallel to the nonzero vector $\a=\inner{a_1,a_2,a_3}$.
+</div>
+
+<p>The unit vector in the direction of $\a$ is called the \defn{direction} of $\a$.</p>
+
+<div class="example">
+  A $75$-N weight is suspended by two wires, one that makes a $55^\circ$ angle from the ceiling and the other a $40^\circ$ angle. Present the force acting in each of the wires as a product of its length and direction.
+</div>
+
+<div class="example">
+  An airplane flying due west at 500 mph in still air encounters a 70-mph tailwind blowing in the direction 60$^\circ$ north of west and an updraft of 20 mph. Present the ground speed and bearing of the airplane.
+</div>
+
+<p>
+  A vector $\a$ in $\R^n$ is denoted $\a=\inner{a_1,\,a_2,\,\dots,\,a_n}$, where the real numbers $a_1$, $a_2$, $\dots$, $a_n$ are called the components of $\a$.
+
+  <p>The <span class="definition">sum</span> of $\inner{a_1,a_2,\dots,a_n}$ and $\inner{b_1,b_2,\dots,b_n}$ is defined as <div class="display">$\inner{a_1,a_2,\dots,a_n}+\inner{b_1,b_2,\dots,b_n}=\inner{a_1+b_1,\,a_2+b_2,\,\dots,\,a_n+b_n}$.</div> If $k\in\R$ is a scalar, then the scalar multiple of $k$ and $\inner{a_1,a_2,\dots,a_n}$ is defined as <div class="display">$k\inner{a_1,a_2,\dots,a_n}=\inner{ka_1,\,ka_2,\,\dots,ka_n}$.</div></p>
+  
+<p>Any vector $\inner{a_1,a_2,\dots,a_n}$ can be written as a linear combination <div class="display">$\inner{a_1,a_2,\dots,a_n}=a_1\textbf e_1+a_2\textbf e_2+\cdots+a_n\textbf e_n$</div> of the standard unit vectors $\textbf e_1$, $\textbf e_2$, $\dots$, $\textbf e_n$, where <div class="display">$\textbf e_i=\inner{e_{i1},e_{i2},\dots,e_{in}}$,</div> with $e_{ii}=1$ and $e_{ij}=0$ for $j\ne i$ for $i=1,2,\dots,n$.</p>
+  
+<p>
+  The <span class="definition">magnitude</span> of $\inner{a_1,a_2,\dots,a_n}$ is \[\abs{\inner{a_1,a_2,\dots,a_n}}=\sqrt{a_1^2+a_2^2+\cdots+a_n^2}.\]
+</p>
+
+<p>
+  The vectors $\inner{a_1,a_2,\dots,a_n}$ and $\inner{b_1,b_2,\dots,b_n}$ are <span class="definition">equal</span> if and only if their corresponding components are equal $a_1=b_1$, $a_2=b_2$, $\dots$, $a_n=b_n$.
+</p>
+	
+<div class="theorem">
+  The vectors $\a$, $\b$, $\c\in\R^n$ and scalars $r$, $s\in\R$ satisfy the following properties.
+  <ol class="properties">
+    <li><span class="property">$\a+\b=\b+\a$</span></li>
+    <li><span class="property">$(\a+\b)+\c=\a+(\b+\c)$</span></li>
+    <li><span class="property">$\a+\bm 0=\a$</span></li>
+    <li><span class="property">$\a+-\a=\bm 0$</span></li>
+    <li><span class="property">$1\a=\a$</span></li>
+    <li><span class="property">$r(s\a)=(rs)\a$</span></li>
+    <li><span class="property">$r(\a+\b)=r\a+r\b$</span></li>
+    <li><span class="property">$(r+s)\a=r\a+s\a$,</span></li>
+    <li><span class="property">$0\a=\bm 0$</span></li>
+  </ol>
+</div>
+
+<br/>

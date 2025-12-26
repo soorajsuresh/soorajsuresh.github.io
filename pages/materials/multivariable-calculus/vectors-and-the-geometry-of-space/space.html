@@ -1,0 +1,137 @@
+---
+layout: section
+title: Space
+chapter: 1
+section: 1
+styles:
+    - /assets/css/math.css
+libs:
+    - katex
+---
+
+<h2 class="section-heading">{{ page.title }}</h2>
+
+The set of all real numbers is denoted by $\R$. If $S$ is a set, then we write $x\in S$ to denote that $x$ is an element of $S$. For example, $\sqrt2\in\R$.
+
+<p><span class = "definition">The plane</span> is the set $\R^2$ of all ordered pairs $(x,y)$, where $x,y\in\R$.</p>
+
+<p><span class = "definition">Space</span> is the set $\R^3$ of all ordered triplets $(x,y,z)$, where $x,y,z\in\R$.</p>
+
+To represent space graphically, three mutually perpendicular lines called the <span class = "definition">coordinate axes</span> that meet at the point $(0,0,0)$ called the <span class = "definition">origin</span> are arranged to form a <span class = "definition">right-handed coordinate frame</span> such that when you place the base of your right hand on the positive $x$-axis and curl your fingers towards the positive $y$-axis, the direction of the $z$-axis is parallel with the direction of your thumb.
+
+<p>The <span class = "definition">rectangular coordinates</span> $x$, $y$, and $z$ of a point $(x,y,z)$ represent distances along the $x$-, $y$-, and $z$-axes.</p>
+
+<p>The plane formed by the $x$- and $y$- axes is <span class = "definition">the $xy$-plane</span>. The plane formed by $x$- and $z$- axes is <span class = "definition">the $xz$-plane</span>. The plane formed by the $y$- and $z$- axes is <span class = "definition">the $yz$-plane</span>. These three planes are called the <span class = "definition">coordinate planes</span>, and they cut space into eight <span class = "definition">octants</span>. <span class = "definition">The first octant</p> is <div class = "display">$O_1=\build{(x,y,z)}{x\ge0,\, y\ge0,\, z\ge0}$.</div>
+
+<div class="example">
+  Present both a graph and a geometric description of the following sets.
+  <ol type="a">
+    <li>$\build{(x,y)\in\R^2}{x=1,\,y=3}$</li>
+    <li>$\build{(x,y)\in\R^2}{x=1}$</li>
+    <li>$\build{(x,y)\in\R^2}{x=0}$</li>
+    <li>$\build{(x,y)\in\R^2}{y=0}$</li>
+    <li>$\build{(x,y)\in\R^2}{y=-3}$</li>
+    <li>$\build{(x,y)\in\R^2}{x^2+y^2=1}$</li>
+    <li>$\build{(x,y)\in\R^2}{y=\cosh x}$</li>
+  </ol>
+</div>
+
+<div class="example">
+  Present both a graph and a geometric description of the following sets.
+  <ol type="a">
+    <li>$\build{(x,y,z)\in\R^3}{x=1,\,y=3,\,z=2}$</li>
+    <li>$\build{(x,y,z)\in\R^3}{x=1,\,y=3}$</li>
+    <li>$\build{(x,y,z)\in\R^3}{x=1}$</li>
+    <li>$\build{(x,y,z)\in\R^3}{x=0}$</li>
+    <li>$\build{(x,y,z)\in\R^3}{y=0}$</li>
+    <li>$\build{(x,y,z)\in\R^3}{z=0}$</li>
+    <li>$\build{(x,y,z)\in\R^3}{y=-2}$</li>
+    <li>$\build{(x,y,z)\in\R^3}{x^2+y^2=1,\, z=0}$</li>
+    <li>$\build{(x,y,z)\in\R^3}{x^2+y^2=1}$</li>
+  </ol>
+</div>
+
+<p>If $P$ is a plane containing a curve $C$ and $L$ is a line not parallel to $P$, then the set of all lines through $C$ that are parallel to $L$ is called a <span class="definition">cylinder</span> with <span class="definition">directrix</span> $C$ and <span class="definition">generatrix</span> $L$.</p>
+
+<div class="example">
+  Present both a graph and a geometric description of the following sets of points.
+
+  <span style="color: red; font-weight: bold">[ADD MORE OR REWORK]</span>
+  <ol type="a">
+    <li>$\build{(x,y,z)\in\R^3}{y=\cosh x}$</li>
+    <li>$\build{(x,y,z)\in\R^3}{z<\atan y}$</li>
+    <li>$\build{(x,y,z)\in\R^3}{z>x^2}$</li>
+    <li>$\build{(x,y,z)\in\R^3}{x\le z^2}$</li>
+  </ol>
+</div>
+
+<div class="example">
+  Present a set of points $(x,y,z)$ in $\R^3$ that has the following geometric description.
+  <ol type="a">
+    <li>The circle with radius $5$ and center $(-2,0,3)$ lying in the $xz$-plane.</li>
+    <li>The circle with radius $5$ and center $(-2,0,3)$ lying in the plane $z=3$.</li>
+  </ol>
+</div>
+
+<span style="color: red; font-weight: bold">[CONSIDER REWORKING]</span>
+
+The <span class="definition">distance</span> between two points $P_1=a$ and $P_2=b$ on a coordinate axis is <div class = "display">$\abs{P_1P_2}=\abs{b-a}$.</div>
+
+The <span class="definition">distance</span> between two points $P_1=(a_1,a_2)$ and $P_2=(b_1,b_2)$ on a coordinate plane is <div class = "display">$\abs{P_1P_2}=\sqrt{\parens{a_2-a_1}^2+\parens{b_2-b_1}^2}$.</div>
+
+<div class="theorem">
+  The distance between two points $P_1=(x_1,y_1,z_1)$ and $P_2=(x_2,y_2,z_2)$ in space is <div class = "display">$\abs{P_1P_2}=\sqrt{\parens{x_2-x_1}^2+\parens{y_2-y_1}^2+\parens{z_2-z_1}^2}$.</div>
+</div>
+
+example: find distance between two points; perimeter of triangle; 
+
+<div class="example">
+  Present the distance between the point $(\frac52,1,-2)$ and each of the coordinate planes.
+</div>
+
+<div class="example">
+  Present the distance between the point $(\frac52,1,-2)$ and each of the coordinate axes.
+</div>
+
+<div class="example">
+  Present the set of all points in space whose distance from the origin is $3$.
+</div>
+
+<p>A <span class="definition">sphere</span> is the set of all points a distance $\rho>0$ away from a point $C$ in space; the distance $\rho$ is called the <span class="definition">radius</span> of the sphere, and the point $C$ is called the <span class="definition">center</span> of the sphere.</p>
+
+
+<p>The coordinates $x$, $y$, and $z$ of any point $(x,y,z)$ on the sphere with radius $\rho>0$ and center $C=(x_0,y_0,z_0)$ satisfy the <span class="definition">standard equation</span> 
+<div class = "display">$\parens{x-x_0}^2+\parens{y-y_0}^2+\parens{z-z_0}^2=\rho^2$.</div></p>
+
+<p>A <span class="definition">ball</span> with radius $\rho$ and center $C$ is the set of all points on and interior to the sphere of radius $\rho$ and center $C$. A <span class="definition">hemisphere</span> is half of a sphere.</p>
+
+<div class="example">
+  Present the standard equation of the sphere with radius $\frac7{10}$ and center $(1,-6,\frac3{10})$.
+</div>
+
+<div class="example">
+  Present a geometric description of the set of points $(x,y,z)$ in space whose coordinates satisfy the equations $(x-3)^2+(y-1)^2=64$ and $z=3$.
+</div>
+
+<div class="example">
+  Present a geometric description of the set of points $(x,y,z)$ in space whose coordinates satisfy the inequality.
+  <ol type="a">
+    <li>$x^2+y^2+z^2\le5$</li>
+    <li>$x^2+y^2+z^2>8$</li>
+  </ol>
+</div>
+
+<div class="example">
+  If the following equation represents a sphere, then present its radius and center.
+  <ol type="a">
+    <li>$(x+\sqrt2)^2+y^2+\parens{z-\e}^2=3$</li>
+    <li>$x^2+y^2+z^2+3x-4z+1=0$</li>
+  </ol>
+</div>
+
+<div class="example">
+  Present a geometric description of the intersection of the sphere given by the following equation with each of the coordinate planes.
+  <div class = "display">$x^2+y^2+z^2+2\e x-6y+2\sqrt{10} z+\e^2+10=0$.</div>
+</div>
+
+<br/>

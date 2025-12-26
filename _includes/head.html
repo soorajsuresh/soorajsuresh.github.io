@@ -19,11 +19,52 @@
           onload="renderMathInElement(document.body);"></script>
     <script>
       document.addEventListener("DOMContentLoaded", function() {
+
+        // global macros
+        const macros = {
+          "\\parens": "\\left(\\,#1\\,\\right)",
+          "\\set": "\\left\\{\\,#1\\,\\right\\}",
+          "\\build": "\\left\\{#1\\;\\middle|\\;#2\\right\\}",
+          "\\abs": "\\left\\lvert\\,#1\\,\\right\\rvert",
+          "\\inner": "\\left\\langle\\,#1\\,\\right\\rangle",
+          "\\atan": "\\tan^{-1}",
+          "\\e": "\\mathrm{e}",
+        };
+
+        // folder specific macros
+        const folderMacros = {
+
+          // multivariable calculus
+          "/pages/materials/multivariable-calculus/": {
+            "\\a": "\\textbf{a}",
+            "\\b": "\\textbf{b}",
+            "\\c": "\\textbf{c}",
+            "\\i": "\\textbf{i}",
+            "\\j": "\\textbf{j}",
+            "\\k": "\\textbf{k}",
+            "\\F": "\\textbf{F}",
+            "\\n": "\\textbf{n}",
+            "\\r": "\\textbf{r}",
+          },
+
+        };
+        for (const folder in folderMacros) {
+          if (window.location.pathname.startsWith(folder)) {
+            Object.assign(macros, folderMacros[folder]);
+          }
+        }
+
+        // page specific macros
+        {% if page.katex_macros %}
+          Object.assign(macros, {{ page.katex_macros | jsonify }});
+        {% endif %}
+
         renderMathInElement(document.body, {
           delimiters: [
-            {left: "\[", right: "\]", display: true}, 
+            {left: "\\[", right: "\\]", display: true}, 
             {left: "$", right: "$", display: false}    
-          ]
+          ],
+          macros: macros
         });
       });
     </script>

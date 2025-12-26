@@ -1,0 +1,196 @@
+---
+layout: section
+title: The Dot Product
+chapter: 1
+section: 3
+styles:
+    - /assets/css/math.css
+libs:
+    - katex
+katex_macros:
+  "\\D": "\\textbf{D}"
+---
+<h2 class="section-heading">{{ page.title }}</h2>
+
+<div class="definition">
+	A <span class="defn">displacement</span> is a directed distance, i.e., a vector representing the shortest path from one point to another, e.g., $\overrightarrow{AB}$.
+</div>
+
+<p>
+In [previous section], if a force vector $\F$ was applied to a particle at an angle of $\theta$ radians from the horizontal, then we expressed $\F$ in component form as <div class="display">$\F=\inner{\abs\F\cos\theta,\abs\F\sin\theta}$.</div> The number $\abs\F\cos\theta$ represents the component of $\F$ effective in moving the particle in the horizontal direction, and $\abs\F\sin\theta$ represents the component of $\F$ effective in moving the particle in the vertical direction.
+</p>
+
+<p>
+It will be necessary to know the components of $\F$ effective in moving the particle in other directions as well. Specifically, if $\F$ moves a particle through a displacement $\D$, then we will need to know the component of $\F$ effective in moving the particle through $\D$ (where $\D$ may not be parallel to a coordinate axis).
+</p>
+
+<p>
+The component of $\F$ effective in moving the particle through $\D$ is $\abs\F\cos\theta$, where $\theta$ is the angle between $\F$ and $\D$. Our first objective is to find an efficient way to compute the angle between two vectors.
+</p>
+
+<div class="definition">
+	When two nonzero vectors $\a$ and $\b$ are arranged such that their tails coincide, they form an angle $\theta$ measured between $0$ and $\pi$ radians in the plane containing $\a$ and $\b$. This angle $\theta$ is called <span class="defn">the angle between $\a$ and $\b$</span>. If $\a$ and $\b$ have the same direction, then $\theta=0$, and if $\a$ and $\b$ are opposite in direction, then $\theta=\pi$.
+</div>
+
+<div class="example">
+	Determine the angle $\theta$ between the two nonzero vectors $\a=\inner{a_1,a_2,a_3}$ and $\b=\inner{b_1,b_2,b_3}$.
+</div>
+
+<div class="definition">
+	If $\a=\inner{a_1,a_2,a_3}$ and $\b=\inner{b_1,b_2,b_3}$, then the quantity $a_1b_1+a_2b_2+a_3b_3$ is denoted by $\a\cdot\b$, read “$\a$ dot $\b$”, and called the <span class="defn">dot product</span> of $\a$ and $\b$:
+	<div class="display">$ \a\cdot\b=a_1b_1+a_2b_2+a_3b_3 $.</div>
+	
+	<p>
+	With this notation, the angle between two nonzero vectors $\a$ and $\b$ in space is
+	</p>
+	<div class="display">$ \theta=\acos\parens{\frac{\a\cdot\b}{\abs\a\abs\b}} $.</div>
+</div>
+
+<p>
+Note, this operation between two vectors results in a scalar.
+</p>
+
+<div class="example">
+	Find $\a\cdot\b$ if $\a=\inner{2,0,-2}$, $\b=\inner{1,1,3}$.
+</div>
+
+<div class="example">
+	A water main is to be constructed with a 10% grade in the north direction and a 20% grade in the east direction. Determine the angle required in the water main for the turn from north to east.
+</div>
+
+<p>
+By the first example, we have the following theorem.
+</p>
+
+<div class="theorem">
+	If $\a$ and $\b$ are nonzero vectors in space and $\theta$ is the angle between them, then
+	<div class="display">$ \a\cdot\b=\abs\a\abs\b\cos\theta $.</div>
+</div>
+
+<p>
+This theorem allows us to easily compute the dot product of two vectors when their magnitudes and the angle between them are more readily accessible than their components.
+</p>
+
+<div class="example">
+	Present $\a\cdot\b$, where $\abs{\a}=4$ and $\abs{\b}=5$ and the angle between $\a$ and $\b$ is $\theta=\frac\pi3$.
+</div>
+
+<div class="example">
+	For an equilateral triangle $ABC$, present $\a\cdot\b$ if $\a=\overrightarrow{AB}$ has a magnitude of $4$, and $\b=\overrightarrow{BC}$.
+</div>
+
+<div class="example">
+	Let $A$, $B$, $C$, $D$, $E$, and $F$ be the vertices of a regular hexagon $ABCDE$, and let $\overrightarrow{DE}$ be a unit vector. Present $\u\cdot\v$ where $\u=\overrightarrow{AC}$ and $\v=\overrightarrow{AD}$.
+</div>
+
+<p>
+Recall that the component of the force $\F$ effective in moving a particle through a displacement $\D$ is $\abs\F\cos\theta$, where $\theta$ is the angle between $\F$ and $\D$.
+</p>
+
+<div class="definition">
+	The number $\abs\F\cos\theta$ is called the <span class="defn">scalar projection</span> of $\F$ onto $\D$ and is denoted $\scal_\D\F$. The vector with this magnitude in the direction of $\D$ is called the <span class="defn">vector projection</span> of $\F$ onto $\D$ and is denoted $\proj_\D\F$.
+</div>
+
+<p>
+Note that $\scal_\D\F$ is negative when $\frac\pi2<\theta\le\pi$.
+</p>
+
+<div class="example">
+	For two vectors $\a$ and $\b$ in space with angle $\theta$ between them where $\b$ is nonzero, express $\scal_\b\a$ and $\proj_\b\a$ in terms of a dot product.
+</div>
+
+<div class="example">
+	Suppose that a box is being towed up an inclined plane with an incline of $\alpha$ radians. The towing force <strong>T</strong> is applied at an angle of $\beta>\alpha$ radians from the horizontal. Present the force $\abs{\text{\textbf{T}}}$ that makes the component of <strong>T</strong> parallel to the inclined plane equal to $F$ pounds.
+</div>
+
+<p>In integral calculus, the work done by a constant force $\F$ applied in the direction of the displacement $\D$ to move the particle through $\D$ was $W=\abs\F\abs\D$. (In integral calculus, we did not need vectors, and we just wrote $W=FD$. Here, we have rewritten that idea using vector notation to relate our old idea of work to the more general definition of work below.)</p>
+
+<p>If a constant force $\F$ is applied in a direction different from the direction of the displacement $\D$ to move a particle through $\D$, then work is not done by the full magnitude of the force, but only by the component of $\F$ that is in the direction of $\D$, so</p>
+<div class="display">$W=(\scal_\D\F)\abs\D$.</div>
+
+<p>Note, $W=(\scal_\D\F)\abs\D=(\abs\F\cos\theta)\abs\D=\abs\F\abs\D\cos\theta=\F\cdot\D$.</p>
+
+<div class="definition">
+  The <span class="definition">work</span> done by a constant force $\F$ moving a particle through a displacement $\D$ is
+  <div class="display">$W=\F\cdot\D$.</div>
+</div>
+
+<div class="example">
+  Present the work required to slide a crate 30 m along a loading dock by pulling on it with a 220-N force at an angle of 30$^\circ$ from the horizontal.
+</div>
+
+<div class="example">
+  Let $\a$ and $\b$ be nonzero vectors in space and $\theta$ the angle between them.  
+  Show that if $\theta=\frac\pi2$, then $\a\cdot\b=0$ and, conversely, if $\a\cdot\b=0$, then $\theta=\frac\pi2$.
+</div>
+
+<p>Furthermore, $\a\cdot\b>0$ if and only if $\theta$ is acute, and $\a\cdot\b<0$ if and only if $\theta$ is obtuse.</p>
+
+<div class="definition">
+  In our course, vectors are arrows. Saying that arrows are <span class="definition">perpendicular</span> means that the angle between them is $\frac\pi2$, which happens if and only if $\a\cdot\b=0$, by the previous example.
+
+  In general, the vectors $\a$ and $\b$ are said to be <span class="definition">orthogonal</span> and denoted $\a\perp\b$ to mean that $\a\cdot\b=0$.
+
+  In our course, the words perpendicular and orthogonal are interchangeable.
+
+  The zero vector $\bm0$ is considered orthogonal to all vectors.
+</div>
+
+<div class="example">
+  Present examples of nonzero vectors $\a$, $\b$, and $\c$ in space such that $\a\perp\b$ but $\a\not\perp\c$.
+</div>
+
+<div class="example">
+  Show that $\v=a\i+b\j$ is perpendicular to the line $ax+by=c$.
+</div>
+
+<p>Similarly, $\v=a\i+b\j$ is parallel to the line $bx-ay=c$.</p>
+
+<div class="example">
+  Find an equation for the line through $P=(1,3)$ that is parallel to $\v=3\i-2\j$, and sketch the line along with the position vector of $\v$.
+</div>
+
+<div class="example">
+  Find the (acute) angle between the lines $\pi x+\e y=-1$ and $\sqrt 2x+\sqrt3 y=5$.
+</div>
+
+<div class="example">
+  Prove Thales' Theorem: The diameter of a circle always subtends a right angle to any point on the circle.
+</div>
+
+<div class="example">
+  Show that the distance from a point $P_1(x_1,y_1)$ to the line $ax+by+c=0$ is
+  <div class="display">$\frac{\abs{ax_1+by_1+c}}{\sqrt{a^2+b^2}}$.</div>
+</div>
+
+<div class="example">
+  Show that $(\a-\proj_\b\a)\perp\proj_\b\a$.
+</div>
+
+<p>Hint: Since $\proj_\b\a$ is parallel to $\b$, $(\a-\proj_\b\a)\perp\proj_\b\a$ when $(\a-\proj_\b\a)\perp\b$.</p>
+
+<p>Note,</p>
+<div class="display">$
+\a=\proj_\b\a+(\a-\proj_\b\a)=
+\parens{\frac{\a\cdot\b}{\abs\b^2}}\b+\parens{\a-\parens{\frac{\a\cdot\b}{\abs\b^2}}\b}.
+$</div>
+
+<p>The <strong>angle between (differentiable) functions at a point</strong> can be defined as the (acute) angle between their tangent lines at that point.</p>
+
+<div class="example">
+  If $f$ and $g$ are functions defined by $f(x)=\cosh x-\frac12$ and $g(x)=\sinh x$, determine the angle between $f$ and $g$ at their point of intersection.
+</div>
+
+<p>The dot product can be defined between two vectors in $\R^n$.</p>
+
+<p>If $\a=\inner{a_1,a_2,\dots,a_n}$ and $\b=\inner{b_1,b_2,\dots,b_n}$, then</p>
+<div class="display">$ \a\cdot\b=a_1b_1+a_2b_2+\cdots+a_nb_n $</div>
+
+<p>All the properties and definitions involving the dot product that we have discussed hold for this general definition. We will mostly apply the dot product in space ($\R^3$) and in the plane ($\R^2$).</p>
+
+<div class="example">
+  If $\a,\b,\c\in\R^n$, then prove that $\a\cdot(\b+\c)=\a\cdot\b+\a\cdot\c$.
+</div>
+
+
+<br/>

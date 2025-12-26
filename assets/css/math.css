@@ -1,21 +1,73 @@
-.chapter-content {
-    counter-reset: section-counter;
-}
-
 .section-heading {
-    counter-reset: subsection-counter;
-    counter-increment: section-counter;
+    counter-reset: subsection;
+    counter-reset: example;
+    counter-reset: theorem;
 }
 
 .section-heading::before {
-    content: var(--chapter-number) "." counter(section-counter) " ";
+    content: var(--chapter) "." var(--section) " ";
 }
 
 .subsection-heading {
-    color: var(--testcolor);
     counter-increment: subsection-counter;
 }
 
 .subsection-heading::before {
-    content: var(--chapter-number) "." counter(section-counter) "." counter(subsection-counter) " ";
+    content: var(--chapter) "." var(--section) "." counter(subsection) " ";
+}
+
+.display {
+    text-align: center;
+    margin: 1em 0;
+}
+
+.definition {
+    font-weight: bold;
+    color: rgb(var(--bloo));
+}
+
+.theorem {
+    background: linear-gradient(to right, rgba(var(--bloo), 0.08), rgba(var(--bloo), 0));
+    padding: 20px;
+    counter-increment: theorem;
+}
+
+.theorem::before {
+    display:block;
+    content: "Theorem " counter(theorem);
+    font-weight: bold;
+    color: rgb(var(--bloo));
+    margin-bottom: 0.5em;
+}
+
+.example {
+    background: linear-gradient(to right, rgba(var(--bloo), 0.08), rgba(var(--bloo), 0));
+    padding: 20px;
+    counter-increment: example;
+}
+
+.example::before {
+    display:block;
+    content: "Example " counter(example);
+    right: 100%;
+    font-weight: bold;
+    color: rgb(var(--bloo));
+    margin-right: 0.5em;
+    margin-bottom: 0.5em;
+}
+
+.example ol {
+    padding-left: 1em;
+}
+
+.example li .part {
+    padding-left: 0.25em;
+}
+
+.theorem ol {
+    padding-left: 1em;
+}
+
+.properties li .property {
+    padding-left: 0.25em;
 }

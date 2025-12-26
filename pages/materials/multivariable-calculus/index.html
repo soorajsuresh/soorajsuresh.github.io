@@ -8,39 +8,38 @@ styles:
 <h1>Multivariable Calculus</h1>
 
 <div>
-    <h2>Table of Contents</h2>
-    <ul class="toc">
+  <h2>Table of Contents</h2>
+  <ul class="toc">
     {% assign class_folder = "/pages/materials/multivariable-calculus/" %}
     {% assign class_pages = site.pages | where_exp: "p", "p.url contains class_folder" | sort: "chapter" %}
 
-    {% for page in class_pages %}
-        {% if page.chapter %}
+    {% for chapter_page in class_pages %}
+      {% if chapter_page.chapter and chapter_page.section == nil %}
         <li>
-            <a href="{{ page.url }}">{{ page.chapter }} {{ page.title }}</a>
-            {% if page.sections %}
-            <ul>
-                {% for section in page.sections %}
-                <li>
-                    <a href="{{ page.url }}#{{ section.id }}">{{ page.chapter }}.{{ forloop.index }} {{ section.title }}</a>
-                </li>
-                {% endfor %}
-            </ul>
+          <a href="{{ chapter_page.url }}">{{ chapter_page.chapter }} {{ chapter_page.title }}</a>
+
+          {% assign chapter_folder_name = chapter_page.url | split: '/' | last | remove: '.html' %}
+          {% assign pages_in_chapter = "" | split: "" %}
+
+          {% for p in class_pages %}
+            {% if p.url contains chapter_folder_name and p.url != chapter_page.url %}
+              {% assign pages_in_chapter = pages_in_chapter | push: p %}
             {% endif %}
+          {% endfor %}
+
+          {% assign section_pages = pages_in_chapter | sort: "section" %}
+
+          {% if section_pages.size > 0 %}
+            <ul>
+              {% for section in section_pages %}
+                <li>
+                  <a href="{{ section.url }}">{{ chapter_page.chapter }}.{{ section.section }} {{ section.title }}</a>
+                </li>
+              {% endfor %}
+            </ul>
+          {% endif %}
         </li>
-        {% endif %}
+      {% endif %}
     {% endfor %}
-    </ul>
-    <!--<ul class="toc">
-        <li class="tocline1"><a href="{{ '/pages/materials/multivariable-calculus/space.html' | relative_url }}">Space</a>
-            <ul>
-                <li class="tocline2"><a href="">test</a></li>
-            </ul>
-        </li>
-        <li class="tocline1">Vectors
-            <ul>
-                <li class="tocline2"><a href="">test 2</a></li>
-            </ul>
-        </li>
-        <li class="tocline1">Surfaces</li>
-    </ul>-->
+  </ul>
 </div>
