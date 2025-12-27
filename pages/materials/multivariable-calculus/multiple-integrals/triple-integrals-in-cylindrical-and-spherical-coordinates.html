@@ -1,0 +1,120 @@
+---
+layout: section
+title: Triple Integrals in Cylindrical and Spherical Coordinates
+chapter: 4
+section: 7
+styles:
+    - /assets/css/math.css
+libs:
+    - katex
+---
+
+<h2 class="section-heading">Triple Integrals in Cylindrical and Spherical Coordinates</h2>
+
+<p>The point $(r,\theta,z)$ in <span class="defn">cylindrical coordinates</span> $r$, $\theta$, and $z$ represents a point $P=(x,y,z)$ in space for which $(r,\theta)$ are the polar coordinates of $(x,y)$.</p>
+
+<div class="example">
+  Relate the rectangular (also known as cartesian) coordinates with cylindrical coordinates.
+</div>
+
+<div class="example">
+  Graph $z=z_0$, $r=r_0$, and $\theta=\theta_0$.
+</div>
+
+<p>Let $f$ be a function of $r$, $\theta$, and $z$ defined over a closed bounded solid region $D$. Contain $D$ in a solid right circular cylinder and divide it into $n$ cylindrical wedges by planes parallel to the $xy$-plane, right circular cylinders about the $z$-axis, and planes containing the $z$-axis.</p>
+
+<p>For the cylindrical wedges lying inside $D$, number them $1$, $\dots$, $n$ and their corresponding volumes $\Delta V_1$, $\dots$, $\Delta V_n$, and let $(r_k,\theta_k,z_k)$ expressed in cylindrical coordinates be the point in the center of the $k$\textsuperscript{th} wedge.</p>
+
+<p>Denote the change in the cylindrical coordinates $z$, $r$, and $\theta$ in the $k$\textsuperscript{th} cylindrical wedge by $\Delta z_k$, $\Delta r_k$, and $\Delta\theta_k$. From our development of double integrals in polar form, the area of the base of the wedge is $\Delta A_k = r_k \Delta r_k \Delta\theta_k$, so the volume of the wedge is $\Delta V_k = \Delta z_k \Delta A_k = r_k \Delta z_k \Delta r_k \Delta \theta_k$.</p>
+
+<p>Evaluating $f$ at $(r_k,\theta_k,z_k)$, multiplying by $\Delta V_k$, and summing the products for each $k$ in $1$, $\dots$, $n$, we get the <span class="defn">Riemann sum</span>
+<div class="display">$ S_n = \sum_{k=1}^n f(r_k,\theta_k,z_k) r_k \Delta z_k \Delta r_k \Delta \theta_k $</div>
+</p>
+
+<p>If the limit
+<div class="display">$ \lim_{n \to \infty} S_n $</div>
+exists and has the same value regardless of the chosen partition and points in each wedge, then $f$ is integrable over $D$, and the limit is the triple integral of $f$ over $D$ in cylindrical coordinates
+<div class="display">$ \iiint_D f(r,\theta,z) \, r \, \mathrm{d}z \, \mathrm{d}r \, \mathrm{d}\theta $</div>
+which is evaluated as iterated integrals
+<div class="display">$ \iiint\limits_D f(r,\theta,z) r \, \mathrm{d}z \, \mathrm{d}r \, \mathrm{d}\theta = \int\limits_{\theta=\alpha}^{\theta=\beta} \int\limits_{r=h_1(\theta)}^{r=h_2(\theta)} \int\limits_{z=g_1(r,\theta)}^{z=g_2(r,\theta)} f(r \cos\theta, r \sin\theta, z) r \, \mathrm{d}z \, \mathrm{d}r \, \mathrm{d}\theta $</div>
+</p>
+
+<div class="example">
+  Interpret <div class="display">$ \iiint_D r \, \mathrm{d}z \, \mathrm{d}r \, \mathrm{d}\theta $</div>
+</div>
+
+<div class="example">
+  Derive using a triple integral the volume inside a right circular cylinder of radius $R$ and height $H$.
+</div>
+
+<div class="example">
+  Present an integral in cylindrical coordinates that represents the volume of the solid region in the first octant bounded by $x^2+y^2=5$, $z=3$, $y=x$, and $y=\sqrt{3} x$.
+</div>
+
+<div class="example">
+  Present an integral in cylindrical coordinates that represents the volume of the solid region in the first octant bounded by $x^2+y^2=9$, $z=5$, $z=7$, $y=\tan(\pi/5)x$, and $y=\tan(3\pi/10)x$.
+</div>
+
+<div class="example">
+  Set up an integral in cylindrical coordinates representing the volume bounded below by $z=0$, laterally by $x^2+(y-1)^2=1$, and above by $z=x^2+y^2$.
+</div>
+
+<div class="example">
+  Set up an integral in cylindrical coordinates representing the volume of the ice cream cone bounded by $z=\sqrt{x^2+y^2}$ and $z=\sqrt{9-x^2-y^2}$.
+</div>
+
+<div class="example">
+  Set up an integral in cylindrical coordinates representing the volume in the first octant bounded by $y=0$, $z=5-x^2-y^2$, and $y=x$.
+</div>
+
+<p>The point $(\rho,\phi,\theta)$ in <span class="defn">spherical coordinates</span> $\rho$, $\phi$, and $\theta$ represents a point $P=(x,y,z)$ such that $P$ is a distance $\rho$ from the origin, $\phi$ is the angle in $[0,\pi]$ that $OP$ makes with the positive $z$-axis, and $\theta$ is the angle from the cylindrical coordinates $(r,\theta,z)$ of $P$.</p>
+
+<div class="example">
+  Relate rectangular, cylindrical, and spherical coordinates.
+</div>
+
+<div class="example">
+  Graph $\rho=\rho_0$, $\phi=\phi_0$, and $\theta=\theta_0$.
+</div>
+
+<p>Let $f$ be a function of $\rho$, $\phi$, and $\theta$ defined over a closed bounded solid region $D$. Contain $D$ in a solid sphere and divide it into $n$ spherical wedges by spheres centered at the origin, cones through the origin, and planes containing the $z$-axis.</p>
+
+<p>For the spherical wedges lying inside $D$, number them $1$, $\dots$, $n$ and their corresponding volumes $\Delta V_1$, $\dots$, $\Delta V_n$.</p>
+
+<p>Denote the change in the spherical coordinates $\rho$, $\phi$, and $\theta$ in the $k$\textsuperscript{th} wedge by $\Delta \rho_k$, $\Delta\phi_k$, and $\Delta\theta_k$. The circular arcs for which $\phi$ changes are of length $\rho_k \Delta\phi_k$. The circular arcs for which $\theta$ changes are of length $\rho_k \sin\phi_k \Delta\theta_k$. The remaining edges are line segments of length $\Delta \rho_k$. A point $(\rho_k,\phi_k,\theta_k)$ can be chosen in the $k$\textsuperscript{th} wedge such that the volume of the wedge is $\Delta V_k = \rho_k^2 \sin\phi_k \Delta\rho_k \Delta\phi_k \Delta\theta_k$.</p>
+
+<p>Evaluating $f$ at $(\rho_k,\phi_k,\theta_k)$, multiplying by $\Delta V_k$, and summing for each $k$ in $1$, $\dots$, $n$, we get the <span class="defn">Riemann sum</span>
+<div class="display">$ S_n = \sum_{k=1}^n f(\rho_k,\phi_k,\theta_k) \rho_k^2 \sin\phi_k \Delta \rho_k \Delta \phi_k \Delta \theta_k $</div>
+</p>
+
+<p>If the limit
+<div class="display">$ \lim_{n \to \infty} S_n $</div>
+exists and is independent of partition and points chosen, then $f$ is integrable over $D$, and the limit is the triple integral of $f$ over $D$ in spherical coordinates
+<div class="display">$ \iiint_D f(\rho,\phi,\theta) \rho^2 \sin\phi \, \mathrm{d}\rho \, \mathrm{d}\phi \, \mathrm{d}\theta $</div>
+evaluated as iterated integrals
+<div class="display">$ \iiint\limits_D f(\rho,\phi,\theta) \rho^2 \sin\phi \, \mathrm{d}\rho \, \mathrm{d}\phi \, \mathrm{d}\theta = \int\limits_{\theta=\alpha}^{\theta=\beta} \int\limits_{\phi=h_1(\theta)}^{\phi=h_2(\theta)} \int\limits_{\rho=g_1(\phi,\theta)}^{\rho=g_2(\phi,\theta)} f(\rho,\phi,\theta) \rho^2 \sin\phi \, \mathrm{d}\rho \, \mathrm{d}\phi \, \mathrm{d}\theta $</div>
+</p>
+
+<div class="example">
+  Interpret <div class="display">$ \iiint_D \rho^2 \sin\phi \, \mathrm{d}\rho \, \mathrm{d}\phi \, \mathrm{d}\theta $</div>
+</div>
+
+<div class="example">
+  Derive using a triple integral the volume inside a sphere of radius $R$.
+</div>
+
+<div class="example">
+  Present an integral in spherical coordinates representing the volume bounded by $z=\sqrt{x^2+y^2}$ and $z=\sqrt{25-x^2-y^2}$.
+</div>
+
+<div class="example">
+  Present an integral in spherical coordinates representing the volume in the first octant bounded by $z=\sqrt{(x^2+y^2)/3}$, $z=\sqrt{121-x^2-y^2}$, $y=x$, and $y=\sqrt{3}x$.
+</div>
+
+<div class="example">
+  Present an integral in spherical coordinates representing the volume in the first octant bounded by $z=\tan(\pi/7)\sqrt{x^2+y^2}$, $z=\tan(\pi/8)\sqrt{x^2+y^2}$, $z=\sqrt{100-x^2-y^2}$, $z=\sqrt{121-x^2-y^2}$, $y=\tan(\pi/9)x$, and $x=\cot(\pi/10)y$.
+</div>
+
+<div class="example">
+  Present an integral in spherical coordinates representing the volume bounded by $z=2-\sqrt{13-x^2-y^2}$ and $z=4-x^2-y^2$.
+</div>

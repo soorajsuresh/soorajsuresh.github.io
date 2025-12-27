@@ -1,0 +1,98 @@
+---
+layout: section
+title: Extreme Values and Saddle Points
+chapter: 3
+section: 7
+styles:
+    - /assets/css/math.css
+libs:
+    - katex
+---
+
+<h2 class="section-heading">Extreme Values and Saddle Points</h2>
+
+<div class="definitions">
+Let $f$ be a function of two variables $x$ and $y$ defined on a region $R$ containing the point $(a,b)$.
+
+<p>The value $f(a,b)$ is a <strong>local maximum</strong> of $f$ if $f(a,b)\ge f(x,y)$ for all $(x,y)$ in an open disk centered at $(a,b)$. It is an <strong>absolute maximum</strong> on $R$ if $f(a,b)\ge f(x,y)$ for all $(x,y)$ in $R$.</p>
+
+<p>The value $f(a,b)$ is a <strong>local minimum</strong> of $f$ if $f(a,b)\le f(x,y)$ for all $(x,y)$ in an open disk centered at $(a,b)$. It is an <strong>absolute minimum</strong> on $R$ if $f(a,b)\le f(x,y)$ for all $(x,y)$ in $R$.</p>
+</div>
+
+<p>The plural form of maximum is <strong>maxima</strong>, and of minimum is <strong>minima</strong>. Both are called <strong>extreme values</strong> or <strong>extrema</strong>. The singular form is <strong>extremum</strong>. Local extrema are also called <strong>relative extrema</strong>.</p>
+
+<div class="theorem">
+If $f(x,y)$ has a local maximum or minimum at an interior point $(a,b)$ and the first partials exist there, then $f_x(a,b)=0$ and $f_y(a,b)=0$.
+</div>
+
+<div class="example">
+Describe the only points at which a function $f(x,y)$ can have local extrema.
+</div>
+
+<div class="definition">
+If $(a,b)$ is an interior point of the domain of $f(x,y)$ such that either:
+<ol>
+<li>$f_x(a,b)=0$ and $f_y(a,b)=0$, or</li>
+<li>one of $f_x(a,b)$ and $f_y(a,b)$ does not exist,</li>
+</ol>
+then $(a,b)$ is called a <strong>critical point</strong> of $f$.
+</div>
+
+<div class="theorem">
+A function $f(x,y)$ can have local extreme values only at critical points. Absolute extrema can occur at critical points and boundary points.
+</div>
+
+<p>As in the single-variable case, a critical point may not yield a local extremum.</p>
+
+<div class="definition">
+Let $(a,b)$ be a critical point of a differentiable function $f(x,y)$.
+
+If in every open disk centered at $(a,b)$ there exist points $(x,y)$ with $f(x,y)>f(a,b)$ and points $(x,y)$ with $f(x,y)<f(a,b)$, then $(a,b)$ is called a <strong>saddle point</strong> of $f$.
+</div>
+
+<div class="definition">
+The function $D$ defined by
+<div class="display">
+$D(x,y) = f_{xx}(x,y) f_{yy}(x,y) - f_{xy}(x,y) f_{yx}(x,y)$
+</div>
+is called the <strong>discriminant</strong> or <strong>Hessian</strong> of $f$. It is the determinant of the Hessian matrix
+<div class="display">
+$Hf = \begin{bmatrix} f_{xx} & f_{xy} \\ f_{yx} & f_{yy} \end{bmatrix}$.
+</div>
+If the second partials are continuous, then $D = f_{xx} f_{yy} - f_{xy}^2$.
+</div>
+
+<div class="theorem">
+<strong>Second Derivative Test for Local Extrema (SDT)</strong><br>
+Let $f$ and its first and second partials be continuous in a disk centered at a critical point $(a,b)$, and let $D$ be the Hessian.
+
+<ol>
+<li>If $D(a,b) > 0$:
+  <ol>
+    <li>If $f_{xx}(a,b) < 0$, $f$ has a local maximum at $(a,b)$.</li>
+    <li>If $f_{xx}(a,b) > 0$, $f$ has a local minimum at $(a,b)$.</li>
+  </ol>
+</li>
+<li>If $D(a,b) < 0$, $(a,b)$ is a saddle point of $f$.</li>
+</ol>
+</div>
+
+<div class="example">
+Find local extrema and saddle points for $f(x,y) = x^2 - y^2$.
+</div>
+
+<div class="example">
+Find local extrema and saddle points for $f(x,y) = x^2 - y^4$.
+</div>
+
+<div class="example">
+Find local extrema and saddle points for $f(x,y) = 3y^2 - 2y^3 - 3x^2 + 6xy$.
+</div>
+
+<div class="example">
+Find local extrema and saddle points for $f(x,y) = 10xy e^{-(x^2+y^2)}$.
+</div>
+
+<div class="example">
+Find the absolute extrema of $f(x,y) = 2 + 2x + 4y - x^2 - y^2$ on the triangular region in the first quadrant bounded by $x=0$, $y=0$, and $y=9-x$.
+</div>

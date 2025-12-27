@@ -1,0 +1,87 @@
+---
+layout: section
+title: Path Independence, Conservative Fields, and Potential Functions
+chapter: 5
+section: 3
+styles:
+    - /assets/css/math.css
+libs:
+    - katex
+---
+<h2 class="section-heading">{{ page.title }}</h2>
+
+<p>Let $\F$ be a vector field defined on an open region $D$ in space and $A$ and $B$ points in $D$.</p>
+
+<p>If $\int_C \F \cdot d\mathbf{r}$ has the same value for any path $C$ in $D$ from $A$ to $B$, then $\int_C \F \cdot d\mathbf{r}$ is called <span class="defn">path independent in $D$</span>, and $\F$ is called <span class="defn">conservative on $D$</span>.</p>
+
+<p>If $\F = \nabla f$, then $f$ is called a <span class="defn">potential function for $\F$</span>.</p>
+
+<p>An open region $D$ is called <span class="defn">connected</span> if any two points in $D$ can be joined by a smooth curve lying in $D$.</p>
+
+<p>An open region $D$ is called <span class="defn">simply connected</span> if every loop in $D$ can be contracted to a point in $D$ without leaving $D$.</p>
+
+<p>Neither connectivity nor simple connectivity implies the other. Think of connected regions as being in "one piece" and simply connected regions as having no "loop-catching holes".</p>
+
+<div class="theorem">
+  <strong>Fundamental Theorem of Line Integrals</strong><br>
+  If $C$ is a smooth curve parameterized by $\mathbf{r}(t)$, $a \le t \le b$, and $f$ is a differentiable function in the plane or space whose gradient $\nabla f$ is continuous on a domain containing $C$, then
+  <div class="display">$ \int_C \nabla f \cdot \T \, ds = f(\mathbf{r}(b)) - f(\mathbf{r}(a)) $</div>
+</div>
+
+<div class="theorem">
+  A vector field $\F$ that is continuous over an open connected region in space is conservative if and only if it is a gradient field.
+</div>
+
+<div class="theorem">
+  The vector field $\F$ is conservative on $D$ if and only if $\int_C \F \cdot \T \, ds = 0$ along every loop $C$ in $D$.
+</div>
+
+<p>So, $\F = \nabla f$ on $D$ if and only if $\F$ is conservative on $D$ if and only if $\int_C \F \cdot \T \, ds = 0$ along every loop $C$ in $D$.</p>
+
+<div class="theorem">
+  The vector field $\F(x,y,z) = P\mathbf{i} + Q\mathbf{j} + R\mathbf{k}$ on an open simply connected domain whose components have continuous first partial derivatives is conservative if and only if
+  <div class="display">$ R_y = Q_z, \quad P_z = R_x, \quad Q_x = P_y $</div>
+</div>
+
+<p>So, $\F = P\mathbf{i} + Q\mathbf{j} + R\mathbf{k}$ is conservative if and only if
+<div class="display">$ (R_y - Q_z) \mathbf{i} + (P_z - R_x) \mathbf{j} + (Q_x - P_y) \mathbf{k} = \mathbf{0} $</div>
+</p>
+
+<p>The vector on the left is called the <span class="defn">curl</span> of $\F$ and is denoted $\mathrm{curl}\, \F$.</p>
+
+<p>By abuse of notation,
+<div class="display">
+\begin{aligned}
+\nabla \times \F &= \langle \partial_x, \partial_y, \partial_z \rangle \times \langle P, Q, R \rangle \\
+&= \begin{vmatrix} \mathbf{i} & \mathbf{j} & \mathbf{k} \\ \partial_x & \partial_y & \partial_z \\ P & Q & R \end{vmatrix} \\
+&= (\partial_y R - \partial_z Q)\mathbf{i} + (\partial_z P - \partial_x R)\mathbf{j} + (\partial_x Q - \partial_y P)\mathbf{k} \\
+&= \mathrm{curl}\, \F
+\end{aligned}
+</div>
+
+<div class="example">
+  Show that $\F(x,y,z) = (\mathrm{e}^x \cos y + yz)\mathbf{i} + (xz - \mathrm{e}^x \sin y)\mathbf{j} + (xy + z)\mathbf{k}$ is conservative and find a potential function for it.
+</div>
+
+<div class="example">
+  Evaluate $\int_C \F \cdot \T \, ds$ where $\F$ is defined as in the previous example and $C$ is the triangle with vertices $(0,0,0)$, $(1,2,2)$, and $(-1,0,3)$.
+</div>
+
+<div class="example">
+  Evaluate $\int_C \F \cdot \T \, ds$ using the Fundamental Theorem of Line Integrals if $C$ is the line segment from $(1,1,0)$ to $(0,3,\ln 2)$ and $\F$ is the conservative vector field
+  <div class="display">$ \F(x,y,z) = \langle \frac{1}{1+x^2} + \arctan x - xy^2, \ \frac{1}{y} - x^2 y + \ln y, \ \cosh z \rangle $</div>
+</div>
+
+<div class="theorem">
+  Let $\F(x,y) = P\mathbf{i} + Q\mathbf{j}$ be a vector field on an open simply connected region $D$ where $P$ and $Q$ have continuous first-order partial derivatives. If $Q_x - P_y = 0$, then $\F$ is conservative.
+</div>
+
+<p>Note, $Q_x - P_y = (\mathrm{curl}\, \F) \cdot \mathbf{k}$ is the $\mathbf{k}$-component of $\mathrm{curl}\, \F$, where $\F = P\mathbf{i} + Q\mathbf{j} + 0\mathbf{k}$.</p>
+
+<div class="example">
+  Show that $\F$ is conservative and verify the Fundamental Theorem of Line Integrals for $\F$ if
+  <div class="display">$ \F(x,y) = \langle \arctan x - 2xy, \ \ln y - x^2 \rangle $</div>
+  and $C$ is parametrized by $\mathbf{r}(t) = \langle t, t^2 \rangle$, $1 \le t \le 3$.
+</div>
+
+<br/>

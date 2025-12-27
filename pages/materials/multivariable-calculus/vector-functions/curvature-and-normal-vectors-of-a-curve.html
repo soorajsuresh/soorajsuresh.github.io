@@ -1,0 +1,98 @@
+---
+layout: section
+title: Curvature and Normal Vectors of a Curve
+chapter: 2
+section: 4
+styles:
+    - /assets/css/math.css
+libs:
+    - katex
+---
+
+<h2 class="section-heading">Curvature and Normal Vectors of a Curve</h2>
+
+<div class="definition">
+<p>
+As a particle moves along a smooth curve, the vector $\T=\ddx[\r][s]$ turns.
+</p>
+</div>
+
+<p>
+Recall, $\T$ is a unit vector, so its length is constant, so only its direction changes. The rate at which the unit tangent vector $\T$ of a smooth curve $C$ turns per unit length along $C$ (i.e., with respect to arc length $s$ along $C$) is called <span class="definition">curvature</span>, denoted $\kappa$.
+</p>
+
+<div class="definition">
+<div class="display">$ \kappa=\abs{\ddx[\T][s]}. $</div>
+</div>
+
+<p>
+If $C$ is parametrized by $\r(t)$ where $t$ is some parameter different from arc length $s$,
+</p>
+
+<div class="display">$ \kappa=\abs{\ddx[\T][s]}=\abs{\ddx[\T][t]\ddx[t][s]}=\abs{\ddx[t][s]}\abs{\ddx[\T][t]}=\frac1{\abs{\ddx[s][t]}}\abs{\ddx[\T][t]}=\frac1{\abs\v}\abs{\ddx[\T][t]}. $</div>
+
+<div class="result">
+<div class="display">$ \kappa=\frac1{\abs\v}\abs{\ddx[\T][t]}. $</div>
+</div>
+
+<div class="example">
+<p>
+Present the curvature for a line.
+</p>
+</div>
+
+<div class="example">
+<p>
+Present the curvature for a circle (in the plane).
+</p>
+</div>
+
+<p>
+Again, $\T$ is a unit vector, so it has constant length. By our very important observation, $\ddx[\T][s]$ is orthogonal to $\T$. Note, $\ddx[\T][s]$ is not necessarily a unit vector itself. A unit vector orthogonal to $\T$ is
+</p>
+
+<div class="display">$ \frac1{\abs{\ddx[\T][s]}}\ddx[\T][s]=\frac1\kappa\ddx[\T][s]. $</div>
+
+<div class="definition">
+<div class="display">$ \N=\frac1\kappa\ddx[\T][s]. $</div>
+</div>
+
+<p>
+The vector $\ddx[\T][s]$ always points in the direction in which $\T$ turns, and $\N$ is the unit vector in the direction of $\ddx[\T][s]$, so $\N$ always points in the direction in which $\T$ turns.
+</p>
+
+<p>
+We may want to compute $\N$ without reparametrizing $C$ in terms of arc length and without computing $\kappa$. If $C$ is parametrized by $\r(t)$ where $t$ is some parameter different from arc length $s$, then
+</p>
+
+<div class="display">$ \N=\frac{\ddx[\T][t]}{\abs{\ddx[\T][t]}}. $</div>
+
+<div class="result">
+<div class="display">$ \N=\frac{\ddx[\T][t]}{\abs{\ddx[\T][t]}}. $</div>
+</div>
+
+<div class="definition">
+<p>
+The <span class="definition">circle of curvature</span> or <span class="definition">osculating circle</span> at a point $P$ on a plane curve where $\kappa\ne0$ is the circle in the plane of the curve that
+</p>
+<ol>
+<li>is tangent to the curve at $P$,</li>
+<li>has the same curvature $\kappa$ that the curve has at $P$ (and hence has radius $1/\kappa$), and</li>
+<li>has center $Q$ such that $\overrightarrow{PQ}$ is parallel to $\N$.</li>
+</ol>
+</div>
+
+<div class="example">
+<p>
+Determine the curvature function $\kappa(x)$ for the graph of the function $y=f(x)$ in the $xy$-plane.
+</p>
+</div>
+
+<div class="example">
+<p>
+Present an equation of the osculating circle at the $y$-intercept of the graph of the curve in the plane parametrized by
+</p>
+<div class="display">$ \r(t)=\parens{t\sqrt[3]t}\i+\parens{\e^{2t\sqrt[3]t}}\j,\quad t\in(-\infty,\infty). $</div>
+</div>
+
+<br/>

@@ -1,11 +1,56 @@
 ---
 layout: section
 title: Applications
-section: 3
+chapter: 4
+section: 6
 styles:
     - /assets/css/math.css
 libs:
     - katex
 ---
 
-<h2 class="section-heading">{{ page.title }}</h2>
+<h2 class="section-heading">Applications</h2>
+
+<p>If $\delta(x,y,z)$ is the density of an object occupying a solid region $D$ in space, then
+<div class="display">$ \iiint_D \delta(x,y,z)\, \mathrm{d}V $</div>
+is called the <span class="defn">mass</span> of the object.</p>
+
+<p>The <span class="defn">first moment</span> about each of the $xy$-, $xz$-, and $yz$- coordinate planes of an object occupying a solid region $D$ in space is
+<div class="display">$M_{xy} = \iiint_D z \;\delta(x,y,z)\, \mathrm{d}V, \quad M_{xz} = \iiint_D y \;\delta(x,y,z)\, \mathrm{d}V, \text{ and } \quad M_{yz} = \iiint_D x \;\delta(x,y,z)\, \mathrm{d}V$</div>
+</p>
+
+<p>The <span class="defn">center of mass</span> is the point $(\bar x, \bar y, \bar z)$ where
+<div class="display">$ \bar x = \frac{M_{yz}}{M}, \quad \bar y = \frac{M_{xz}}{M}, \quad \bar z = \frac{M_{xy}}{M} $</div>
+</p>
+
+<p>Analogous double integrals give the mass, first moments, and center of mass of two-dimensional objects (thin plates), which, for appropriate regions, are equivalent to the mass, first moments, and center of mass defined by single integrals in integral calculus.</p>
+
+<p>If an object has constant density, then its center of mass is called the <span class="defn">centroid</span> of the object.</p>
+
+<div class="example">
+  Present the centroid of the solid occupying the region under the surface $z=4-x^2-y^2$ above the region $R$ in the $xy$-plane given by $x^2+y^2 \le 4$.
+</div>
+
+<p>The <span class="defn">second moment</span> or <span class="defn">moment of inertia</span> about each of the $x$-, $y$-, and $z$- axes of an object occupying a solid region $D$ in space is
+<div class="display">$ I_x = \iiint_D (y^2 + z^2)\; \delta(x,y,z)\, \mathrm{d}V, \quad I_y = \iiint_D (x^2 + z^2)\; \delta(x,y,z)\, \mathrm{d}V, \text{ and } $</div>
+<div class="display">$ I_z = \iiint_D (x^2 + y^2)\; \delta(x,y,z)\, \mathrm{d}V $</div>
+</p>
+
+<p>Once again, analogous double integrals give the moments of inertia of two-dimensional objects (thin plates).</p>
+
+<div class="example">
+  Present the second moments of inertia of a rectangular solid of constant density $\delta$ centered about the origin with lengths $a$, $b$, and $c$ parallel to the $x$-, $y$-, and $z$- axes.
+</div>
+
+<p>The <span class="defn">probability</span> that the variables $X$ and $Y$ take on a value in a region $R$ in the plane is
+<div class="display">$ P((X,Y) \in R) = \iint_R f(x,y)\, \mathrm{d}A $</div>
+</p>
+
+<p>If $f$ is nonnegative and $\iint_{\mathbb{R}^2} f(x,y)\, \mathrm{d}A = 1$, then $f$ is called a <span class="defn">joint probability density function</span>.</p>
+
+<p>If $R$ has a finite area $A$ and $f(x,y) = \frac{1}{A}$ for all $(x,y) \in R$ and $f(x,y) = 0$ for all other $(x,y)$ in the plane, then the pair of variables $X$ and $Y$ is said to have a <span class="defn">uniform distribution</span>.</p>
+
+<div class="example">
+  A random number generator uniformly generates two random real numbers $X$ and $Y$ in succession, the first chosen between $0$ and $10$, and the second chosen between $0$ and $5$. Present the joint probability function for $(X,Y)$ and the probability that $X$ is larger than $Y$.
+</div>
+

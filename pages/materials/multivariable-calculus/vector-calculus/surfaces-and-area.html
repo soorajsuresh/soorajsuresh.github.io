@@ -1,0 +1,44 @@
+---
+layout: section
+title: Surfaces and Area
+chapter: 5
+section: 5
+styles:
+    - /assets/css/math.css
+libs:
+    - katex
+---
+<h2 class="section-heading">{{ page.title }}</h2>
+
+<p>If the equation 
+<div class="display">$ \mathbf{r}(u,v) = x(u,v)\mathbf{i} + y(u,v)\mathbf{j} + z(u,v)\mathbf{k} $</div>
+defines a continuous vector function on a region $R$ in the $uv$-plane that is one-to-one (exactly one input for every output and exactly one output for every input) on the interior of $R$, then the range of $\mathbf{r}$ (all outputs) is called <span class="defn">the surface $S$ parameterized by $\mathbf{r}$</span>. The defining equation of $\mathbf{r}$ along with its domain is called a <span class="defn">parameterization</span> of $S$. The variables $u$ and $v$ are called <span class="defn">parameters</span>, and $R$ is called the <span class="defn">parameter domain</span>.</p>
+
+<div class="example">
+  Parametrize the cone $z = \sqrt{x^2 + y^2}$, $0 \le z \le 1$.
+</div>
+
+<div class="example">
+  Parametrize the sphere $x^2 + y^2 + z^2 = R^2$.
+</div>
+
+<div class="example">
+  Parametrize the cylinder $x^2 + (y-3)^2 = 9$, $0 \le z \le 5$.
+</div>
+
+<p>The partial derivatives of $\mathbf{r}$ with respect to $u$ and $v$ are 
+<div class="display">$ \mathbf{r}_u = \frac{\partial \mathbf{r}}{\partial u} = \frac{\partial x}{\partial u} \mathbf{i} + \frac{\partial y}{\partial u} \mathbf{j} + \frac{\partial z}{\partial u} \mathbf{k}, $</div>
+and
+<div class="display">$ \mathbf{r}_v = \frac{\partial \mathbf{r}}{\partial v} = \frac{\partial x}{\partial v} \mathbf{i} + \frac{\partial y}{\partial v} \mathbf{j} + \frac{\partial z}{\partial v} \mathbf{k}. $</div></p>
+
+<p>A surface parametrized by $\mathbf{r}(u,v)$, $(u,v) \in R$, is called <span class="defn">smooth</span> if $\mathbf{r}_u$ and $\mathbf{r}_v$ are both continuous and $\mathbf{r}_u \times \mathbf{r}_v \ne \mathbf{0}$ on the interior of $R$.</p>
+
+<p>The <span class="defn">area</span> of the smooth surface $S$ parametrized by $\mathbf{r}(u,v) = x(u,v)\mathbf{i} + y(u,v)\mathbf{j} + z(u,v)\mathbf{k}$ over a region $R$ is
+<div class="display">$ A(S) = \iint_R \left| \mathbf{r}_u \times \mathbf{r}_v \right| \, dA $</div>
+The differential $|\mathbf{r}_u \times \mathbf{r}_v|\, dA$ is called the <span class="defn">surface area differential</span> or <span class="defn">surface area element</span>.</p>
+
+<div class="example">
+  Parametrize $z = f(x,y)$ over a region $R$ in the $xy$-plane and find the surface area element.
+</div>
+
+</br>

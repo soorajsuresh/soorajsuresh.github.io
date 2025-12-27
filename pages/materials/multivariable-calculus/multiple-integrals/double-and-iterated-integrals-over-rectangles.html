@@ -1,0 +1,96 @@
+---
+layout: section
+title: Double and Iterated Integrals over Rectangles
+chapter: 4
+section: 1
+styles:
+    - /assets/css/math.css
+libs:
+    - katex
+---
+
+<h2 class="section-heading">Double and Iterated Integrals over Rectangles</h2>
+
+<div class="definition">
+If $A$ and $B$ are sets, then the <strong>Cartesian product</strong> $A \times B$ is the set of ordered pairs:
+<div class="display">
+$A \times B = \{(a,b) \mid a \in A, \ b \in B\}$
+</div>
+</div>
+
+<div class="example">
+If $A = [1,2]$ and $B = [3,5]$, give a geometric description of $A \times B$.
+</div>
+
+<p>Let $f$ be a function defined on the rectangle $R = [a,b] \times [c,d]$.</p>
+
+<p>Divide $R$ into $n$ smaller rectangles by lines parallel to the coordinate axes. These rectangles form a <strong>partition</strong> of $R$.</p>
+
+<p>If a rectangle has width $\Delta x$ and height $\Delta y$, then its area is:</p>
+<div class="display">
+$\Delta A = \Delta x \Delta y$
+</div>
+
+<p>Number the rectangles $1, \dots, n$, with areas $\Delta A_1, \dots, \Delta A_n$. Evaluate $f$ at a point $(x_k, y_k)$ in rectangle $k$ and multiply by its area. The sum:</p>
+<div class="display">
+$S_n = f(x_1,y_1)\Delta A_1 + \dots + f(x_n,y_n)\Delta A_n = \sum_{k=1}^n f(x_k,y_k)\Delta A_k$
+</div>
+<p>is a <strong>Riemann sum</strong> of $f$ over $R$.</p>
+
+<p>If the limit exists as $n \to \infty$ and is independent of the partition and points chosen, $f$ is <strong>integrable</strong> over $R$, and the limit is the <strong>double integral</strong>:</p>
+<div class="display">
+$\iint_R f(x,y) \, dA$
+</div>
+
+<p>For positive $f$, the double integral represents the volume under the surface $z = f(x,y)$ over $R$.</p>
+
+<div class="example">
+Find $\iint_R (4 - x - y) \, dA$ over $R = [0,2] \times [0,1]$.
+</div>
+
+<p>Double integrals can be written as <strong>iterated</strong> or <strong>repeated integrals</strong>.</p>
+
+<div class="theorem">
+<strong>Fubini's Theorem</strong><br>
+If $f$ is continuous on $R = [a,b] \times [c,d]$, then
+<div class="display">
+$\iint_R f(x,y) \, dA = \int_a^b \int_c^d f(x,y) \, dy \, dx = \int_c^d \int_a^b f(x,y) \, dx \, dy$
+</div>
+</div>
+
+<p>Double integrals of continuous functions can be computed as iterated integrals in either order using the FTC.</p>
+
+<div class="example">
+Evaluate using Fubini's Theorem in both orders:
+<div class="display">
+$I = \int_0^\pi \int_0^2 x \sin(xy) \, dy \, dx$
+</div>
+</div>
+
+<div class="example">
+Let $R = [a,b] \times [c,d]$ and $f(x,y) = g(x) h(y)$. If $g(x)$ and $h(y)$ are integrable over $[a,b]$ and $[c,d]$, then find:
+<div class="display">
+$\iint_R g(x) h(y) \, dA$
+</div>
+</div>
+
+<div class="example">
+Evaluate:
+<div class="display">
+$I = \iint_D f(x,y) \, dA$, for $f(x,y) = e^y \cos x$, $D = [0, \pi/6] \times [0, \ln 3]$
+</div>
+</div>
+
+<div class="example">
+If $R = [a,b] \times [c,d]$, find:
+<div class="display">
+$I = \iint_R \frac{4x^2 y^2 - 7x^2 y + 5x^2}{(y^3 - 2y^2 + y)\sqrt{5 - 3x^2}} \, dA$
+</div>
+</div>
+
+<div class="example">
+If $\Omega = [a,b] \times [c,d]$, find:
+<div class="display">
+$I = \iint_\Omega \frac{e^{5x}(60y^5 + 150y^4 + 228y^3 + 231y^2 + 128y + 41)}{\sqrt{e^{10x} - 1} \ln^8(e^{5x} + \sqrt{e^{10x} - 1})(10y^3 + 15y^2 + 13y + 4)} \, dA$
+</div>
+</div>

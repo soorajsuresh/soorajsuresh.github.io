@@ -1,0 +1,126 @@
+---
+layout: section
+title: "Vector Fields and Line Integrals: Work, Circulation, and Flux"
+chapter: 5
+section: 2
+styles:
+    - /assets/css/math.css
+libs:
+    - katex
+---
+
+<h2 class="section-heading">{{ page.title }}</h2>
+
+<p>A <span class="defn">vector field</span> is a function $\F$ that assigns a vector to each point in its domain. For example, for a domain in $\mathbb{R}^3$,
+<div class="display">$ \F(x,y,z) = P(x,y,z) \mathbf{i} + Q(x,y,z) \mathbf{j} + R(x,y,z) \mathbf{k} $</div>
+</p>
+
+<p>A vector field is <span class="defn">continuous at a point</span> when its component functions are each continuous at that point, <span class="defn">continuous</span> when its component functions are each continuous, and <span class="defn">differentiable</span> when its component functions are each differentiable.</p>
+
+<p>We have seen vector fields before: $\T(t)$, $\N(t)$, and $\B(t)$, for example. Even $\r(t)$ and $\v(t)$ can be called vector fields.</p>
+
+<p>Recall, the gradient vector $\nabla f$ of a differentiable real-valued function $f$ at a point $(x,y,z)$ gives the direction of greatest increase. The <span class="defn">gradient field</span> of $f(x,y,z)$ is
+<div class="display">$ \nabla f = \frac{\partial f}{\partial x}\mathbf{i} + \frac{\partial f}{\partial y}\mathbf{j} + \frac{\partial f}{\partial z}\mathbf{k} $</div>
+</p>
+
+<p>that assigns to every point of $f$ a vector pointing in the direction of greatest increase.</p>
+
+<div class="example">
+  If the temperature $T$ of a material at each point $(x,y,z)$ is $T(x,y,z) = 100 - x^2 - y^2 - z^2$ and $\F$ is its gradient field, find $\F$.
+</div>
+
+<p>Let
+<div class="display">$ \F(x,y,z) = P(x,y,z) \mathbf{i} + Q(x,y,z) \mathbf{j} + R(x,y,z) \mathbf{k} $</div>
+be a continuous vector field, and let $C$ be a smooth curve parametrized by
+<div class="display">$ \mathbf{r}(t) = a(t) \mathbf{i} + b(t) \mathbf{j} + c(t) \mathbf{k}, \quad \alpha \le t \le \beta $</div>
+</p>
+
+<p>The direction along $C$ defined by the parametrization is called the <span class="defn">forward direction</span>.</p>
+
+<p>Note, $\T$ (the unit tangent vector) points in the forward direction. The scalar tangential component of $\F$ along $C$ is
+<div class="display">$ \F \cdot \T = \F \cdot \frac{d\mathbf{r}}{ds} $</div>
+</p>
+
+<div class="definition">
+  If $\F$ is a continuous vector field defined on a smooth curve $C$ parametrized by $\mathbf{r}(t)$, then the <span class="defn">line integral of $\F$ along $C$</span> is
+  <div class="display">$ \int_C \F \cdot \T \, ds $</div>
+</div>
+
+<p>Note,
+<div class="display">$ \int_C \F \cdot \T \, ds = \int_C (\F \cdot \frac{d\mathbf{r}}{ds}) ds = \int_C \F \cdot d\mathbf{r} = \int_\alpha^\beta \F(\mathbf{r}(t)) \cdot \mathbf{r}'(t) dt $</div>
+</p>
+
+<div class="example">
+  Find $\int_C \F \cdot d\mathbf{r}$ for $\F(x,y,z) = \langle z, xy, -y^2 \rangle$ and $\mathbf{r}(t) = \langle t^2, t, \sqrt{t} \rangle$, $0 \le t \le 1$.
+</div>
+
+<div class="example">
+  Define $\int_C P(x,y,z) dx$, $\int_C Q(x,y,z) dy$, and $\int_C R(x,y,z) dz$.
+</div>
+
+<p>The sum of line integrals
+<div class="display">$ \int_C P dx + \int_C Q dy + \int_C R dz $</div>
+is denoted
+<div class="display">$ \int_C P dx + Q dy + R dz $</div>
+</p>
+
+<div class="example">
+  Evaluate $\int_C -y dx + z dy + 2x dz$ where $C$ is the helix $\mathbf{r}(t) = \langle \cos t, \sin t, t \rangle$, $0 \le t \le 2\pi$.
+</div>
+
+<p>If the vector $\F(P)$ represents a force, $\F$ is called a <span class="defn">force field</span>. Let $C$ be smooth and $\F$ a continuous force field. Partition $C$ into $n$ arcs of lengths $\Delta s_k$ and points $(x_k, y_k, z_k)$ with tangent vectors $\T(x_k, y_k, z_k)$. Then the work along each arc is approximated by
+<div class="display">$ W_k \approx \F(x_k, y_k, z_k) \cdot (\T(x_k, y_k, z_k) \Delta s_k) $</div>
+and total work
+<div class="display">$ W = \sum_{k=1}^n W_k \approx \sum_{k=0}^n (\F(x_k, y_k, z_k) \cdot \T(x_k, y_k, z_k)) \Delta s_k = S_n $</div>
+</p>
+
+<p>For any partition, the limit $\lim_{n \to \infty} S_n$ exists and equals
+<div class="display">$ \int_C \F \cdot \T \, ds $</div>
+</p>
+
+<div class="definition">
+  If $C$ is smooth and $\F$ is a continuous force field, the <span class="defn">work</span> done along $C$ is
+  <div class="display">$ W = \int_C \F \cdot \T \, ds $</div>
+</div>
+
+<div class="example">
+  Find the work done by $\F = (x-y)\mathbf{i} + x \mathbf{j}$ along $\mathbf{r}(t) = (\cos t)\mathbf{i} + (\sin t)\mathbf{j}$, $0 \le t \le 2\pi$.
+</div>
+
+<div class="definition">
+  If $C$ is smooth and $\F$ a continuous velocity field, the <span class="defn">flow</span> along $C$ is $\int_C \F \cdot \T \, ds$. If $C$ starts and ends at the same point, this flow is called <span class="defn">circulation</span>.
+</div>
+
+<div class="example">
+  Find the circulation of $\F = (x-y)\mathbf{i} + x \mathbf{j}$ around $\mathbf{r}(t) = (\cos t)\mathbf{i} + (\sin t)\mathbf{j}$, $0 \le t \le 2\pi$.
+</div>
+
+<div class="definitions">
+  A curve in the plane is <span class="defn">simple</span> if it does not cross itself.<br>
+  A curve that starts and ends at the same point is a <span class="defn">closed curve</span> or <span class="defn">loop</span>.
+</div>
+
+<p>When $C$ is a closed curve, the line integral $\int_C f(x,y,z) ds$ is denoted $\oint_C f(x,y,z) ds$. Traversed counterclockwise, it is denoted $\ointctrclockwise_C f(x,y,z) ds$.</p>
+
+<div class="definition">
+  If $C$ is a smooth simple closed plane curve, $\F$ continuous over a region containing $C$, and $\n$ the outward unit normal vector on $C$, the <span class="defn">flux</span> of $\F$ across $C$ is
+  <div class="display">$ \int_C \F \cdot \n \, ds $</div>
+</div>
+
+<p>Let $\mathbf{r}(t) = \langle a(t), b(t) \rangle$, $\alpha \le t \le \beta$ parameterize $C$. If traversed clockwise (CW), $\n = \mathbf{k} \times \T$. If counterclockwise (CCW), $\n = \T \times \mathbf{k}$.</p>
+
+<p>For CCW traversal:
+<div class="display">$ \n = \T \times \mathbf{k} = \begin{vmatrix} \mathbf{i} & \mathbf{j} & \mathbf{k} \\ \frac{dx}{ds} & \frac{dy}{ds} & 0 \\ 0 & 0 & 1 \end{vmatrix} = \frac{dy}{ds} \mathbf{i} - \frac{dx}{ds} \mathbf{j} $</div>
+</p>
+
+<p>If $\F = \langle P(x,y), Q(x,y) \rangle$, then
+<div class="display">$ \F \cdot \n = P(x,y) \frac{dy}{ds} - Q(x,y) \frac{dx}{ds} $</div>
+so
+<div class="display">$ \int_C \F \cdot \n \, ds = \ointctrclockwise_C (P \, dy - Q \, dx) $</div>
+</p>
+
+<div class="example">
+  Find the flux of $\F = \langle x-y, x \rangle$ across the unit circle.
+</div>
+
+<br/>

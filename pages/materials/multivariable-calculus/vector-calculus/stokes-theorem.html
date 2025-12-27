@@ -1,0 +1,54 @@
+---
+layout: section
+title: Stokes' Theorem
+chapter: 5
+section: 7
+styles:
+    - /assets/css/math.css
+libs:
+    - katex
+---
+<h2 class="section-heading">{{ page.title }}</h2>
+
+<p>Recall,</p>
+
+<div class="display">
+\[
+\curl \mathbf{F} = \nabla \times \mathbf{F} 
+= \langle \partial_x, \partial_y, \partial_z \rangle \times \langle P, Q, R \rangle
+= \begin{vmatrix} \mathbf{i} & \mathbf{j} & \mathbf{k} \\ \partial_x & \partial_y & \partial_z \\ P & Q & R \end{vmatrix}
+= (R_y - Q_z)\mathbf{i} + (P_z - R_x)\mathbf{j} + (Q_x - P_y)\mathbf{k}.
+\]
+</div>
+
+<p>The direction of $\curl \mathbf{F}$ represents the axis around which particles in the fluid $\mathbf{F}$ rotate, and the magnitude of $\curl \mathbf{F}$ represents the rate of the rotation.</p>
+
+<div class="theorem">
+  <strong>Stokes' Theorem (The Curl Theorem)</strong><br>
+  If $S$ is a piecewise smooth surface oriented by $\mathbf{n}$ with a piecewise smooth boundary curve $C$ parametrized by $\mathbf{r}$ and $\mathbf{F}$ is a vector field whose components have continuous first partial derivatives on an open region containing $S$, then
+  <div class="display">
+  $\displaystyle \ointctrclockwise_C \mathbf{F} \cdot d\mathbf{r} = \iint_S \curl \mathbf{F} \cdot \mathbf{n} \, d\sigma$
+  </div>
+</div>
+
+<p>By Stokes' Theorem, if two different surfaces $S_1$ and $S_2$ oriented by $\mathbf{n}_1$ and $\mathbf{n}_2$ have the same boundary $C$, then 
+<div class="display">
+$\iint_{S_1} \curl \mathbf{F} \cdot \mathbf{n}_1 \, d\sigma = \iint_{S_2} \curl \mathbf{F} \cdot \mathbf{n}_2 \, d\sigma$.
+</div>
+This also means that to find $\int_C \mathbf{F} \cdot d\mathbf{r}$ where $C$ is the curve of intersection between $S_1$ and $S_2$, either 
+<div class="display">
+$\iint_{S_1} \curl \mathbf{F} \cdot \mathbf{n}_1 \, d\sigma$ 
+</div>
+or 
+<div class="display">
+$\iint_{S_2} \curl \mathbf{F} \cdot \mathbf{n}_2 \, d\sigma$
+</div>
+can be computed instead.</p>
+
+<p>Note, $\mathbf{n} = \mathbf{k}$ yields the circulation-curl form of Green's Theorem.</p>
+
+<div class="example">
+  Evaluate $\int_C \mathbf{F} \cdot d\mathbf{r}$ where $\mathbf{F}(x,y,z) = -y^2 \mathbf{i} + x \mathbf{j} + z^2 \mathbf{k}$ and $C$ is the curve of intersection of the plane $y+z=2$ and the cylinder $x^2+y^2=1$.
+</div>
+
+</br>

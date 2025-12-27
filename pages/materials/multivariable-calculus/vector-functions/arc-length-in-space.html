@@ -1,0 +1,106 @@
+---
+layout: section
+title: Arc Length in Space
+chapter: 2
+section: 3
+styles:
+    - /assets/css/math.css
+libs:
+    - katex
+---
+
+<h2 class="section-heading">Arc Length in Space</h2>
+
+<div class="definition">
+<p>
+The <span class="definition">arc length</span> of a smooth curve parametrized by $\r(t)=[x(t)]\i+[y(t)]\j+[z(t)]\k$, $a\le t\le b$ that is traced exactly once as $t$ increases from $t=a$ to $t=b$ is
+</p>
+<div class="display">$L=\int_a^b\sqrt{\parens{\ddx[x][t]}^2+\parens{\ddx[y][t]}^2+\parens{\ddx[z][t]}^2}\dx[t].$</div>
+</div>
+
+<p>
+Note,
+</p>
+<div class="display">$\sqrt{\parens{\ddx[x][t]}^2+\parens{\ddx[y][t]}^2+\parens{\ddx[z][t]}^2}=\abs{\r'(t)}=\abs{\v(t)}.$</div>
+<p>
+So, the distance along a curve covered by a particle is the integral of its speed over the path it travels.
+</p>
+
+<div class="result">
+<div class="display">$L=\int_a^b\abs{\v(t)}\dx[t]$</div>
+</div>
+
+<div class="example">
+<p>
+If a glider soars upward along the helix parametrized by $\r(t)=(\cos t)\i+(\sin t)\j+t\k$, then present the distance covered by the glider from $t=0$ to $t=2\pi$.
+</p>
+</div>
+
+<p>
+If $P(t_0)$ is a point on the curve corresponding $t=t_0$, then the (directed) arc length between $P(t_0)$ and $P(t)$ as a function of $t$ is
+</p>
+<div class="display">$s(t)=\int_{t_0}^t\abs{\v(\tau)}\dx[\tau].$</div>
+
+<div class="example">
+<p>
+Reparametrize the path of the glider from the previous example ($\r(t)=(\cos t)\i+(\sin t)\j+t\k$) in terms of its arc length from $t=0$.
+</p>
+</div>
+
+<p>
+The parameter $s$ is called the <span class="definition">arc length parameter</span> for the curve.
+</p>
+
+<p>
+Since $s(t)=\int_{t_0}^t\abs{\v(\tau)}\dx[\tau]=\int_{t_0}^t\sqrt{[x'(\tau)]^2+[y'(\tau)]^2+[z'(\tau)]^2}\dx[\tau]$ and $x'$, $y'$, and $z'$ are continuous (since the curve is smooth), the Fundamental Theorem of Calculus gives
+</p>
+<div class="display">$\ddx[s][t]=\abs{\v(t)}.$</div>
+<p>
+In other words, the rate at which a particle covers distance along its path of motion is the same as the speed of the particle.
+</p>
+
+<p>
+Recall, on a smooth curve, $\v=\ddx[\r][t]$ is tangent to the curve.
+</p>
+
+<div class="definition">
+<p>
+If $\r$ is a parametrization of a smooth curve $C$ and $\v=\ddx[\r][t]$, then
+</p>
+<div class="display">$\T=\frac\v{\abs\v}$</div>
+<p>
+is called <span class="definition">the unit tangent vector</span> for $C$.
+</p>
+</div>
+
+<p>
+Note, the unit tangent vector is a unit vector that is tangent to the curve.
+</p>
+
+<div class="example">
+<p>
+Find the unit tangent vector of the curve parametrized by
+</p>
+<div class="display">$\r(t)=(1+3\cos t)\i+(3\sin t)\j+t^2\k.$</div>
+</div>
+
+<p>
+Note, $\v=\ddx[\r][t]$ is the rate of change in the position vector $\r$ with respect to time. Another important quantity is $\ddx[\r][s]$, the rate of change in the position vector $\r$ with respect to arc length. Note,
+</p>
+<div class="display">$\ddx[\r][s]=\ddx[\r][t]\ddx[t][s]=\ddx[\r][t]\frac1{\ddx[s][t]}=\v\frac1{\abs\v}=\T.$</div>
+
+<div class="example">
+<p>
+Present the length of the part of the curve parametrized by
+</p>
+<div class="display">$\r(t)=\parens{3\sin t}\i+\parens{\frac34t^2-\frac32\ln t}\j+\parens{3\cos t}\k,\quad 1\le t\le2.$</div>
+</div>
+
+<div class="example">
+<p>
+Assume $a$ and $b$ are positive real numbers. Present the length of the part of the curve parametrized by
+</p>
+<div class="display">$\r(t)=\parens{\frac b2t^2}\i+\parens{a\sin t}\j+\parens{a\cos t}\k,\quad 0\le t\le\frac ab.$</div>
+</div>
+
+<br/>

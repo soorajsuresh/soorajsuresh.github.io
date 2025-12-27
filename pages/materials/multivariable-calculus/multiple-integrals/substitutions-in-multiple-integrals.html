@@ -1,0 +1,64 @@
+---
+layout: section
+title: Substitutions in Multiple Integrals
+chapter: 4
+section: 8
+styles:
+    - /assets/css/math.css
+libs:
+    - katex
+---
+
+<h2 class="section-heading">Substitutions in Multiple Integrals</h2>
+
+<p>Consider $\int_0^1 \sqrt{x^2+1} \, \mathrm{d}x$.</p>
+
+<p>Apply the same ideas in general to $\int_a^b f(x)\, \mathrm{d}x$.</p>
+
+<p>$[a,b] = \{ x \mid x = g(u), u \in [g^{-1}(a), g^{-1}(b)] \}$</p>
+
+<p>To generalize to a double integral $\iint_R f(x,y)\, \mathrm{d}x \, \mathrm{d}y$, we let $x = g(u,v)$ and $y = h(u,v)$, and the resulting differential relationship is
+<div class="display">$ \mathrm{d}x \, \mathrm{d}y = \left| \frac{\partial(x,y)}{\partial(u,v)} \right| \, \mathrm{d}u \, \mathrm{d}v $</div>
+where
+<div class="display">$ \frac{\partial(x,y)}{\partial(u,v)} =
+\begin{vmatrix}
+\displaystyle \frac{\partial x}{\partial u} & \displaystyle \frac{\partial x}{\partial v} \\[1em]
+\displaystyle \frac{\partial y}{\partial u} & \displaystyle \frac{\partial y}{\partial v}
+\end{vmatrix}
+= \frac{\partial x}{\partial u} \frac{\partial y}{\partial v} - \frac{\partial x}{\partial v} \frac{\partial y}{\partial u} $</div>
+is called the <span class="defn">Jacobian</span> of the transformation.</p>
+
+<p>So,
+<div class="display">$ \iint_R f(x,y) \, \mathrm{d}x \, \mathrm{d}y = \iint_G f(g(u,v), h(u,v)) \left| \frac{\partial(x,y)}{\partial(u,v)} \right| \, \mathrm{d}u \, \mathrm{d}v $</div>
+where $R = \{ (x,y) \mid x = g(u,v), y = h(u,v), (u,v) \in G \}$</p>
+
+<div class="example">
+  Evaluate
+  <div class="display">$ \int_{0}^{1} \int_{\sqrt{1-x^2}}^{\sqrt{1-x^2}} (x^2 + y^2) \, \mathrm{d}y \, \mathrm{d}x $</div>
+</div>
+
+<div class="example">
+  Evaluate
+  <div class="display">$ \int_0^4 \int_{y/2}^{y/2+1} \frac{2x - y}{2} \, \mathrm{d}x \, \mathrm{d}y $</div>
+</div>
+
+<div class="example">
+  Evaluate
+  <div class="display">$ \int_1^2 \int_{1/y}^y \sqrt{\frac{y}{x}} e^{\sqrt{xy}} \, \mathrm{d}x \, \mathrm{d}y $</div>
+</div>
+
+<p>The analogous result for triple integrals is
+<div class="display">$ \iiint_R f(x,y,z) \, \mathrm{d}x \, \mathrm{d}y \, \mathrm{d}z = \iiint_G f(x(u,v,w), y(u,v,w), z(u,v,w)) \left| \frac{\partial(x,y,z)}{\partial(u,v,w)} \right| \, \mathrm{d}u \, \mathrm{d}v \, \mathrm{d}w $</div>
+where
+<div class="display">$ \frac{\partial(x,y,z)}{\partial(u,v,w)} =
+\begin{vmatrix}
+\displaystyle \frac{\partial x}{\partial u} & \displaystyle \frac{\partial x}{\partial v} & \displaystyle \frac{\partial x}{\partial w} \\[1em]
+\displaystyle \frac{\partial y}{\partial u} & \displaystyle \frac{\partial y}{\partial v} & \displaystyle \frac{\partial y}{\partial w} \\[1em]
+\displaystyle \frac{\partial z}{\partial u} & \displaystyle \frac{\partial z}{\partial v} & \displaystyle \frac{\partial z}{\partial w}
+\end{vmatrix} $</div>
+</p>
+
+<div class="example">
+  Derive the formula for triple integration in spherical coordinates.
+</div>
+

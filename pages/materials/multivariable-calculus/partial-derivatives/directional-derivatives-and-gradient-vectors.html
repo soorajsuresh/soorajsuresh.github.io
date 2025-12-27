@@ -1,0 +1,130 @@
+---
+layout: section
+title: Directional Derivatives and Gradient Vectors
+chapter: 3
+section: 5
+styles:
+    - /assets/css/math.css
+libs:
+    - katex
+---
+
+<h2 class="section-heading">Directional Derivatives and Gradient Vectors</h2>
+
+<p>
+Let $(x_0,y_0)$ be a point in the domain of a function $f$ of two real variables $x$ and $y$.
+</p>
+
+<p>
+The partial derivative $\left.\frac{\partial f}{\partial x}\right|_{(x_0,y_0)}$ represents the change in $f$ caused by a change in $x$ from $x_0$. 
+</p>
+
+<p>
+Visually, $\left.\frac{\partial z}{\partial x}\right|_{(x_0,y_0)}$ represents the change in height along the surface $z=f(x,y)$ caused by a change in $x$ from $x_0$. Similarly, $\left.\frac{\partial z}{\partial y}\right|_{(x_0,y_0)}$ represents the change in height along the surface caused by a change in $y$ from $y_0$.
+</p>
+
+<div class="example">
+If $z=f(x,y)$, $x=g(t)$, $y=h(t)$, and $P_0=(g(t_0),h(t_0))$, then what does $\left.\frac{dz}{dt}\right|_{P_0}$ represent?
+</div>
+
+<div class="example">
+If $z=f(x,y)$, $x=x_0+su_1$, $y=y_0+su_2$, $P_0=(x_0,y_0)$, $\mathbf{u}=u_1\mathbf{i}+u_2\mathbf{j}$ is a unit vector, and $s$ is an arc length parameter, then what does $\left.\frac{dz}{ds}\right|_{P_0}$ represent?
+</div>
+
+<div class="definition">
+The derivative of $f$ at $P_0=(x_0,y_0)$ in the direction of the unit vector $\mathbf{u}=u_1\mathbf{i}+u_2\mathbf{j}$ is
+<div class="display">
+$\left(\frac{df}{ds}\right)_{P_0,\mathbf{u}} = \lim_{s\to 0} \frac{f(x_0+su_1, y_0+su_2) - f(x_0,y_0)}{s}$
+</div>
+if the limit exists.
+
+This number is called the <strong>directional derivative</strong> and is also denoted
+<div class="display">
+$D_\mathbf{u} f(x_0,y_0)$ or $\left.D_\mathbf{u} f\right|_{P_0}$.
+</div>
+</div>
+
+<p>
+Note that $\left.\frac{\partial f}{\partial x}\right|_{P_0} = \left.D_\mathbf{i} f\right|_{P_0}$ and $\left.\frac{\partial f}{\partial y}\right|_{P_0} = \left.D_\mathbf{j} f\right|_{P_0}$.
+</p>
+
+<div class="example">
+Find an easier way to compute $D_\mathbf{u} f(x_0,y_0)$.
+</div>
+
+<div class="definition">
+The <strong>gradient vector</strong> of a differentiable function $f$ of two variables $x$ and $y$ at $(x_0,y_0)$ is
+<div class="display">
+$\nabla f(x_0,y_0) = \left.\frac{\partial f}{\partial x}\right|_{(x_0,y_0)} \mathbf{i} + \left.\frac{\partial f}{\partial y}\right|_{(x_0,y_0)} \mathbf{j}$.
+</div>
+It is denoted by $\nabla f(x_0,y_0)$ or $\left.\nabla f\right|_{(x_0,y_0)}$, where $\nabla$ is read "del".
+</div>
+
+<div class="theorem">
+If $f(x,y)$ is differentiable in an open region containing $P_0=(x_0,y_0)$, then
+<div class="display">
+$\left.D_\mathbf{u} f\right|_{P_0} = \left.\nabla f\right|_{P_0} \cdot \mathbf{u}$.
+</div>
+</div>
+
+<div class="example">
+Find the directional derivative of $f$ at $(1,\frac12)$ in the direction of $\mathbf{i}+2\mathbf{j}$ if
+<div class="display">
+$f(x,y) = 3^{xy} - \arcsin(xy)$.
+</div>
+</div>
+
+<div class="example">
+In which direction does $f$ increase most rapidly?<br>
+In which direction does $f$ decrease most rapidly?<br>
+In which directions does $f$ not increase or decrease?
+</div>
+
+<div class="example">
+Let $f$ be a differentiable function of $x$ and $y$ that has constant value $c$ along a smooth plane curve $C$ parametrized by $\mathbf{r}(t)=g(t)\mathbf{i}+h(t)\mathbf{j}$. 
+
+What is the relationship between the tangent vector $\frac{d\mathbf{r}}{dt}$ and the gradient vector $\nabla f$?
+</div>
+
+<div class="example">
+Find the equation of the line tangent to a level curve $f(x,y)=c$ at $(x_0,y_0)$.
+</div>
+
+<p>
+Recall: the line through $(x_0,y_0)$ perpendicular to a nonzero vector $\mathbf{n} = a\mathbf{i}+b\mathbf{j}$ has the equation
+<div class="display">
+$a(x-x_0)+b(y-y_0)=0$.
+</div>
+</p>
+
+<div class="result">
+Algebra of Gradients: If $f$ and $g$ are differentiable functions of two variables and $k$ is a constant, then
+<ol>
+<li>$\nabla(f \pm g) = \nabla f \pm \nabla g$</li>
+<li>$\nabla(k f) = k \nabla f$</li>
+<li>$\nabla(fg) = g \nabla f + f \nabla g$</li>
+<li>$\nabla(f/g) = \frac{g \nabla f - f \nabla g}{g^2}$</li>
+</ol>
+</div>
+
+<div class="result">
+Gradients of Functions of More Than Two Variables: The gradient of a differentiable function $f$ of $n$ variables $x_1,\dots,x_n$ is
+<div class="display">
+$\nabla f = \langle \frac{\partial f}{\partial x_1}, \dots, \frac{\partial f}{\partial x_n} \rangle$.
+</div>
+The directional derivative in the direction of the unit vector $\mathbf{u} = \langle u_1,\dots,u_n \rangle$ is
+<div class="display">
+$D_\mathbf{u} f = \nabla f \cdot \mathbf{u}$.
+</div>
+</div>
+
+<p>
+If a smooth curve $C$ parametrized by $\mathbf{r}(t) = x(t)\mathbf{i}+y(t)\mathbf{j}+z(t)\mathbf{k}$ lies in the domain of $f$, then we can denote the values of $f$ along $C$ by $f(\mathbf{r}(t))$.
+</p>
+
+<div class="example">
+For $w=f(\mathbf{r}(t))$, compute
+<div class="display">
+$\frac{dw}{dt}$.
+</div>
+</div>

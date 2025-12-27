@@ -1,0 +1,86 @@
+---
+layout: section
+title: Integrals of Vector Functions and Projectile Motion
+chapter: 2
+section: 2
+styles:
+    - /assets/css/math.css
+libs:
+    - katex
+---
+
+<h2 class="section-heading">Integrals of Vector Functions and Projectile Motion</h2>
+
+<div class="definition">
+<p>
+A differentiable vector function defined by $\textbf{\text{R}}(t)$ is an <span class="definition">antiderivative</span> of a vector function $\r(t)$ on an interval $I$ if $\textbf{\text{R}}'(t)=\r(t)$ for all $t\in I$.
+</p>
+
+<p>
+If $\textbf{\text R}$ is an antiderivative of $\r$, then every antiderivative of $\r$ is of the form $\textbf{\text R}+\textbf{\text C}$ for some constant vector $\textbf{\text C}$.
+</p>
+
+<p>
+The set of all antiderivatives of $\r$, sometimes called the <span class="definition">indefinite integral</span> of $\r$, is denoted by
+</p>
+
+<div class="display">$\int\r(t)\dx[t].$</div>
+
+<p>
+Note, if $\r(t)=\bracks{f(t)}\i+\bracks{g(t)}\j+\bracks{h(t)}\k$, then
+</p>
+
+<div class="display">$\int\r(t)\dx[t]=\bracks{\int f(t)\dx[t]}\i+\bracks{\int g(t)\dx[t]}\j+\bracks{\int h(t)\dx[t]}\k.$</div>
+</div>
+
+<div class="definition">
+<p>
+If $f(t)$, $g(t)$, and $h(t)$ are integrable over $[a,b]$, then the vector function defined by
+</p>
+
+<div class="display">$\r(t)=\bracks{f(t)}\i+\bracks{g(t)}\j+\bracks{h(t)}\k$</div>
+
+<p>
+is called <span class="definition">integrable</span> over $[a,b]$, and the <span class="definition">definite integral</span> of $\r$ from $a$ to $b$ is
+</p>
+
+<div class="display">$\int_a^b\r(t)\dx[t]=\bracks{\int_a^b f(t)\dx[t]}\i+\bracks{\int_a^b g(t)\dx[t]}\j+\bracks{\int_a^b h(t)\dx[t]}\k.$</div>
+</div>
+
+<div class="example">
+<p>
+Find $\int\r(t)\dx[t]$ if
+</p>
+
+<div class="display">$\r(t)=\parens{\e^t\tan\e^t}\i+\parens{\frac{\cos^2{\sqrt t}}{\sqrt t}}\j+\parens{\atan t}\k.$</div>
+</div>
+
+<div class="example">
+<p>
+Find $\int\r(t)\dx[t]$ if
+</p>
+
+<div class="display">$\r(t)=\parens{\frac{\asin t}{\sqrt{1-t^2}}}\i+\parens{\frac{54}{\sqrt{17-31t^2}}}\j+\parens{\frac{\ln(t+\sqrt{t^2-1})}{\sqrt{t^2-1}}}\k.$</div>
+</div>
+
+<div class="example">
+<p>
+Find $\int\r(t)\dx[t]$ if
+</p>
+
+<div class="display">$\r(t)=\parens{\frac{t}{\sqrt{t^4+1}\ln^3\parens{t^2+\sqrt{t^4+1}}}}\i+\parens{\frac{54}{\sqrt{17+31t^2}}}\j+\parens{\frac{6t^2}{t-\sqrt{t-2}}}\k.$</div>
+</div>
+
+<div class="example">
+<p>
+Derive the vector equation of the path for ideal projectile motion (in a vertical plane).
+</p>
+</div>
+
+<div class="example">
+<p>
+Derive equations for the (maximum) height, flight time, and (horizontal) range for ideal projectile motion.
+</p>
+</div>
+
+<br/>

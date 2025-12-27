@@ -21,9 +21,14 @@
     margin: 1em 0;
 }
 
-.definition {
+span.definition {
     font-weight: bold;
     color: rgb(var(--bloo));
+}
+
+div.definition {
+    background: linear-gradient(to right, rgba(var(--bloo), 0.08), rgba(var(--bloo), 0));
+    padding: 20px;
 }
 
 .theorem {

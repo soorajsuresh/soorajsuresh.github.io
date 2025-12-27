@@ -1,0 +1,74 @@
+---
+layout: section
+title: Lagrange Multipliers
+chapter: 3
+section: 8
+styles:
+    - /assets/css/math.css
+libs:
+    - katex
+---
+
+<h2 class="section-heading">Lagrange Multipliers</h2>
+
+<div class="example">
+Find the points on the hyperbolic cylinder $x^2 - z^2 - 1 = 0$ that are closest to the origin.
+</div>
+
+<p>A clever approach is to consider a sphere centered at the origin with radius $a$, and increase $a$ until the sphere touches the hyperbolic cylinder.</p>
+
+<p>At the points of intersection between the sphere and cylinder, both surfaces share the same tangent plane and normal line.</p>
+
+<p>Represent the sphere and cylinder as level surfaces $f(x,y,z) = x^2 + y^2 + z^2 - a^2 = 0$ and $g(x,y,z) = x^2 - z^2 - 1 = 0$. The gradients $\nabla f$ and $\nabla g$ are parallel at the points of intersection:</p>
+
+<div class="display">
+$\nabla f = \lambda \nabla g \quad \text{for some scalar } \lambda$
+</div>
+
+<div class="display">
+$\langle 2x, 2y, 2z \rangle = \lambda \langle 2x, 0, -2z \rangle$
+</div>
+
+<p>Equating components:</p>
+
+<div class="display">
+$2x = 2\lambda x, \quad 2y = 0, \quad 2z = -2\lambda z$
+</div>
+
+<p>Solving gives $y = 0$, $z = 0$, and $x = \pm 1$. So the points are $(\pm 1, 0, 0)$.</p>
+
+<div class="theorem">
+<strong>The Orthogonal Gradient Theorem</strong><br>
+Let $f(x,y,z)$ be differentiable in a region containing a smooth curve $C$ parametrized by $\mathbf{r}(t)$.
+
+If $P_0$ is a point on $C$ at which $f$ has a local extremum along $C$, then
+<div class="display">
+$\nabla f(P_0) \perp \mathbf{r}'(P_0)$.
+</div>
+</div>
+
+<p>Proof idea: By the chain rule, $\frac{df}{dt} = \nabla f \cdot \mathbf{r}'$. At a local extremum along $C$, $\frac{df}{dt}|_{P_0} = 0$, so the gradient is orthogonal to the tangent vector.</p>
+
+<p>This result holds for $f(x,y)$ as well.</p>
+
+<div class="result">
+<strong>The Method of Lagrange Multipliers</strong><br>
+If $f$ has a local extremum subject to the constraint $g = 0$, then the extremum occurs at points $(x,y,z)$ satisfying $g(x,y,z) = 0$ such that
+<div class="display">
+$\nabla f(x,y,z) = \lambda \nabla g(x,y,z)$
+</div>
+for some scalar $\lambda$.</p>
+
+<p>To find absolute extrema of $f$ subject to $g=0$, compare the values of $f$ at all such points.</p>
+</div>
+
+<div class="example">
+Find the largest and smallest values that $f(x,y) = xy$ takes on the ellipse
+<div class="display">
+$\frac{x^2}{8} + \frac{y^2}{2} = 1$.
+</div>
+</div>
+
+<div class="example">
+A box with an open top and vertical divider must have a fixed volume of 100 cm³. The sturdy base costs \$1 per cm² and the rest costs \$0.50 per cm². Use Lagrange multipliers to determine the dimensions that minimize material cost.
+</div>

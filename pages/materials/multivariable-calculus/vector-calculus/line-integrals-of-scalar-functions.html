@@ -1,0 +1,83 @@
+---
+layout: section
+title: Line Integrals of Scalar Functions
+chapter: 5
+section: 1
+styles:
+    - /assets/css/math.css
+libs:
+    - katex
+---
+<h2 class="section-heading">{{ page.title }}</h2>
+
+<p>We have integrated functions over intervals (definite integrals from first semester calculus), regions in the plane (double integrals), and regions in space (triple integrals). Next, we extend the theory of integration to functions defined over curves and surfaces.</p>
+
+<p>To calculate the total mass of a wire represented by a curve in space, or to find the work done by a force acting along a curve in space, we study a new integral that lines up with those scenarios.</p>
+
+<p>Let $f(x,y,z)$ be a real-valued function and $C$ be a curve in the domain of $f$ parametrized by
+<div class="display">$ \mathbf{r}(t) = a(t)\mathbf{i} + b(t)\mathbf{j} + c(t)\mathbf{k}, \quad \alpha \le t \le \beta $</div>
+The values of $f$ along $C$ are given by
+<div class="display">$ f(\mathbf{r}(t)) = f(a(t), b(t), c(t)) $</div>
+</p>
+
+<p>Partition $C$ into $n$ arcs whose lengths are $\Delta s_1, \dots, \Delta s_n$. For every $k$ in $1, \dots, n$, choose a point $(x_k, y_k, z_k)$, evaluate $f$ at the point, and multiply this value of $f$ by the corresponding arc length $\Delta s_k$. Let $S_n$ be the sum of these products:
+<div class="display">$ S_n = \sum_{k=1}^n f(x_k, y_k, z_k) \Delta s_k $</div>
+</p>
+
+<p>If the limit
+<div class="display">$ \lim_{n \to \infty} S_n $</div>
+exists and has the same value $L$ regardless of the chosen partition and points, then the limit is called the <span class="defn">line integral of $f$ over $C$</span>, denoted
+<div class="display">$ \int_C f(x,y,z) \, \mathrm{d}s = \lim_{n \to \infty} \sum_{k=1}^n f(x_k, y_k, z_k) \Delta s_k $</div>
+</p>
+
+<p>If $f$ is continuous and $C$ is smooth, then (it can be shown that) $\int_C f(x,y,z) \, \mathrm{d}s$ exists.</p>
+
+<p>Recall that
+<div class="display">$ s(t) = \int_\alpha^t |\mathbf{v}(\tau)| \, \mathrm{d}\tau $</div>
+and that differentiating both sides and applying FTC gives
+<div class="display">$ \frac{\mathrm{d}s}{\mathrm{d}t} = |\mathbf{v}(t)| $</div>
+so
+<div class="display">$ \mathrm{d}s = |\mathbf{v}(t)| \, \mathrm{d}t $</div>
+and
+<div class="display">$ \int_C f(x,y,z) \, \mathrm{d}s = \int_\alpha^\beta f(\mathbf{r}(t)) |\mathbf{v}(t)| \, \mathrm{d}t $</div>
+</p>
+
+<p>Notes:</p>
+<ol>
+  <li>The integral on the right is an ordinary definite integral (from first semester calculus).</li>
+  <li>The parameterization of $C$ does not affect the value of the integral.</li>
+  <li>The parameter $t$ defines a direction along the path, where $\mathbf{r}(\alpha)$ is the starting point on $C$ and movement along the curve is in the direction of increasing $t$.</li>
+</ol>
+
+<div class="example">
+  Integrate $f(x,y,z) = x^6 z - y^{67}$ over the circle $C$ in the $xy$-plane centered at $O(0,0,0)$ with radius $R$.
+</div>
+
+<div class="theorem" data-title="Additivity of Line Integrals">
+  If a finite number of smooth curves $C_1, \dots, C_n$ are joined end to end, then
+  <div class="display">$ \int_{C_1 \cup \dots \cup C_n} f(x,y,z) \, \mathrm{d}s = \int_{C_1} f(x,y,z) \, \mathrm{d}s + \dots + \int_{C_n} f(x,y,z) \, \mathrm{d}s $</div>
+</div>
+
+<div class="example">
+  Integrate $f(x,y,z) = x - 3y^2 + z$ over the curve $C = C_1 \cup C_2$, where $C_1$ is the line segment from $(0,0,0)$ to $(1,1,0)$, and $C_2$ is the quarter of the curve of intersection between the plane $y=x$ and the sphere $(x-\frac12)^2 + (y-\frac12)^2 + z^2 = \frac12$ traversed above the $xy$-plane from $(1,1,1)$ to $(0,0,0)$.
+</div>
+
+<div class="example">
+  Interpret $\int_C f(x,y) \, \mathrm{d}s$ where $C$ is a plane curve.
+</div>
+
+<div class="example">
+  Interpret $\int_C \, \mathrm{d}s$.
+</div>
+
+<div class="example">
+  Determine, using a line integral, the length of the smooth curve $C$ parametrized by
+  <div class="display">$ \mathbf{r}(t) = \langle \frac12 t^2, \sin t, \cos t \rangle, \quad 0 \le t \le 1 $</div>
+</div>
+
+<div class="example">
+  Determine, using a line integral, the length of the smooth plane curve $C$ parametrized by
+  <div class="display">$ \mathbf{r}(t) = \langle t^4 - 6 t^2, 4 t^3 - 4 t \rangle, \quad 0 \le t \le 1 $</div>
+</div>
+
+<br/>

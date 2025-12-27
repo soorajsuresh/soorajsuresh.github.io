@@ -1,0 +1,129 @@
+---
+layout: section
+title: Limits and Continuity in Higher Dimensions
+chapter: 3
+section: 2
+styles:
+    - /assets/css/math.css
+libs:
+    - katex
+---
+
+<h2 class="section-heading">Limits and Continuity in Higher Dimensions</h2>
+
+<p>
+In the plane, we said that <span class="defn">$f(x)$ approaches the limit $L$ as $x$ approaches $a$</span> if $f(x)$ is close to $L$ for any value $x$ close enough to $a$. The value $x$ can approach $a$ from the right or left.
+</p>
+
+<p>
+More precisely, the phrase 
+<div class="display"><b>$f(x)$ approaches $L$ as $x$ approaches $a$</b></div>
+means that for every number $\epsilon>0$, there exists a corresponding number $\delta>0$ such that for every value $x$ in the domain of $f$,
+<div class="display">|f(x)-L|&lt;\epsilon \text{ whenever } 0&lt;|x-a|&lt;\delta.</div>
+</p>
+
+<p>
+We can say that <span class="defn">$f(x,y)$ approaches $L$ as $(x,y)$ approaches $(x_0,y_0)$</span> if $f(x,y)$ is close to a fixed real number $L$ for any point $(x,y)$ close enough to a point $(x_0,y_0)$. The point $(x,y)$ can approach $(x_0,y_0)$ along any of infinitely many paths.
+</p>
+
+<div class="definition">
+Suppose that every disk centered at $(x_0,y_0)$ contains a point in the domain of $f$ other than $(x_0,y_0)$ itself.
+
+The phrase 
+<div class="display"><b>$f(x,y)$ approaches $L$ as $(x,y)$ approaches $(x_0,y_0)$</b></div>
+denoted by 
+<div class="display">$\lim_{(x,y)\to(x_0,y_0)} f(x,y) = L$</div>
+means that for every number $\epsilon&gt;0$, there exists a corresponding number $\delta&gt;0$ such that for every $(x,y)$ in the domain of $f$,
+<div class="display">|f(x,y)-L|&lt;\epsilon \text{ whenever } 0&lt;\sqrt{(x-x_0)^2+(y-y_0)^2}&lt;\delta.</div>
+
+If $f(x,y)$ approaches $L$ as $(x,y)$ approaches $(x_0,y_0)$, then $L$ is called the <span class="defn">limit</span> of $f(x,y)$ as $(x,y)$ approaches $(x_0,y_0)$. Otherwise, the limit does not exist.
+</div>
+
+<div class="example">
+Prove by definition that
+<div class="display">$\lim_{(x,y)\to(0,0)} \arctan\parens{\frac{3}{5}x^2+y^2}^4 = 0$.</div>
+</div>
+
+<div class="example">
+Prove by definition that
+<div class="display">$\lim_{(x,y)\to(0,0)} \frac{9x^{11}y\sqrt[3]{y^7}}{\sqrt[5]{4x^2+y^2}} = 0$.</div>
+</div>
+
+<div class="theorem">
+Properties of Limits of Functions of Two Variables:
+<table>
+<tr><td>Constant Rule</td><td>For any number $k$, $\lim\limits_{(x,y)\to(x_0,y_0)} k = k$.</td></tr>
+<tr><td>Single Variable Function Rules</td><td>$\lim\limits_{(x,y)\to(x_0,y_0)} g(x) = \lim\limits_{x\to x_0} g(x)$<br>$\lim\limits_{(x,y)\to(x_0,y_0)} h(y) = \lim\limits_{y\to y_0} h(y)$</td></tr>
+<tr><td>Sum and Difference Rules</td><td>$\lim_{(x,y)\to(x_0,y_0)} [f(x,y) \pm g(x,y)] = L \pm M$</td></tr>
+<tr><td>Constant Multiple Rule</td><td>$\lim_{(x,y)\to(x_0,y_0)} k f(x,y) = k L$</td></tr>
+<tr><td>Product Rule</td><td>$\lim_{(x,y)\to(x_0,y_0)} [f(x,y) \cdot g(x,y)] = L \cdot M$</td></tr>
+<tr><td>Quotient Rule</td><td>If $M \ne 0$, then $\lim_{(x,y)\to(x_0,y_0)} \frac{f(x,y)}{g(x,y)} = \frac{L}{M}$</td></tr>
+<tr><td>Composition Rule</td><td>If $h$ is continuous at $L$, then $\lim_{(x,y)\to(x_0,y_0)} h(f(x,y)) = h(L)$</td></tr>
+</table>
+</div>
+
+<div class="example">
+Determine
+<div class="display">$\lim\limits_{(x,y)\to(0,3)} \left(\tan^3{5x} \csc^3{2x} + \frac{9(y-3)^{-2n}}{e^{\frac{2}{6-2y}}}\right)$.</div>
+</div>
+
+<div class="example">
+Determine
+<div class="display">$\lim\limits_{(x,y)\to(1,1)} \frac{x^5+2x^4y-6x^3y^2-4x^2y^3+13xy^4-6y^5}{(\sqrt[4]{x}-\sqrt[4]{y})(x-y)^2}$.</div>
+</div>
+
+<div class="result">
+Test for Nonexistence of a Limit: If a function $f$ approaches different limits as $(x,y)$ approaches $(x_0,y_0)$ along different paths, then $\lim_{(x,y)\to(x_0,y_0)} f(x,y)$ does not exist.
+</div>
+
+<div class="example">
+Show that the function
+<div class="display">$f(x,y) = \frac{2x^2y}{x^4+y^2}$</div>
+has no limit as $(x,y)$ approaches $(0,0)$.
+</div>
+
+<div class="definition">
+Suppose that every disk centered at $(x_0,y_0)$ contains a point in the domain of $f$ other than $(x_0,y_0)$ itself. Then $f(x,y)$ is <span class="defn">continuous at the point $(x_0,y_0)$</span> if:
+<ol>
+<li>$f$ is defined at $(x_0,y_0)$</li>
+<li>$\lim_{(x,y)\to(x_0,y_0)} f(x,y)$ exists</li>
+<li>$\lim_{(x,y)\to(x_0,y_0)} f(x,y) = f(x_0,y_0)$</li>
+</ol>
+If a function is not continuous at a point, it is called <span class="defn">discontinuous</span> at that point. A function is <span class="defn">continuous</span> if it is continuous at every point of its domain.
+</div>
+
+<div class="theorem">
+Algebraic Combinations of Continuous Functions are Continuous: Constant multiples, sums and differences, products, quotients, and powers of continuous functions of two variables are continuous at every point in their domain. In particular, polynomials and rational functions of two variables are continuous at every point in their domain.
+</div>
+
+<div class="theorem">
+Suppose $f$ is a real-valued function of two real variables and $g$ is a real-valued function of one real variable. If $f$ is continuous at $(x_0,y_0)$ and $g$ is continuous at $f(x_0,y_0)$, then the composition $h=g\circ f$ defined by $h(x,y)=g(f(x,y))$ is also continuous at $(x_0,y_0)$.
+</div>
+
+<div class="example">
+Prove that $f$ defined by
+<div class="display">$
+f(x,y) =
+\begin{cases}
+\sinh\left(\dfrac{9(x-5)^{11}(y+2)\sqrt[3]{(y+2)^7}}{\sqrt[5]{4(x-5)^2+(y+2)^2}}\right), & (x,y) \ne (5,-2) \\
+0, & (x,y)=(5,-2)
+\end{cases}
+$</div>
+is continuous.
+</div>
+
+<div class="example">
+Prove that $f$ defined by
+<div class="display">$
+f(x,y) =
+\begin{cases}
+\dfrac{4(x+3)^{1/3}\sqrt{y}}{(x+3)^{2/3}+6y}, & (x,y) \ne (-3,0) \\
+0, & (x,y)=(-3,0)
+\end{cases}
+$</div>
+is discontinuous at $(x,y)=(-3,0)$.
+</div>
+
+<p>
+The definitions and theorems of limits and continuity can straightforwardly be extended to functions of three or more variables.
+</p>

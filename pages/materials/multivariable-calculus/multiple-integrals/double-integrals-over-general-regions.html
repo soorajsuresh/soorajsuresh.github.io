@@ -1,0 +1,87 @@
+---
+layout: section
+title: Double Integrals over General Regions
+chapter: 4
+section: 2
+styles:
+    - /assets/css/math.css
+libs:
+    - katex
+---
+
+<h2 class="section-heading">Double Integrals over General Regions</h2>
+
+<p>Let $f$ be a function defined on a bounded region $R$ (which may not be a rectangle).</p>
+
+<p>Cover $R$ with $n$ rectangles divided by a grid of lines parallel to the coordinate axes. The rectangles that lie completely in $R$ form a <strong>partition</strong> of $R$. These rectangles may not completely cover $R$ if the boundary of $R$ is curved.</p>
+
+<p>Number the rectangles $1, \dots, n$, with areas $\Delta A_1, \dots, \Delta A_n$. Evaluate $f$ at a point $(x_k, y_k)$ in rectangle $k$ and multiply by its area. The sum:</p>
+<div class="display">
+$S_n = f(x_1,y_1)\Delta A_1 + \dots + f(x_n,y_n)\Delta A_n = \sum_{k=1}^n f(x_k,y_k)\Delta A_k$
+</div>
+<p>is a <strong>Riemann sum</strong> of $f$ over $R$.</p>
+
+<p>If the limit exists as $n \to \infty$ and is independent of the partition and points chosen, $f$ is <strong>integrable</strong> over $R$, and the limit is the <strong>double integral</strong>:</p>
+<div class="display">
+$\iint_R f(x,y) \, dA$
+</div>
+
+<p>For positive $f$, the double integral represents the <strong>volume</strong> under the surface $z = f(x,y)$ over $R$.</p>
+
+<div class="example">
+If $f$ is continuous over $R$, a region bounded by $x = a$, $x = b$, $y = g_1(x)$, and $y = g_2(x)$, find a way to compute:
+<div class="display">
+$\iint_R f(x,y) \, dA$
+</div>
+</div>
+
+<div class="example">
+If $f$ is continuous over $R$, a region bounded by $x = h_1(y)$, $x = h_2(y)$, $y = c$, and $y = d$, find a way to compute:
+<div class="display">
+$\iint_R f(x,y) \, dA$
+</div>
+</div>
+
+<div class="theorem">
+<strong>Fubini's Theorem</strong><br>
+Suppose $f$ is continuous on $R$.
+<div class="display">
+\text{If } R = \{(x,y) \mid a \le x \le b, \ g_1(x) \le y \le g_2(x)\}, \quad \iint_R f(x,y)\,dA = \int_a^b \int_{g_1(x)}^{g_2(x)} f(x,y)\,dy\,dx
+</div>
+<div class="display">
+\text{If } R = \{(x,y) \mid h_1(y) \le x \le h_2(y), \ c \le y \le d\}, \quad \iint_R f(x,y)\,dA = \int_c^d \int_{h_1(y)}^{h_2(y)} f(x,y)\,dx\,dy
+</div>
+</div>
+
+<div class="result">
+<strong>Properties of Double Integrals</strong><br>
+Let $f$ and $g$ be continuous on a bounded region $R$. Then:
+<ol>
+<li><div class="display">$\iint_R c f(x,y) \, dA = c \iint_R f(x,y) \, dA$</div></li>
+<li><div class="display">$\iint_R [f(x,y) \pm g(x,y)] \, dA = \iint_R f(x,y) \, dA \pm \iint_R g(x,y) \, dA$</div></li>
+<li>If $R = R_1 \cup R_2$ with $R_1 \cap R_2 = \emptyset$, then:
+<div class="display">$\iint_R f(x,y) \, dA = \iint_{R_1} f(x,y) \, dA + \iint_{R_2} f(x,y) \, dA$</div>
+</li>
+</ol>
+</div>
+
+<div class="example">
+Evaluate:
+<div class="display">
+$\int_1^2 \int_0^{2x} x y^3 \, dy \, dx$
+</div>
+</div>
+
+<div class="example">
+If $R$ is the region in the first quadrant bounded by $y = x$, $y = \sqrt{3} x$, and $x^2 + y^2 = 1$, find:
+<div class="display">
+$\iint_R x y \, dA$
+</div>
+</div>
+
+<div class="example">
+Evaluate:
+<div class="display">
+$\int_0^{2\sqrt{\ln 3}} \int_{y/2}^{\sqrt{\ln 3}} e^{x^2} \, dx \, dy$
+</div>
+</div>

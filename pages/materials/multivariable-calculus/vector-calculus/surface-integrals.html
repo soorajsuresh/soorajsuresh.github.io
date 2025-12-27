@@ -1,0 +1,71 @@
+---
+layout: section
+title: Surface Integrals
+chapter: 5
+section: 6
+styles:
+    - /assets/css/math.css
+libs:
+    - katex
+---
+<h2 class="section-heading">{{ page.title }}</h2>
+
+<p>To calculate the total mass of a sheet represented by a surface in space, or to find the flow of a liquid across a surface in space, a new integral rises to the surface of our study.</p>
+
+<p>Let $f(x,y,z)$ be a real-valued function and $S$ be a surface in the domain of $f$ parametrized by 
+<div class="display">$ \mathbf{r}(u,v) = a(u,v)\mathbf{i} + b(u,v)\mathbf{j} + c(u,v)\mathbf{k}, \quad (u,v) \in R. $</div>
+The values of $f$ along $S$ are given by 
+<div class="display">$ f(\mathbf{r}(u,v)) = f(a(u,v), b(u,v), c(u,v)) $</div>
+</p>
+
+<p>Partition $S$ into $n$ patches whose areas are $\Delta \sigma_1, \dots, \Delta \sigma_n$. For every $k$ in $1, \dots, n$, choose a point $(x_k, y_k, z_k)$, evaluate $f$ at the point, and multiply this value of $f$ by the corresponding surface area $\Delta \sigma_k$. Let $S_n$ be the sum of these products 
+<div class="display">$ S_n = \sum_{k=1}^n f(x_k, y_k, z_k) \Delta \sigma_k $</div>
+</p>
+
+<p>If the limit 
+<div class="display">$ \lim_{n \to \infty} S_n $</div>
+exists and has the same value $L$ regardless of the chosen partition and regardless of the points chosen in each patch of the partition, then the limit is called the <span class="defn">surface integral of $f$ over $S$</span>, denoted 
+<div class="display">$ \iint_S f(x,y,z) \, d\sigma = \lim_{n \to \infty} \sum_{k=1}^n f(x_k, y_k, z_k) \Delta \sigma_k, $</div>
+where $d\sigma = |\mathbf{r}_u \times \mathbf{r}_v| \, du \, dv$.
+</p>
+
+<p>A surface is called <span class="defn">piecewise smooth</span> if it is a finite union of smooth surfaces $S_1, \dots, S_n$ with non-overlapping interiors joined by smooth curves, in which case 
+<div class="display">$ \iint_{S=S_1 \cup \dots \cup S_n} f(x,y,z) \, d\sigma = \iint_{S_1} f(x,y,z) \, d\sigma + \dots + \iint_{S_n} f(x,y,z) \, d\sigma $</div>
+</p>
+
+<p>If $S$ is a piecewise smooth surface and $f$ is continuous over $S$, then (it can be shown that) $\iint_S f(x,y,z) \, d\sigma$ exists.</p>
+
+<div class="example">
+  Integrate $f(x,y,z) = z - x$ over the cone $z = \sqrt{x^2 + y^2}$, $0 \le z \le 1$.
+</div>
+
+<div class="example">
+  Integrate $f(x,y,z) = \sqrt{x + 2xz}$ over $S$ if $S$ is the portion of the cylinder $z = \frac{y^2}{2}$ over the triangular region $R$ in the $xy$-plane: $x \ge 0$, $y \ge 0$, $x + y \le 1$.
+</div>
+
+<p>An <span class="defn">orientation</span> of a surface is a way of consistently choosing one of the two sides of a surface.</p>
+
+<p>If a surface is parametrized by $\mathbf{r}(u,v)$, then $\mathbf{r}_u \times \mathbf{r}_v$ and $-\mathbf{r}_u \times \mathbf{r}_v$ are fields of vectors normal to the surface. These two fields each give an orientation of the surface.</p>
+
+<p>If a continuous field $\mathbf{n}$ of unit normal vectors on a smooth surface can be chosen, then $S$ is called <span class="defn">orientable</span> (or <span class="defn">two-sided</span>).</p>
+
+<p>The M&ouml;bius band is a classic example of a surface that is not orientable.</p>
+
+<div class="definition">
+  If $\mathbf{F}$ is a continuous vector field in space over a smooth surface $S$ oriented by the field of unit normal vectors $\mathbf{n}$, then the <span class="defn">surface integral of $\mathbf{F}$ over $S$</span> is
+  <div class="display">$ \iint_S \mathbf{F} \cdot \mathbf{n} \, d\sigma $</div>
+  This integral is also called the <span class="defn">flux</span> of $\mathbf{F}$ across $S$.
+</div>
+
+<div class="example">
+  Derive a formula for 
+  <div class="display">$ \iint_S \mathbf{F} \cdot \mathbf{n} \, d\sigma $</div>
+</div>
+
+<div class="example">
+  Derive a formula for 
+  <div class="display">$ \iint_S \mathbf{F} \cdot \mathbf{n} \, d\sigma $</div>
+  if $\mathbf{F} = P\mathbf{i} + Q\mathbf{j} + R\mathbf{k}$ and $z = g(x,y)$.
+</div>
+
+</br>

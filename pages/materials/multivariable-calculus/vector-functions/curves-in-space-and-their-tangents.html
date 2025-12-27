@@ -1,0 +1,121 @@
+---
+layout: section
+title: Curves in Space and Their Tangents
+chapter: 2
+section: 1
+styles:
+    - /assets/css/math.css
+libs:
+    - katex
+---
+
+<h2 class="section-heading">Curves in Space and Their Tangents</h2>
+
+<div class="definition">
+  As a particle moves in space over an interval of time $I$, its coordinates can be defined parametrically by
+  <div class="display">$x=f(t),\ y=g(t),\ z=h(t),\ t\in I.$</div>
+  The set of all points $(x,y,z)$ for $t\in I$ make up a <span class="definition">curve</span> in space that is called the particle's <span class="definition">path</span>. The position vector of the particle at time $t$ (the vector that initiates at $O$ and terminates at the position of the particle $P(x,y,z)$ at time $t$) is
+  <div class="display">$\r(t)=\bracks{f(t)}\i+\bracks{g(t)}\j+\bracks{h(t)}\k,\ t\in I.$</div>
+  The functions $f$, $g$, and $h$ are called <span class="definition">component functions</span> of $\r$.
+</div>
+
+<div class="definition">
+  A <span class="definition">vector-valued function</span> (or <span class="definition">vector function</span>) on a domain $D$ is a function that assigns a vector to each element in $D$. The <span class="definition">graph</span> of a vector function is the curve that it traces out. When discussing vector-valued functions, real-valued functions are called <span class="definition">scalar functions</span>.
+</div>
+
+<p>The equation above defines $\r$ as a vector function of the real variable $t$ on the interval $I$.</p>
+
+<div class="example">
+  Sketch the graph of the vector function given by
+  <div class="display">$\r(t)=(\cos t)\i+(\sin t)\j+t\k$</div>
+</div>
+
+<div class="definition">
+  Let $\r$ be a vector function defined by $\r(t)=\bracks{f(t)}\i+\bracks{g(t)}\j+\bracks{h(t)}\k$ with domain $D$. Let <strong>L</strong> be a vector in space and $t_0$ be a number. Saying that the <span class="definition">limit</span> of $\r$ as $t$ approaches $t_0$ is <strong>L</strong> and writing
+  <div class="display">$\lim_{t\to t_0}\r(t)=\textbf{L}$</div>
+  means that for every number $\epsilon>0$, there exists a corresponding number $\delta>0$ such that for all $t\in D$,
+  <div class="display">$\abs{\r(t)-\textbf{L}}<\epsilon\text{ whenever }0<\abs{t-t_0}<\delta.$</div>
+</div>
+
+<div class="theorem">
+  Let $\textbf{L}=L_1\i+L_2\j+L_3\k$.
+  <div class="display">$\lim_{t\to t_0}\r(t)=\textbf{L}$</div>
+  if and only if
+  <div class="display">$\lim_{t\to t_0}f(t)=L_1,\ \lim_{t\to t_0}g(t)=L_2,\ \lim_{t\to t_0}h(t)=L_3.$</div>
+</div>
+
+<div class="definition">
+  A vector function $\r$ is called <span class="definition">continuous at a number</span> $t=t_0$ in its domain if
+  <div class="display">$\lim_{t\to t_0}\r(t)=\r(t_0).$</div>
+  If $\r$ is continuous at every point in its domain, then $\r$ is called <span class="definition">continuous</span>.
+</div>
+
+<div class="theorem">
+  A vector function is continuous at $t=t_0$ if and only if each of its component functions are continuous at $t=t_0$.
+</div>
+
+<div class="example">
+  Let $\r$ be the vector function defined by
+  <div class="display">$\r(t)=(\sin t)\i+(\cos t)\j+\floor{t}\k.$</div>
+  <ol type="a">
+    <li><span class="part">Evaluate the limit $\lim_{t\to\frac\pi6}\r(t)$.</span></li>
+    <li><span class="part">Determine where $\r$ is continuous.</span></li>
+  </ol>
+</div>
+
+<div class="example">
+  Find $\lim_{t\to\infty}\r(t)$ if
+  <div class="display">$\r(t)=\parens{\atan\sqrt[5]{\frac{t^4+11t^3-t^2-5t-7}{t^2-3t-3}}}\i+\parens{\frac{3t+1}{3t-4}}^{\pi t}\j+\parens{t^{-2}\tanh t}\k.$</div>
+</div>
+
+<p>Let $\r(t)=\bracks{f(t)}\i+\bracks{g(t)}\j+\bracks{h(t)}\k$ be the position vector of a particle moving along a curve in space, and suppose $f$, $g$, and $h$ are differentiable functions of $t$. Let $\Delta t$ represent a (positive) change in time, and denote the difference between the particle's position $P$ at time $t$ and $Q$ at time $t+\Delta t$ as</p>
+
+<div class="display">$\Delta\r=\r(t+\Delta t)-\r(t).$</div>
+
+<p>As $\Delta t$ approaches $0$, $Q$ approaches $P$ along the curve, and the secant line $PQ$ approaches a tangent line.</p>
+
+<div class="definition">
+  The vector function $\r$ is <span class="definition">differentiable</span> at $t$ if $f$, $g$, and $h$ are differentiable at $t$, and the <span class="definition">derivative</span> of $\r$ at $t$ is
+  <div class="display">$\r'(t)=\lim_{\Delta t\to0}\frac{\r(t+\Delta t)-\r(t)}{\Delta t}.$</div>
+</div>
+
+<div class="theorem">
+  If the vector function $\r$ is differentiable at $t$, then
+  <div class="display">$\ddx[\r][t]=\bracks{\ddx[f][t]}\i+\bracks{\ddx[g][t]}\j+\bracks{\ddx[h][t]}\k.$</div>
+</div>
+
+<div class="example">
+  Find $\ddx[][t]\r(t)$ if
+  <div class="display">$\r(t)=\parens{\ln{\sqrt[5]{\frac{\parens{2t^2+1}^7}{\parens{t-1}^2\e^{-2t}}}}}\i+\parens{\cosh t}^{\sqrt t}\j+\parens{t\sec(t^3-1)}\k.$</div>
+</div>
+
+<p>The curve traced by a vector function $\r$ is called <span class="definition">smooth</span> if $\ddx[\r][t]$ is continuous and never $\bm0$. A curve formed by connecting finitely many smooth curves is called <span class="definition">piecewise smooth</span>.</p>
+
+<div class="definition">
+  If $\r$ is the position vector of a particle moving along a smooth curve in space, then $\v=\ddx[\r][t]$ is the particle's <span class="definition">velocity vector</span>. If $\v$ is nonzero, then it is tangent to the curve and its direction is called the <span class="definition">direction of motion</span>. The magnitude of $\v$ is called the particle's <span class="definition">speed</span>, and $\a=\ddx[\v][t]$ is the particle's <span class="definition">acceleration vector</span>.
+</div>
+
+<div class="example">
+  Find the velocity and acceleration of a particle whose position vector is defined by
+  <div class="display">$\r(t)=(5\cos 2t)\i+(5\sin 2t)\j-10t\k.$</div>
+  Write the particle's velocity as a product of its speed and direction.
+</div>
+
+<div class="theorem">
+  If $\a$ and $\b$ are differentiable vector functions of $t$, $\textbf{C}$ a constant vector, $c$ a constant scalar, and $f$ a differentiable scalar function of $t$, then:
+  <ol class="properties">
+    <li><span class="property">$\ddx[][t]\textbf{C}=\bm0$</span></li>
+    <li><span class="property">$\ddx[][t]\bracks{c\a(t)}=c\a'(t)$</span></li>
+    <li><span class="property">$\ddx[][t]\bracks{f(t)\a(t)}=f'(t)\a(t)+f(t)\a'(t)$</span></li>
+    <li><span class="property">$\ddx[][t]\bracks{\a(t)\pm\b(t)}=\a'(t)\pm\b'(t)$</span></li>
+    <li><span class="property">$\ddx[][t]\bracks{\a(t)\cdot\b(t)}=\a'(t)\cdot\b(t)+\a(t)\cdot\b'(t)$</span></li>
+    <li><span class="property">$\ddx[][t]\bracks{\a(t)\times\b(t)}=\a'(t)\times\b(t)+\a(t)\times\b'(t)$</span></li>
+    <li><span class="property">$\ddx[][t]\bracks{\a(f(t))}=f'(t)\a'(f(t))$</span></li>
+  </ol>
+</div>
+
+<div class="example">
+  If $\r(t)$ is a vector function of constant length, then what can be said about $\r'(t)$?
+</div>
+
+<br/>

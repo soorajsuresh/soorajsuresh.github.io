@@ -1,0 +1,37 @@
+---
+layout: section
+title: The Divergence Theorem
+chapter: 5
+section: 8
+styles:
+    - /assets/css/math.css
+libs:
+    - katex
+---
+<h2 class="section-heading">{{ page.title }}</h2>
+
+<p>The <span class="defn">divergence</span> of a vector field $\mathbf{F}=P\mathbf{i}+Q\mathbf{j}+R\mathbf{k}$ is $\div \mathbf{F}=P_x+Q_y+R_z$, which can be written</p>
+
+<div class="display">
+$\div \mathbf{F} = \nabla \cdot \mathbf{F}$
+</div>
+
+<p>The scalar $\div \mathbf{F}$ still measures flux density, which, in space, is the flux per unit volume. Analogous to $\div \mathbf{F}$ in the plane, if $\mathbf{F}$ represents the velocity field of gas in space, then $\div \mathbf{F}$ is the rate at which the gas compresses or expands.</p>
+
+<div class="theorem">
+  <strong>Divergence Theorem</strong><br>
+  If $S$ is a piecewise smooth surface oriented by $\mathbf{n}$ enclosing the solid region $D$ and $\mathbf{F}$ is a vector field whose components have continuous first partial derivatives, then
+  <div class="display">
+  $\iint_S \mathbf{F} \cdot \mathbf{n} \, d\sigma = \iiint_D \div \mathbf{F} \, dV$.
+  </div>
+</div>
+
+<div class="example">
+  Evaluate 
+  <div class="display">
+  $\iint_S \mathbf{F} \cdot \mathbf{n} \, d\sigma$
+  </div>
+  where $\mathbf{F} = xy\mathbf{i} + (y^2 + e^{xz^2})\mathbf{j} + \sin(xy)\mathbf{k}$ and $S$ is the boundary of the solid region bounded by $z=1-x^2$, $z=0$, $y=0$, and $y+z=2$.
+</div>
+
+</br>

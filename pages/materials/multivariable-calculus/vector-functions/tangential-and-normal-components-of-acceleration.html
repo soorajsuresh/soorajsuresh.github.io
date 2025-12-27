@@ -1,0 +1,171 @@
+---
+layout: section
+title: Tangential and Normal Components of Acceleration
+chapter: 2
+section: 5
+styles:
+    - /assets/css/math.css
+libs:
+    - katex
+---
+
+<h2 class="section-heading">Tangential and Normal Components of Acceleration</h2>
+
+<p>
+In flying an airplane, $\T$, $\N$, and $\T\times\N$ are much more relevant than $\i$, $\j$, and $\k$.
+</p>
+
+<div class="definition">
+<p>
+The vector $\B=\T\times\N$ orthogonal to both $\T$ and $\N$ is called the <span class="definition">binormal vector</span>. The right-handed vector frame determined by $\T$, $\N$, and $\B$ is called the <span class="definition">Frenet frame</span> or the <span class="definition">TNB frame</span>.
+</p>
+</div>
+
+<p>
+We often need to know how much of the acceleration of an object acts in the direction of motion.
+</p>
+
+<p>
+Note,
+</p>
+
+<div class="display">$\v=\ddt[\r]=\ddx[\r][s]\ddt[s]=\T\ddt[s]\text,$</div>
+
+<p>
+so
+</p>
+
+<div class="display">$\a=\ddt\v=\ddt\bracks{\T\ddt[s]}=\parens{\ddt\T}\ddt[s]+\T\ddt\bracks{\ddt[s]}=\parens{\frac{\ddt[\T]}{\abs{\ddt[\T]}}\abs{\ddt[\T]}}\ddt[s]+\parens{\frac{\d^2s}{\dt^2}}\T$</div>
+
+<div class="display">$\a=\parens{\abs{\ddx[\T][s]}\frac{\d^2s}{\dt^2}}\N+\parens{\frac{\d^2s}{\dt^2}}\T$</div>
+
+<div class="display">$\a=\parens{\frac{\d^2s}{\dt^2}}\T+\parens{\kappa\parens{\ddt[s]}^2}\N$</div>
+
+<div class="display">$\a=\parens{\frac{\d^2s}{\dt^2}}\T+\parens{\kappa\abs\v^2}\N\text.$</div>
+
+<div class="definition">
+<p>
+The scalars
+</p>
+<div class="display">$a_T=\frac{\d^2s}{\dt^2}\text{\qquad and\qquad}a_N=\kappa\abs{\v}^2$</div>
+<p>
+are called the <span class="definition">tangential</span> and <span class="definition">normal</span> scalar components of acceleration.
+</p>
+</div>
+
+<p>
+Is $a_T=\scal_{\T}\a$ and $a_N=\scal_{\N}\a$?
+</p>
+
+<p>
+Note, the acceleration lies in the plane determined by $\T$ and $\N$.
+</p>
+
+<p>
+Note, $a_T$ represents the rate of change of speed, and $a_N$ is proportional to the rate of change of direction.
+</p>
+
+<div class="example">
+<p>
+Find formulas for $a_T$ and $a_N$ that do not involve $s$ or $\kappa$.
+</p>
+</div>
+
+<div class="result">
+<div class="display">$a_T=\ddt\abs\v\text{\qquad}a_N=\sqrt{\abs{\a}^2-a_T^2}$</div>
+</div>
+
+<p>
+Since $\B$ is a unit vector, it has constant length, so $\ddx[\B][s]$ is orthogonal to $\B$. Also,
+</p>
+
+<div class="display">$\ddx[\B][s]=\ddx[][s]\parens{\T\times\N}=\ddx[\T][s]\times\N+\T\times\ddx[\N][s]=\0+\T\times\ddx[\N][s]=\T\times\ddx[\N][s]$</div>
+
+<p>
+since $\ddx[\T][s]$ and $\N$ are parallel, so $\ddx[\B][s]$ is orthogonal to $\T$. Since $\ddx[\B][s]$ is orthogonal to both $\B$ and $\T$, it is parallel to $\N$, so it is a scalar multiple of $\N$.
+</p>
+
+<p>
+Conventionally, we write $\ddx[\B][s]=-\tau\N$.
+</p>
+
+<div class="example">
+<p>
+Find a formula for $\tau$.
+</p>
+</div>
+
+<div class="definition">
+<p>
+The <span class="definition">torsion</span> of a smooth curve with unit tangent, normal, and binormal vectors $\T$, $\N$, and $\B=\T\times\N$ is
+</p>
+<div class="display">$\tau=-\ddx[\B][s]\cdot\N.$</div>
+</div>
+
+<p>
+The planes of the TNB frame for a smooth curve are given names.
+</p>
+
+<div class="definition">
+<p>
+The plane that contains $\N$ and $\B$ (with normal vector $\T$) is called the <span class="definition">normal plane</span>.
+</p>
+<p>
+The plane that contains $\T$ and $\N$ (with normal vector $\B$) is called the <span class="definition">osculating plane</span>.
+</p>
+<p>
+The plane that contains $\T$ and $\B$ (with normal vector $\N$) is called the <span class="definition">rectifying plane</span>.
+</p>
+</div>
+
+<p>
+Curvature measures the rate at which the normal plane turns (about $\B$).
+</p>
+
+<p>
+Torsion measures the rate which the curve twists out of the osculating plane, or, equivalently, the rate at which the osculating plane turns (about $\T$).
+</p>
+
+<p>
+It can be shown that a space curve is a helix if and only if it has constant nonzero curvature and constant nonzero torsion.
+</p>
+
+<div class="example">
+<p>
+Find another formula for $\kappa$.
+</p>
+</div>
+
+<p>
+Note,
+</p>
+
+<div class="display">$\v\times\a=\parens{\ddt[s]\T}\times\parens{\frac{\d^2s}{\dt^2}\T+\kappa\parens{\ddt[s]}^2\N}$</div>
+
+<div class="display">$\v\times\a=\parens{\ddt[s]\frac{\d^2s}{\dt^2}}\parens{\T\times\T}+\kappa\parens{\ddt[s]}^3\parens{\T\times\N}$</div>
+
+<div class="display">$\v\times\a=\kappa\parens{\ddt[s]}^3\B\text,$</div>
+
+<p>
+so $\abs{\v\times\a}=\kappa\abs{\v}^3$, so
+</p>
+
+<div class="result">
+<div class="display">$\kappa=\frac{\abs{\v\times\a}}{\abs\v^3}$</div>
+</div>
+
+<div class="result">
+<div class="display">$\tau=\frac{\begin{vmatrix}\dot x&\dot y&\dot z\\\ddot x & \ddot y & \ddot z\\\dddot x&\dddot y& \dddot z\end{vmatrix}}{\abs{\v\times\a}^2}$</div>
+</div>
+
+<div class="example">
+<p>
+For the smooth curve $C$ parametrized by
+</p>
+<div class="display">$\r(t)=\parens{2\cos t}\i+\parens{2\sin t}\j+2t\k\text,\quad t\in(-\infty,\infty)\text,$</div>
+<p>
+present $\v(t)$, $\a(t)$, $a_T$, $a_N$, and equations of the normal, osculating, and rectifying planes of $C$ at $t=0$.
+</p>
+</div>
+
+<br/>

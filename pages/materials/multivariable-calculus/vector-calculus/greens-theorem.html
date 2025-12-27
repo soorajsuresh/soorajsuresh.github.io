@@ -1,0 +1,96 @@
+---
+layout: section
+title: Green's Theorem
+chapter: 5
+section: 4
+styles:
+    - /assets/css/math.css
+libs:
+    - katex
+katex_macros:
+  "\\D": "\\textbf{D}"
+---
+<h2 class="section-heading">{{ page.title }}</h2>
+
+<p>Let $\F(x,y)=P(x,y)\mathbf{i}+Q(x,y)\mathbf{j}$ be a velocity field of a fluid flowing in the plane where $P$ and $Q$ have continuous first partials on a region $E$. Let $(x,y)$ be a point in $E$, and let $R$ be a small rectangle with one corner at $(x,y)$ with sides parallel to the $x$- and $y$-axes of length $\Delta x$ and $\Delta y$ such that $R$ and its interior are contained in $E$.</p>
+
+<p>The circulation rate of a velocity field along a curve is the tangential component of the velocity field along the curve. The circulation rate of $\F$ along $R$ is the sum of the circulation rates of $\F$ along each side of $R$.</p>
+
+<table>
+<tr><td>Top:</td><td>$\F(x, y+\Delta y)\cdot(-\mathbf{i}\Delta x)=-P(x,y+\Delta y)\Delta x$</td></tr>
+<tr><td>Bottom:</td><td>$\F(x, y)\cdot(\mathbf{i}\Delta x)=P(x,y)\Delta x$</td></tr>
+<tr><td>Right:</td><td>$\F(x+\Delta x, y)\cdot(\mathbf{j}\Delta y)=Q(x+\Delta x,y)\Delta y$</td></tr>
+<tr><td>Left:</td><td>$\F(x, y)\cdot(-\mathbf{j}\Delta y)=-Q(x,y)\Delta y$</td></tr>
+</table>
+
+<p>Sum of top and bottom: <div class="display">$ -P(x,y+\Delta y)\Delta x + P(x,y)\Delta x \approx -(\partial_y P)\Delta x \Delta y $</div></p>
+<p>Sum of right and left: <div class="display">$ Q(x+\Delta x,y)\Delta y - Q(x,y)\Delta y \approx (\partial_x Q)\Delta x \Delta y $</div></p>
+<p>So, circulation rate per unit area (circulation density) is <div class="display">$ \partial_x Q - \partial_y P $</div></p>
+
+<div class="definition">
+  The <span class="defn">circulation density</span> of a vector field $\F=P\mathbf{i}+Q\mathbf{j}$ at the point $(x,y)$ is
+  <div class="display">$ \partial_x Q - \partial_y P $</div>
+</div>
+
+<p>So, for $\F = P\mathbf{i} + Q\mathbf{j}$, the circulation density is the $\mathbf{k}$-component of the curl: $\mathrm{curl}\,\F \cdot \mathbf{k} = Q_x - P_y$. It measures the rate and direction of rotation of the fluid in the plane: positive means counterclockwise rotation.</p>
+
+<p>The flux of a velocity field along a curve is the normal component across the curve. The flux of $\F$ across $R$ is the sum of the fluxes along each side:</p>
+
+<table>
+<tr><td>Top:</td><td>$\F(x, y+\Delta y)\cdot(\mathbf{j}\Delta x)=Q(x,y+\Delta y)\Delta x$</td></tr>
+<tr><td>Bottom:</td><td>$\F(x, y)\cdot(-\mathbf{j}\Delta x)=-Q(x,y)\Delta x$</td></tr>
+<tr><td>Right:</td><td>$\F(x+\Delta x, y)\cdot(\mathbf{i}\Delta y)=P(x+\Delta x,y)\Delta y$</td></tr>
+<tr><td>Left:</td><td>$\F(x, y)\cdot(-\mathbf{i}\Delta y)=-P(x,y)\Delta y$</td></tr>
+</table>
+
+<p>Flux density per unit area: <div class="display">$ \partial_x P + \partial_y Q $</div></p>
+
+<div class="definition">
+  The <span class="defn">divergence (flux density)</span> of $\F=P\mathbf{i}+Q\mathbf{j}$ at $(x,y)$ is
+  <div class="display">$ \mathrm{div}\,\F = \partial_x P + \partial_y Q $</div>
+</div>
+
+<p>So, $\mathrm{div}\,\F$ measures the local expansion or compression of a fluid: positive divergence indicates flow spreading out.</p>
+
+<div class="definition">
+  A simple closed curve $C$ is <span class="defn">positively oriented</span> if the region it encloses is always to the left as one moves along $C$ counterclockwise, and <span class="defn">negatively oriented</span> if the region is to the right when traversed clockwise.
+</div>
+
+<p>Line integral along a positively oriented curve: <div class="display">$ \oint_{\mathrm{CCW}} \F \cdot \T ds $</div></p>
+<p>Reversing orientation reverses the sign of the line integral.</p>
+
+<div class="theorem">
+  <strong>Green's Theorem (Circulation-Curl Form or Tangential Form)</strong><br>
+  If $C$ is a piecewise smooth, simple closed curve enclosing a region $R$ in the plane and $\F=P\mathbf{i}+Q\mathbf{j}$ has continuous first partials in an open region containing $R$, then
+  <div class="display">$ \oint_{\mathrm{CCW}} \F \cdot \T ds = \iint_R (\mathrm{curl}\,\F \cdot \mathbf{k}) dA $</div>
+</div>
+
+<p>Recall: <div class="display">$ \oint_{\mathrm{CCW}} \F \cdot \T ds = \oint_{\mathrm{CCW}} P dx + Q dy $</div>
+<div class="display">$ \iint_R (\mathrm{curl}\,\F \cdot \mathbf{k}) dA = \iint_R (Q_x - P_y) dA $</div></p>
+
+<div class="theorem">
+  <strong>Green's Theorem (Flux-Divergence Form or Normal Form)</strong><br>
+  If $C$ is piecewise smooth, simple closed, enclosing $R$, and $\F=P\mathbf{i}+Q\mathbf{j}$ with continuous first partials, then
+  <div class="display">$ \oint_{\mathrm{CCW}} \F \cdot \mathbf{n} ds = \iint_R (\mathrm{div}\,\F) dA $</div>
+</div>
+
+<p>Recall: <div class="display">$ \oint_{\mathrm{CCW}} \F \cdot \mathbf{n} ds = \oint_{\mathrm{CCW}} P dy - Q dx $</div>
+<div class="display">$ \iint_R (\mathrm{div}\,\F) dA = \iint_R (P_x + Q_y) dA $</div></p>
+
+<div class="example">
+  If $\F(x,y)=(x-y)\mathbf{i}+x\mathbf{j}$, determine the flow along $C$ and the flux across $C$, where $C$ is the unit circle.
+</div>
+
+<div class="example">
+  Evaluate $\int_C (x-y) dx + (x+y) dy$, where $C$ is the triangle with vertices $(0,0)$, $(1,3)$, and $(0,3)$.
+</div>
+
+<div class="example">
+  Verify Green's Theorem for $\F(x,y) = (xy^2 + \arctan x)\mathbf{i} + (x^2 y - y \sinh y)\mathbf{j}$ and the region $R$ bounded by $C = C_1 \cup C_2 \cup C_3$, where $C_1$ is the line from $(0,0)$ to $(4,0)$, $C_2$ from $(4,0)$ to $(4,2)$, and $C_3$ is $y = \sqrt{x}$ from $(4,2)$ to $(0,0)$.
+</div>
+
+<div class="example">
+  Use Green's Theorem to determine the area of an ellipse with semi-axes of lengths $a$ and $b$.
+</div>
+
+</br>

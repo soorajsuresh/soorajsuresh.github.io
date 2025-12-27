@@ -1,0 +1,75 @@
+---
+layout: section
+title: Triple Integrals in Rectangular Coordinates
+chapter: 4
+section: 5
+styles:
+    - /assets/css/math.css
+libs:
+    - katex
+---
+
+<h2 class="section-heading">Triple Integrals in Rectangular Coordinates</h2>
+
+<p>Let $f(x,y,z)$ be defined on a closed bounded solid region $D$.</p>
+
+<p>Contain $D$ in a rectangular box and divide the box into rectangular cells with planes parallel to the coordinate planes. Number the cells $1,\dots,n$ that lie completely inside $D$, with volumes $\Delta V_1,\dots,\Delta V_n$, where $\Delta V_k = \Delta x_k \Delta y_k \Delta z_k$.</p>
+
+<p>For each $k$, evaluate $f$ at a point $(x_k,y_k,z_k)$ in cell $k$ and multiply by the cell's volume. Summing these products gives a <strong>Riemann sum</strong>:</p>
+<div class="display">
+S_n = \sum_{k=1}^n f(x_k,y_k,z_k)\Delta V_k
+</div>
+
+<p>If the limit exists as the partition is refined:</p>
+<div class="display">
+\iiint_D f(x,y,z) \, dV = \lim_{n\to\infty} \sum_{k=1}^n f(x_k,y_k,z_k)\Delta V_k
+</div>
+
+<p>In this case, $f$ is called <strong>integrable</strong> over $D$, and the limit is called the <strong>triple integral</strong> of $f$ over $D$.</p>
+
+<div class="example">
+Interpret the triple integral:
+<div class="display">
+\iiint_D dV
+</div>
+</div>
+
+<p>A three-dimensional version of Fubini's Theorem allows evaluating a triple integral as an iterated integral. For example, if</p>
+<div class="display">
+D = \{ (x,y,z) \mid g_1(x,y)\le z\le g_2(x,y),\ h_1(x)\le y\le h_2(x),\ a\le x\le b \},
+</div>
+<p>then</p>
+<div class="display">
+\iiint_D f(x,y,z) \, dV = \int_a^b \int_{h_1(x)}^{h_2(x)} \int_{g_1(x,y)}^{g_2(x,y)} f(x,y,z) \, dz \, dy \, dx
+</div>
+
+<p>The properties of triple integrals are analogous to double integrals. Continuous functions are integrable over closed bounded solid regions with boundaries formed of finitely many smooth surfaces joined along finitely many smooth curves.</p>
+
+<div class="example">
+Find:
+<div class="display">
+\int_0^3 \int_0^3 \int_0^3 dV
+</div>
+</div>
+
+<div class="example">
+Find:
+<div class="display">
+\int_{-3}^3 \int_{-\sqrt{9-x^2}}^{\sqrt{9-x^2}} \int_0^8 dV
+</div>
+</div>
+
+<div class="example">
+Find:
+<div class="display">
+\int_{-3}^3 \int_{-\sqrt{9-x^2}}^{\sqrt{9-x^2}} \int_{-\sqrt{9-x^2-y^2}}^{\sqrt{9-x^2-y^2}} dV
+</div>
+</div>
+
+<div class="example">
+Present the volume of the solid region $D$ bounded by the surfaces $z=x^2+3y^2$ and $z=8-x^2-y^2$.
+</div>
+
+<div class="example">
+Consider the solid region $D$ enclosed by the surfaces $z=4-y^2$ and $y=x$ in the first octant. Set up an integral representing the volume of $D$ in the orders of integration $\mathrm{dz\,dy\,dx}$, $\mathrm{dx\,dy\,dz}$, $\mathrm{dy\,dx\,dz}$, and $\mathrm{dy\,dz\,dx}$.
+</div>

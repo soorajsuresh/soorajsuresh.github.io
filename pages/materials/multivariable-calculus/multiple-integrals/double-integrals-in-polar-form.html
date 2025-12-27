@@ -1,0 +1,81 @@
+---
+layout: section
+title: Double Integrals in Polar Form
+chapter: 4
+section: 4
+styles:
+    - /assets/css/math.css
+libs:
+    - katex
+---
+
+<h2 class="section-heading">Double Integrals in Polar Form</h2>
+
+<p>Let $f$ be a function of $r$ and $\theta$ defined over a region $R$ bounded by the rays $\theta=\alpha$ and $\theta=\beta$ and the continuous curves $r=g_1(\theta)$ and $r=g_2(\theta)$, where $0\le g_1(\theta)\le g_2(\theta)$ for $\alpha\le\theta\le\beta$.</p>
+
+<p>Let $Q$ be the region described by $0\le r\le a$ and $\alpha\le\theta\le\beta$, where $a\ge g_2(\theta)$.</p>
+
+<p>Cover $Q$ with rays $\theta=\alpha$, $\theta=\alpha+\Delta\theta$, ..., $\theta=\beta$, and circular arcs with radii $\Delta r$, $2\Delta r$, ..., $m\Delta r$, where $\Delta r = a/m$. The resulting patches are <strong>polar rectangles</strong> forming a <strong>partition</strong> of $Q$.</p>
+
+<p>Number the polar rectangles inside $R$ as $\Delta A_1,\dots,\Delta A_n$, and let $(r_k,\theta_k)$ be a point in rectangle $k$. Taking $r_k$ as the average radius of the inner and outer arcs, the area of rectangle $k$ is:</p>
+<div class="display">
+$\Delta A_k = r_k \Delta r \Delta\theta$
+</div>
+
+<p>The Riemann sum is:</p>
+<div class="display">
+$S_n = \sum_{k=1}^n f(r_k,\theta_k)\Delta A_k = \sum_{k=1}^n f(r_k,\theta_k) r_k \Delta r \Delta\theta$
+</div>
+
+<p>If the limit exists as the partition is refined:</p>
+<div class="display">
+$\iint_R f(r,\theta) \, dA = \iint_R f(r,\theta) r \, dr \, d\theta$
+</div>
+
+<p>In iterated form (Fubini's Theorem for polar coordinates):</p>
+<div class="display">
+$\iint_R f(r,\theta) \, dA = \int_{\theta=\alpha}^{\theta=\beta} \int_{r=g_1(\theta)}^{r=g_2(\theta)} f(r,\theta) r \, dr \, d\theta$
+</div>
+
+<div class="example">
+Set up the double integral representing the volume under $z=xy^3$ over the plane region $R$ inside $r=1+\cos\theta$ and outside $r=1$.
+</div>
+
+<div class="example">
+Interpret $\iint_R r \, dr \, d\theta$ for a closed and bounded region $R$ in the polar plane.
+</div>
+
+<div class="example">
+Determine the area enclosed by $r^2 = 4 \cos 2\theta$.
+</div>
+
+<div class="example">
+Evaluate $\iint_R e^{x^2+y^2} \, dA$ where $R$ is bounded by the $x$-axis and $y=\sqrt{1-x^2}$.
+</div>
+
+<div class="example">
+Evaluate $\int_0^1 \int_0^{\sqrt{1-x^2}} (x^2+y^2) \, dy \, dx$.
+</div>
+
+<div class="example">
+Evaluate $\int_1^{\sqrt{3}} \int_1^{\sqrt{4-x^2}} dy \, dx$ using polar integration.
+</div>
+
+<div class="example">
+Determine the volume of a right circular cylinder with radius $R$ and height $H$.
+</div>
+
+<div class="example">
+Find the volume of the solid under $z=9-x^2-y^2$ above the $xy$-plane.
+</div>
+
+<div class="example">
+Evaluate the <strong>Gaussian Integral</strong>:
+<div class="display">
+$\int_{-\infty}^{\infty} e^{-x^2} \, dx$
+</div>
+</div>
+
+<div class="example">
+Determine the area enclosed in the inner loop of the polar curve $r = 2 + 3 \sin \theta$.
+</div>
