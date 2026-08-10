@@ -3,6 +3,40 @@ package sitegen
 import "core:fmt"
 import "core:strings"
 
+Front_Matter :: struct {
+	libs: [dynamic]string,
+}
+
+parse_front_matter :: proc(input: string) -> (front_matter: Front_Matter, markdown: string) {
+	front_matter = Front_Matter{}
+	markdown = input
+
+	if !strings.has_prefix(input, "---") {
+		return
+	}
+
+	front_matter_text_start := strings.index(input, "---") + 3
+	front_matter_text_end :=
+		front_matter_text_start + strings.index(input[front_matter_text_start:], "---")
+	front_matter_text := input[front_matter_text_start:front_matter_text_end]
+
+	markdown = input[front_matter_text_end + 3:]
+
+	reading_libs: bool = false
+	for line in strings.split_lines(front_matter_text) {
+		if strings.has_prefix(line, "libs:") {
+			reading_libs = true
+			continue
+		}
+		if reading_libs {
+			if strings.has_prefix(line, "    - ") {
+				append(&front_matter.libs, line[6:])
+			}
+		}
+	}
+	return front_matter, markdown
+}
+
 markdown_to_html :: proc(input: string) -> string {
 	builder := strings.builder_make()
 	building_paragraph: bool = false

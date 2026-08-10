@@ -5,7 +5,7 @@ This is a paragraph.
 
 This is another.
 
-This one contains $\LaTeX$.
+This one contains $\LaTeX$, but the katex lib is not loaded on this page.
 
 ## Materials
 - [Trigonometry]()

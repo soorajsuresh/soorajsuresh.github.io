@@ -24,23 +24,32 @@ generate_html_file_from_md_file :: proc(input_path: string, output_path: string)
 	strings.write_string(&builder, "<html>\n")
 	strings.write_string(&builder, "\t<head>\n")
 	strings.write_string(&builder, "\t\t<link rel=\"stylesheet\" href=\"/assets/main.css\">\n")
-	strings.write_string(
-		&builder,
-		"\t\t<link rel=\"stylesheet\" href=\"/assets/katex/katex.min.css\">\n",
-	)
-	strings.write_string(
-		&builder,
-		"\t\t<script defer src=\"/assets/katex/katex.min.js\"></script>\n",
-	)
-	strings.write_string(
-		&builder,
-		"\t\t<script defer src=\"/assets/katex/contrib/auto-render.min.js\"></script>\n",
-	)
-	strings.write_string(&builder, "\t\t<script src=\"/assets/include-katex.js\"></script>\n")
+
+	front_matter, markup := parse_front_matter(string(data))
+	for lib in front_matter.libs {
+		if lib == "katex" {
+			strings.write_string(
+				&builder,
+				"\t\t<link rel=\"stylesheet\" href=\"/assets/katex/katex.min.css\">\n",
+			)
+			strings.write_string(
+				&builder,
+				"\t\t<script defer src=\"/assets/katex/katex.min.js\"></script>\n",
+			)
+			strings.write_string(
+				&builder,
+				"\t\t<script defer src=\"/assets/katex/contrib/auto-render.min.js\"></script>\n",
+			)
+			strings.write_string(
+				&builder,
+				"\t\t<script src=\"/assets/include-katex.js\"></script>\n",
+			)
+		}
+	}
 	strings.write_string(&builder, "\t</head>\n")
 	strings.write_string(&builder, "\t<body>\n")
 
-	strings.write_string(&builder, markdown_to_html(string(data)))
+	strings.write_string(&builder, markdown_to_html(markup))
 
 	strings.write_string(&builder, "\t</body>\n")
 	strings.write_string(&builder, "</html>\n")
