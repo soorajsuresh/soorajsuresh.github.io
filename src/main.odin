@@ -13,23 +13,26 @@ main :: proc() {
 }
 
 generate_html_file_from_md_file :: proc(input_path: string, output_path: string) {
-	current_directory: string = input_path
-	fmt.println(current_directory)
-
 	data, error := os.read_entire_file(input_path, context.allocator)
 	if error != nil {
-		fmt.println(error)
+		fmt.println("Error: ", error, "while reading file at ", input_path)
 		return
 	}
 
 	builder := strings.builder_make()
 	strings.write_string(&builder, "<!DOCTYPE html>\n")
 	strings.write_string(&builder, "<html>\n")
+
+	// head
 	strings.write_string(&builder, "\t<head>\n")
 
 	front_matter, markup := parse_front_matter(string(data))
 
 	// title
+	if front_matter.title == "" {
+		file_name := input_path[strings.last_index(input_path, "/") + 1:]
+		front_matter.title = title_from_kebab(strings.trim_suffix(file_name, ".md"))
+	}
 	strings.write_string(&builder, fmt.aprintf("\t\t<title>%s</title>\n", front_matter.title))
 
 	// main style
@@ -78,28 +81,30 @@ generate_html_file_from_md_file :: proc(input_path: string, output_path: string)
 	}
 
 	strings.write_string(&builder, "\t</head>\n")
+
+	// body
 	strings.write_string(&builder, "\t<body>\n")
 
 	// automatic h1
 	strings.write_string(&builder, fmt.aprintf("\t\t<h1>%s</h1>\n", front_matter.title))
 
 	// automatic body for index.md linking to subdirectories
-	if strings.has_suffix(input_path, "index.md") {
-		current_directory = strings.trim_suffix(input_path, "index.md")
-		fmt.println(current_directory)
+	if strings.has_suffix(input_path, "/index.md") {
+		current_directory := strings.trim_suffix(input_path, "/index.md")
 
 		error: os.Error
 
 		folder: ^os.File
 		folder, error = os.open(current_directory)
 		if error != nil {
-			fmt.println(error)
+			fmt.println("Error: ", error, "while opening ", current_directory)
 			return
 		}
 
 		items: []os.File_Info
 		items, error = os.read_dir(folder, 0, context.allocator)
 		if error != nil {
+			fmt.println("Error: ", error, "while reading directory ", folder)
 			return
 		}
 
@@ -108,17 +113,16 @@ generate_html_file_from_md_file :: proc(input_path: string, output_path: string)
 				continue
 			}
 
-			current_directory = fmt.aprintf("%s%s/", current_directory, item.name)
-			fmt.println(current_directory)
+			child_directory := fmt.aprintf("%s/%s", current_directory, item.name)
 
 			// directories become h2
 			h2: string = item.name
 			strings.write_string(&builder, fmt.aprintf("\t\t<h2>%s</h2>\n", title_from_kebab(h2)))
 
-			// subdirectories become ul->li
-			folder, error = os.open(current_directory)
+			// child directories become ul->li
+			folder, error = os.open(child_directory)
 			if error != nil {
-				fmt.println(error)
+				fmt.println("Error: ", error, "while opening ", child_directory)
 				return
 			}
 
@@ -134,21 +138,24 @@ generate_html_file_from_md_file :: proc(input_path: string, output_path: string)
 					continue
 				}
 
-				current_directory = fmt.aprintf("%s%s/", current_directory, item.name)
-				fmt.println(current_directory)
-
 				if !building_list {
 					strings.write_string(&builder, "\t\t<ul>\n")
 					building_list = true
 				}
 
 				if building_list {
+					fmt.println(current_directory)
+					fmt.println(child_directory)
+					root := strings.trim_prefix(child_directory, current_directory)
+					fmt.println(root)
 					link := fmt.aprintf(
-						"%s%s%s",
-						"../generated/",
-						strings.trim_prefix(current_directory, "../content/"),
-						"index.html",
+						"%s/%s/index.html",
+						strings.trim_prefix(root, "/"),
+						item.name,
 					)
+
+					fmt.println(link)
+					fmt.println()
 
 					strings.write_string(
 						&builder,
@@ -159,23 +166,11 @@ generate_html_file_from_md_file :: proc(input_path: string, output_path: string)
 						),
 					)
 				}
-
-				current_directory = strings.trim_suffix(
-					current_directory,
-					fmt.aprintf("%s/", item.name),
-				)
-				fmt.println(current_directory)
 			}
 
 			if building_list {
 				strings.write_string(&builder, "\t\t</ul>\n")
 			}
-
-			current_directory = strings.trim_suffix(
-				current_directory,
-				fmt.aprintf("%s/", item.name),
-			)
-			fmt.println(current_directory)
 		}
 	}
 
@@ -188,7 +183,7 @@ generate_html_file_from_md_file :: proc(input_path: string, output_path: string)
 	output := strings.to_string(builder)
 	error = os.write_entire_file_from_string(output_path, output)
 	if error != nil {
-		fmt.println(error)
+		fmt.println("Error: ", error, "while writing file at ", output_path)
 		return
 	}
 }
@@ -259,6 +254,7 @@ generate_directory :: proc(content_path: string, generated_path: string) {
 				generated_path,
 				strings.trim_suffix(item.name, ".md"),
 			)
+
 			generate_html_file_from_md_file(content_file_path, generated_file_path)
 		}
 	}

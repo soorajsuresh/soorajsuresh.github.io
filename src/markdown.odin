@@ -4,9 +4,11 @@ import "core:fmt"
 import "core:strings"
 
 Front_Matter :: struct {
-	title:  string,
-	layout: string,
-	libs:   [dynamic]string,
+	title:   string,
+	layout:  string,
+	chapter: string,
+	section: string,
+	libs:    [dynamic]string,
 }
 
 parse_front_matter :: proc(input: string) -> (front_matter: Front_Matter, markdown: string) {
