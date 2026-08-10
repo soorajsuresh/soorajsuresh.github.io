@@ -1,10 +1,17 @@
 # Sooraj's Nonsense
 
+## LaTeX Test
+This is a paragraph.
+
+This is another.
+
+This one contains $\LaTeX$.
+
 ## Materials
 - [Trigonometry]()
 - [Differential Calculus]()
 - [Integral Calculus]()
-- [Multivariable Calculus]()
+- [Multivariable Calculus](pages/materials/multivariable-calculus/index.html)
 
 ## Projects
 - [Pixel Perfect 2D Platforming Engine]()

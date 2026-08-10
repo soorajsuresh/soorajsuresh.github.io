@@ -6,7 +6,7 @@ import "core:strings"
 
 content_directory :: "../content"
 generated_directory :: "../generated"
-main_style :: "../assets/main.css"
+main_style :: "/assets/main.css"
 
 main :: proc() {
 	generate_directory(content_directory, generated_directory)
@@ -19,10 +19,33 @@ generate_html_file_from_md_file :: proc(input_path: string, output_path: string)
 		return
 	}
 
-	input := string(data)
-	output := markdown_to_html(input)
+	builder := strings.builder_make()
+	strings.write_string(&builder, "<!DOCTYPE html>\n")
+	strings.write_string(&builder, "<html>\n")
+	strings.write_string(&builder, "\t<head>\n")
+	strings.write_string(&builder, "\t\t<link rel=\"stylesheet\" href=\"/assets/main.css\">\n")
+	strings.write_string(
+		&builder,
+		"\t\t<link rel=\"stylesheet\" href=\"/assets/katex/katex.min.css\">\n",
+	)
+	strings.write_string(
+		&builder,
+		"\t\t<script defer src=\"/assets/katex/katex.min.js\"></script>\n",
+	)
+	strings.write_string(
+		&builder,
+		"\t\t<script defer src=\"/assets/katex/contrib/auto-render.min.js\"></script>\n",
+	)
+	strings.write_string(&builder, "\t\t<script src=\"/assets/include-katex.js\"></script>\n")
+	strings.write_string(&builder, "\t</head>\n")
+	strings.write_string(&builder, "\t<body>\n")
 
-	output = fmt.aprintf("<link rel=\"stylesheet\" href=\"%s\">\n%s", main_style, output)
+	strings.write_string(&builder, markdown_to_html(string(data)))
+
+	strings.write_string(&builder, "\t</body>\n")
+	strings.write_string(&builder, "</html>\n")
+
+	output := strings.to_string(builder)
 
 	error = os.write_entire_file_from_string(output_path, output)
 	if error != nil {
