@@ -4,7 +4,9 @@ import "core:fmt"
 import "core:strings"
 
 Front_Matter :: struct {
-	libs: [dynamic]string,
+	title:  string,
+	layout: string,
+	libs:   [dynamic]string,
 }
 
 parse_front_matter :: proc(input: string) -> (front_matter: Front_Matter, markdown: string) {
@@ -15,15 +17,30 @@ parse_front_matter :: proc(input: string) -> (front_matter: Front_Matter, markdo
 		return
 	}
 
+	// separate front matter and markup
 	front_matter_text_start := strings.index(input, "---") + 3
 	front_matter_text_end :=
 		front_matter_text_start + strings.index(input[front_matter_text_start:], "---")
 	front_matter_text := input[front_matter_text_start:front_matter_text_end]
-
 	markdown = input[front_matter_text_end + 3:]
 
+	// parse front matter text
 	reading_libs: bool = false
 	for line in strings.split_lines(front_matter_text) {
+
+		// title
+		if strings.has_prefix(line, "title: ") {
+			front_matter.title = line[7:]
+			continue
+		}
+
+		// layout
+		if strings.has_prefix(line, "layout: ") {
+			front_matter.layout = line[8:]
+			continue
+		}
+
+		// libraries
 		if strings.has_prefix(line, "libs:") {
 			reading_libs = true
 			continue
@@ -31,7 +48,9 @@ parse_front_matter :: proc(input: string) -> (front_matter: Front_Matter, markdo
 		if reading_libs {
 			if strings.has_prefix(line, "    - ") {
 				append(&front_matter.libs, line[6:])
+				continue
 			}
+			reading_libs = false
 		}
 	}
 	return front_matter, markdown
@@ -99,6 +118,15 @@ markdown_to_html :: proc(input: string) -> string {
 				building_paragraph = false
 			}
 		}
+	}
+
+	// done with file, so close any opened elements
+	if building_list {
+		strings.write_string(&builder, "\t\t</ul>\n")
+	}
+
+	if building_paragraph {
+		strings.write_string(&builder, "\n\t\t</p>\n")
 	}
 
 	return strings.to_string(builder)
