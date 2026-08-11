@@ -4,20 +4,69 @@ import "core:fmt"
 import "core:os"
 import "core:strings"
 
-content_directory :: "../content"
-generated_directory :: "../generated"
-main_style :: "/assets/css/main.css"
+DEBUG: bool = true
 
-main :: proc() {
-	generate_directory(content_directory, generated_directory)
+pages: [dynamic]Page
+directories: [dynamic]Directory
+
+root_directory := Directory {
+	name           = "content",
+	content_path   = content_directory_path,
+	generated_path = generated_directory_path,
 }
 
-generate_html_file_from_md_file :: proc(input_path: string, output_path: string) {
+content_directory_path: string : "../content"
+generated_directory_path: string : "../generated"
+main_style: string : "/assets/css/main.css"
+
+main :: proc() {
+
+	DEBUG = false
+	append(&directories, root_directory)
+	create_directories(content_directory_path, generated_directory_path)
+	create_pages()
+
+	DEBUG = true
+	if DEBUG {
+		fmt.println("Directories:")
+		fmt.println()
+
+		for directory in directories {
+			fmt.println(directory.name)
+
+			fmt.println("Pages inside:")
+			for page in directory.pages {
+				fmt.println("	", page.name)
+			}
+			fmt.println()
+		}
+	}
+
+	DEBUG = false
+	if DEBUG {
+		fmt.println()
+		fmt.println("Pages:")
+		for page in pages {
+			fmt.println(page.directory.name, "->", page.name)
+		}
+		fmt.println()
+	}
+
+	for &page in pages {
+		generate_html_file_from_page(&page)
+	}
+}
+
+generate_html_file_from_page :: proc(page: ^Page) {
+	input_path := page.content_path
+	output_path := page.generated_path
+
 	data, error := os.read_entire_file(input_path, context.allocator)
 	if error != nil {
-		fmt.println("Error: ", error, "while reading file at ", input_path)
+		fmt.println("Error:", error, "while reading file at", input_path)
 		return
 	}
+	front_matter, markup := parse_front_matter(string(data))
 
 	builder := strings.builder_make()
 	strings.write_string(&builder, "<!DOCTYPE html>\n")
@@ -25,8 +74,6 @@ generate_html_file_from_md_file :: proc(input_path: string, output_path: string)
 
 	// head
 	strings.write_string(&builder, "\t<head>\n")
-
-	front_matter, markup := parse_front_matter(string(data))
 
 	// title
 	if front_matter.title == "" {
@@ -86,10 +133,10 @@ generate_html_file_from_md_file :: proc(input_path: string, output_path: string)
 	strings.write_string(&builder, "\t<body>\n")
 
 	// automatic h1
-	strings.write_string(&builder, fmt.aprintf("\t\t<h1>%s</h1>\n", front_matter.title))
+	//strings.write_string(&builder, fmt.aprintf("\t\t<h1>%s</h1>\n", front_matter.title))
 
 	// automatic body for index.md linking to subdirectories
-	if strings.has_suffix(input_path, "/index.md") {
+	/*if strings.has_suffix(input_path, "/index.md") {
 		current_directory := strings.trim_suffix(input_path, "/index.md")
 
 		error: os.Error
@@ -97,14 +144,14 @@ generate_html_file_from_md_file :: proc(input_path: string, output_path: string)
 		folder: ^os.File
 		folder, error = os.open(current_directory)
 		if error != nil {
-			fmt.println("Error: ", error, "while opening ", current_directory)
+			fmt.println("Error:", error, "while opening", current_directory)
 			return
 		}
 
 		items: []os.File_Info
 		items, error = os.read_dir(folder, 0, context.allocator)
 		if error != nil {
-			fmt.println("Error: ", error, "while reading directory ", folder)
+			fmt.println("Error:", error, "while reading directory", folder)
 			return
 		}
 
@@ -122,7 +169,7 @@ generate_html_file_from_md_file :: proc(input_path: string, output_path: string)
 			// child directories become ul->li
 			folder, error = os.open(child_directory)
 			if error != nil {
-				fmt.println("Error: ", error, "while opening ", child_directory)
+				fmt.println("Error:", error, "while opening", child_directory)
 				return
 			}
 
@@ -144,18 +191,12 @@ generate_html_file_from_md_file :: proc(input_path: string, output_path: string)
 				}
 
 				if building_list {
-					fmt.println(current_directory)
-					fmt.println(child_directory)
 					root := strings.trim_prefix(child_directory, current_directory)
-					fmt.println(root)
 					link := fmt.aprintf(
 						"%s/%s/index.html",
 						strings.trim_prefix(root, "/"),
 						item.name,
 					)
-
-					fmt.println(link)
-					fmt.println()
 
 					strings.write_string(
 						&builder,
@@ -172,7 +213,7 @@ generate_html_file_from_md_file :: proc(input_path: string, output_path: string)
 				strings.write_string(&builder, "\t\t</ul>\n")
 			}
 		}
-	}
+	}*/
 
 	// manual body
 	strings.write_string(&builder, markdown_to_html(markup))
@@ -183,17 +224,17 @@ generate_html_file_from_md_file :: proc(input_path: string, output_path: string)
 	output := strings.to_string(builder)
 	error = os.write_entire_file_from_string(output_path, output)
 	if error != nil {
-		fmt.println("Error: ", error, "while writing file at ", output_path)
+		fmt.println("Error:", error, "while writing file at", output_path)
 		return
 	}
 }
 
-generate_directory :: proc(content_path: string, generated_path: string) {
+create_directories :: proc(content_path: string, generated_path: string) {
 	error: os.Error
 	folder: ^os.File
 	folder, error = os.open(content_path)
 	if error != nil {
-		fmt.println(error)
+		fmt.println("Error:", error, "while opening folder at", content_path)
 		return
 	}
 
@@ -203,15 +244,35 @@ generate_directory :: proc(content_path: string, generated_path: string) {
 		return
 	}
 
+	// create directories and missing index.md files
 	for item in items {
 		if item.type == os.File_Type.Directory {
+			if DEBUG {fmt.println("Found directory:", item.name)}
 			content_directory_path := fmt.aprintf("%s/%s", content_path, item.name)
+			generated_directory_path := fmt.aprintf("%s/%s", generated_path, item.name)
+			if DEBUG {fmt.println("content_directory_path:", content_directory_path)}
+			if DEBUG {fmt.println("generated_directory_path:", generated_directory_path)}
 
-			// check for missing index.md in content directory
-			found_index: bool = false
-			folder, error = os.open(content_path)
+			directory := Directory {
+				name           = item.name,
+				content_path   = content_directory_path,
+				generated_path = generated_directory_path,
+			}
+
+			if DEBUG {
+				fmt.println("Created Directory:")
+				fmt.println("name:", directory.name)
+				fmt.println("content_path:", directory.content_path)
+				fmt.println("generated_path:", directory.generated_path)
+				fmt.println()
+			}
+
+			append(&directories, directory)
+
+			// look for missing index.md
+			folder, error = os.open(content_directory_path)
 			if error != nil {
-				fmt.println(error)
+				fmt.println("Error:", error, "while opening folder at", content_directory_path)
 				return
 			}
 
@@ -221,45 +282,119 @@ generate_directory :: proc(content_path: string, generated_path: string) {
 				return
 			}
 
+			found_index: bool = false
 			for item in items {
-				if strings.has_suffix(item.name, "index.md") {
-					found_index = true
+				if item.type == os.File_Type.Regular {
+					if strings.has_suffix(item.name, "index.md") {
+						found_index = true
+					}
 				}
 			}
-			if !found_index {
 
-				// generate index.md
+			// create missing index.md
+			if !found_index {
+				if DEBUG {fmt.println("Missing index.md!")}
 				front_matter_text := fmt.aprintf(
-					"---\ntitle: %s\n---\n",
+					"---\ntitle: %s\n---",
 					title_from_kebab(item.name),
 				)
-
 				error = os.write_entire_file_from_string(
 					fmt.aprintf("%s%s", item.fullpath, "/index.md"),
 					front_matter_text,
 				)
 				if error != nil {
-					fmt.println(error)
+					fmt.println("Error:", error, "while writing to", item.fullpath, "/index.md")
 					return
 				}
 			}
 
-			generated_directory_path := fmt.aprintf("%s/%s", generated_path, item.name)
 			os.make_directory(generated_directory_path)
-			generate_directory(content_directory_path, generated_directory_path)
-		} else {
-			content_file_path := fmt.aprintf("%s/%s", content_path, item.name)
-			generated_file_path := fmt.aprintf(
-				"%s/%s.html",
-				generated_path,
-				strings.trim_suffix(item.name, ".md"),
-			)
 
-			generate_html_file_from_md_file(content_file_path, generated_file_path)
+			create_directories(content_directory_path, generated_directory_path)
 		}
 	}
-
 	os.close(folder)
+}
+
+create_pages :: proc() {
+
+	if DEBUG {fmt.println("Creating pages!")}
+
+	// pages in directories
+	for &directory in directories {
+		if DEBUG {fmt.println("In directory:", directory.name)}
+
+		// look for .md files
+		error: os.Error
+		folder: ^os.File
+
+		folder, error = os.open(directory.content_path)
+		if error != nil {
+			fmt.println("Error:", error, "while opening folder at", directory.content_path)
+			return
+		}
+
+		items: []os.File_Info
+		items, error = os.read_dir(folder, 0, context.allocator)
+		if error != nil {
+			fmt.println("Error:", error, "while reading directory", folder)
+			return
+		}
+
+		for item in items {
+			if item.type == os.File_Type.Regular {
+				if strings.has_suffix(item.name, ".md") {
+					if DEBUG {fmt.println("Found .md file!")}
+					page_create(&directory, item, directory.content_path, directory.generated_path)
+				}
+			}
+		}
+	}
+}
+
+page_create :: proc(
+	directory: ^Directory,
+	item: os.File_Info,
+	content_path: string,
+	generated_path: string,
+) {
+	content_file_path := fmt.aprintf("%s/%s", content_path, item.name)
+	generated_file_path := fmt.aprintf(
+		"%s/%s.html",
+		generated_path,
+		strings.trim_suffix(item.name, ".md"),
+	)
+
+	data, error := os.read_entire_file(content_file_path, context.allocator)
+	if error != nil {
+		fmt.println("Error:", error, "while reading file at", content_file_path)
+		return
+	}
+
+	front_matter, markdown := parse_front_matter(string(data))
+
+	page := Page {
+		directory      = directory,
+		name           = item.name,
+		content_path   = item.fullpath,
+		generated_path = generated_file_path,
+		front_matter   = front_matter,
+		markdown       = markdown,
+	}
+
+	if DEBUG {
+		fmt.println("Created Page:")
+		fmt.println("directory:", page.directory.name)
+		fmt.println("name:", page.name)
+		fmt.println("content_path:", page.content_path)
+		fmt.println("generated_path:", page.generated_path)
+		fmt.println("front_matter:", page.front_matter)
+		fmt.println("markdown:", page.markdown)
+		fmt.println()
+	}
+
+	append(&pages, page)
+	append(&directory.pages, page)
 }
 
 title_from_kebab :: proc(input: string) -> string {

@@ -42,6 +42,16 @@ parse_front_matter :: proc(input: string) -> (front_matter: Front_Matter, markdo
 			continue
 		}
 
+		// chapter and section
+		if strings.has_prefix(line, "chapter: ") {
+			front_matter.layout = line[9:]
+			continue
+		}
+		if strings.has_prefix(line, "section: ") {
+			front_matter.layout = line[9:]
+			continue
+		}
+
 		// libraries
 		if strings.has_prefix(line, "libs:") {
 			reading_libs = true
@@ -55,6 +65,7 @@ parse_front_matter :: proc(input: string) -> (front_matter: Front_Matter, markdo
 			reading_libs = false
 		}
 	}
+
 	return front_matter, markdown
 }
 
@@ -84,14 +95,17 @@ markdown_to_html :: proc(input: string) -> string {
 				building_list = true
 			}
 
+			list_item := line[2:]
+
 			// link in unordered list
-			link := line[2:]
-			if strings.has_prefix(link, "[") {
+			if strings.has_prefix(list_item, "[") {
 				strings.write_string(&builder, "\t\t\t<li>")
-				strings.write_string(&builder, markdown_parse_link(link))
+				strings.write_string(&builder, markdown_parse_link(list_item))
 				strings.write_string(&builder, "</li>\n")
+
+				// regular list item
 			} else {
-				strings.write_string(&builder, fmt.aprintf("\t\t\t<li>%s</li>\n", line[2:]))
+				strings.write_string(&builder, fmt.aprintf("\t\t\t<li>%s</li>\n", list_item))
 			}
 			continue
 		} else {
