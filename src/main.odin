@@ -1,5 +1,6 @@
 package sitegen
 
+import "core:flags/example"
 import "core:fmt"
 import "core:os"
 import "core:strings"
@@ -9,40 +10,42 @@ DEBUG: bool = true
 pages: [dynamic]Page
 directories: [dynamic]Directory
 
+content_directory_path: string : "../content"
+generated_directory_path: string : "../generated"
+main_style: string : "/assets/css/main.css"
+
 root_directory := Directory {
 	name           = "content",
 	content_path   = content_directory_path,
 	generated_path = generated_directory_path,
 }
 
-content_directory_path: string : "../content"
-generated_directory_path: string : "../generated"
-main_style: string : "/assets/css/main.css"
-
 main :: proc() {
-
-	DEBUG = false
 	append(&directories, root_directory)
-	create_directories(content_directory_path, generated_directory_path)
+	create_directories_in(&directories[0])
 	create_pages()
 
-	DEBUG = true
 	if DEBUG {
 		fmt.println("Directories:")
 		fmt.println()
 
-		for directory in directories {
-			fmt.println(directory.name)
+		for &directory in directories {
+			fmt.println("Directory:", directory.name)
 
 			fmt.println("Pages inside:")
-			for page in directory.pages {
+			for page_index in directory.page_indices {
+				page := pages[Page_ID(page_index)]
 				fmt.println("	", page.name)
+			}
+
+			fmt.println("Subdirectories inside:")
+			for subdirectory_index in directory.subdirectory_indices {
+				fmt.println("	- ", directories[subdirectory_index].name)
 			}
 			fmt.println()
 		}
 	}
 
-	DEBUG = false
 	if DEBUG {
 		fmt.println()
 		fmt.println("Pages:")
@@ -66,7 +69,6 @@ generate_html_file_from_page :: proc(page: ^Page) {
 		fmt.println("Error:", error, "while reading file at", input_path)
 		return
 	}
-	front_matter, markup := parse_front_matter(string(data))
 
 	builder := strings.builder_make()
 	strings.write_string(&builder, "<!DOCTYPE html>\n")
@@ -76,11 +78,14 @@ generate_html_file_from_page :: proc(page: ^Page) {
 	strings.write_string(&builder, "\t<head>\n")
 
 	// title
-	if front_matter.title == "" {
-		file_name := input_path[strings.last_index(input_path, "/") + 1:]
-		front_matter.title = title_from_kebab(strings.trim_suffix(file_name, ".md"))
+	if page.front_matter.title == "" {
+		strings.write_string(&builder, fmt.aprintf("\t\t<title>%s</title>\n", page.name))
+	} else {
+		strings.write_string(
+			&builder,
+			fmt.aprintf("\t\t<title>%s</title>\n", page.front_matter.title),
+		)
 	}
-	strings.write_string(&builder, fmt.aprintf("\t\t<title>%s</title>\n", front_matter.title))
 
 	// main style
 	strings.write_string(
@@ -89,7 +94,7 @@ generate_html_file_from_page :: proc(page: ^Page) {
 	)
 
 	// layout
-	switch front_matter.layout {
+	switch page.front_matter.layout {
 	case "chapter":
 		strings.write_string(
 			&builder,
@@ -104,7 +109,7 @@ generate_html_file_from_page :: proc(page: ^Page) {
 	}
 
 	//libraries
-	for lib in front_matter.libs {
+	for lib in page.front_matter.libs {
 
 		// include katex
 		if lib == "katex" {
@@ -133,90 +138,61 @@ generate_html_file_from_page :: proc(page: ^Page) {
 	strings.write_string(&builder, "\t<body>\n")
 
 	// automatic h1
-	//strings.write_string(&builder, fmt.aprintf("\t\t<h1>%s</h1>\n", front_matter.title))
+	strings.write_string(&builder, fmt.aprintf("\t\t<h1>%s</h1>\n", page.front_matter.title))
 
 	// automatic body for index.md linking to subdirectories
-	/*if strings.has_suffix(input_path, "/index.md") {
-		current_directory := strings.trim_suffix(input_path, "/index.md")
+	directory := page.directory
 
-		error: os.Error
+	folder: ^os.File
+	folder, error = os.open(directory.content_path)
+	if error != nil {
+		fmt.println("Error:", error, "while opening", directory.content_path)
+		return
+	}
 
-		folder: ^os.File
-		folder, error = os.open(current_directory)
-		if error != nil {
-			fmt.println("Error:", error, "while opening", current_directory)
-			return
-		}
+	items: []os.File_Info
+	items, error = os.read_dir(folder, 0, context.allocator)
+	if error != nil {
+		fmt.println("Error:", error, "while reading directory", folder)
+		return
+	}
+	os.close(folder)
 
-		items: []os.File_Info
-		items, error = os.read_dir(folder, 0, context.allocator)
-		if error != nil {
-			fmt.println("Error:", error, "while reading directory", folder)
-			return
-		}
+	for subdirectory_index in directory.subdirectory_indices {
+		subdirectory := directories[subdirectory_index]
 
-		for item in items {
-			if item.type != os.File_Type.Directory {
-				continue
-			}
+		h2: string = subdirectory.name
+		strings.write_string(&builder, fmt.aprintf("\t\t<h2>%s</h2>\n", title_from_kebab(h2)))
 
-			child_directory := fmt.aprintf("%s/%s", current_directory, item.name)
+		building_list: bool = false
+		for subsubdirectory_index in subdirectory.subdirectory_indices {
+			subsubdirectory := directories[subsubdirectory_index]
 
-			// directories become h2
-			h2: string = item.name
-			strings.write_string(&builder, fmt.aprintf("\t\t<h2>%s</h2>\n", title_from_kebab(h2)))
-
-			// child directories become ul->li
-			folder, error = os.open(child_directory)
-			if error != nil {
-				fmt.println("Error:", error, "while opening", child_directory)
-				return
-			}
-
-			items: []os.File_Info
-			items, error = os.read_dir(folder, 0, context.allocator)
-			if error != nil {
-				return
-			}
-
-			building_list: bool = false
-			for item in items {
-				if item.type != os.File_Type.Directory {
-					continue
-				}
-
-				if !building_list {
-					strings.write_string(&builder, "\t\t<ul>\n")
-					building_list = true
-				}
-
-				if building_list {
-					root := strings.trim_prefix(child_directory, current_directory)
-					link := fmt.aprintf(
-						"%s/%s/index.html",
-						strings.trim_prefix(root, "/"),
-						item.name,
-					)
-
-					strings.write_string(
-						&builder,
-						fmt.aprintf(
-							"\t\t\t<li><a href=\"%s\">%s</a></li>\n",
-							link,
-							title_from_kebab(item.name),
-						),
-					)
-				}
+			if !building_list {
+				strings.write_string(&builder, "\t\t<ul>\n")
+				building_list = true
 			}
 
 			if building_list {
-				strings.write_string(&builder, "\t\t</ul>\n")
+				link := subsubdirectory.generated_path
+				strings.write_string(
+					&builder,
+					fmt.aprintf(
+						"\t\t\t<li><a href=\"%s\">%s</a></li>\n",
+						link,
+						title_from_kebab(subsubdirectory.name),
+					),
+				)
 			}
 		}
-	}*/
+
+		if building_list {
+			strings.write_string(&builder, "\t\t</ul>\n")
+		}
+	}
 
 	// manual body
-	strings.write_string(&builder, markdown_to_html(markup))
+	strings.write_string(&builder, markdown_to_html(page.markdown))
 	strings.write_string(&builder, "\t</body>\n")
 	strings.write_string(&builder, "</html>\n")
 
@@ -229,7 +205,10 @@ generate_html_file_from_page :: proc(page: ^Page) {
 	}
 }
 
-create_directories :: proc(content_path: string, generated_path: string) {
+create_directories_in :: proc(directory: ^Directory) {
+	content_path := directory.content_path
+	generated_path := directory.generated_path
+
 	error: os.Error
 	folder: ^os.File
 	folder, error = os.open(content_path)
@@ -243,6 +222,7 @@ create_directories :: proc(content_path: string, generated_path: string) {
 	if error != nil {
 		return
 	}
+	os.close(folder)
 
 	// create directories and missing index.md files
 	for item in items {
@@ -253,21 +233,23 @@ create_directories :: proc(content_path: string, generated_path: string) {
 			if DEBUG {fmt.println("content_directory_path:", content_directory_path)}
 			if DEBUG {fmt.println("generated_directory_path:", generated_directory_path)}
 
-			directory := Directory {
+			subdirectory := Directory {
 				name           = item.name,
 				content_path   = content_directory_path,
 				generated_path = generated_directory_path,
 			}
 
 			if DEBUG {
-				fmt.println("Created Directory:")
-				fmt.println("name:", directory.name)
-				fmt.println("content_path:", directory.content_path)
-				fmt.println("generated_path:", directory.generated_path)
+				fmt.println("Creating Directory in:", directory.name)
+				fmt.println("name:", subdirectory.name)
+				fmt.println("content_path:", subdirectory.content_path)
+				fmt.println("generated_path:", subdirectory.generated_path)
 				fmt.println()
 			}
 
-			append(&directories, directory)
+			subdirectory_index := Directory_ID(len(directories))
+			append(&directories, subdirectory)
+			append(&directory.subdirectory_indices, subdirectory_index)
 
 			// look for missing index.md
 			folder, error = os.open(content_directory_path)
@@ -281,7 +263,9 @@ create_directories :: proc(content_path: string, generated_path: string) {
 			if error != nil {
 				return
 			}
+			os.close(folder)
 
+			// use Page?
 			found_index: bool = false
 			for item in items {
 				if item.type == os.File_Type.Regular {
@@ -310,10 +294,17 @@ create_directories :: proc(content_path: string, generated_path: string) {
 
 			os.make_directory(generated_directory_path)
 
-			create_directories(content_directory_path, generated_directory_path)
+			create_directories_in(&directories[subdirectory_index])
 		}
 	}
-	os.close(folder)
+
+	if DEBUG {
+		fmt.println("Subdirectories created in:", directory.name)
+		for subdirectory_index in directory.subdirectory_indices {
+			fmt.println("	- ", directories[subdirectory_index].name)
+		}
+		fmt.println()
+	}
 }
 
 create_pages :: proc() {
@@ -359,11 +350,8 @@ page_create :: proc(
 	generated_path: string,
 ) {
 	content_file_path := fmt.aprintf("%s/%s", content_path, item.name)
-	generated_file_path := fmt.aprintf(
-		"%s/%s.html",
-		generated_path,
-		strings.trim_suffix(item.name, ".md"),
-	)
+	page_name := strings.trim_suffix(item.name, ".md")
+	generated_file_path := fmt.aprintf("%s/%s.html", generated_path, page_name)
 
 	data, error := os.read_entire_file(content_file_path, context.allocator)
 	if error != nil {
@@ -375,7 +363,7 @@ page_create :: proc(
 
 	page := Page {
 		directory      = directory,
-		name           = item.name,
+		name           = page_name,
 		content_path   = item.fullpath,
 		generated_path = generated_file_path,
 		front_matter   = front_matter,
@@ -393,8 +381,9 @@ page_create :: proc(
 		fmt.println()
 	}
 
+	page_index := Page_ID(len(pages))
 	append(&pages, page)
-	append(&directory.pages, page)
+	append(&directory.page_indices, page_index)
 }
 
 title_from_kebab :: proc(input: string) -> string {
