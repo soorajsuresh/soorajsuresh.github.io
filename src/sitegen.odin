@@ -1,10 +1,14 @@
 package sitegen
 
+Directory_ID :: distinct int
+Page_ID :: distinct int
+
 Directory :: struct {
-	name:           string,
-	content_path:   string,
-	generated_path: string,
-	pages:          [dynamic]Page,
+	name:                 string,
+	content_path:         string,
+	generated_path:       string,
+	subdirectory_indices: [dynamic]Directory_ID,
+	page_indices:         [dynamic]Page_ID,
 }
 
 Page :: struct {
