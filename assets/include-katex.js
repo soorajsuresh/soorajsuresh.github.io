@@ -1,6 +1,6 @@
 window.katexDelimiters = [
     { left: "\\[", right: "\\]", display: true },
-    { left: "$",  right: "$",  display: false }
+    { left: "$", right: "$", display: false }
 ];
 
 window.katexMacros = {
@@ -23,43 +23,46 @@ window.katexMacros = {
     "\\sech": "\\mathop{\\operatorname{sech}}",
     "\\erf": "\\mathop{\\operatorname{erf}}",
     "\\e": "\\mathrm e",
-    "\\d" : "\\mathop{\\mathrm d#1}",
-    "\\dx" : "\\d x",
-    "\\dt" : "\\d t",
-    "\\dy" : "\\d y",
-    "\\dd" : "\\frac{\\d{}}{\\d#1}",
-    "\\dydx" : "\\frac{\\d#1}{\\d#2}",
-    "\\dddx" : "\\dfrac{\\d}{\\d#1}",
-    "\\ddydx" : "\\dfrac{\\d#1}{\\d#2}",
-    "\\drdt" : "\\dydx\\r t",
-    "\\ddrdt" : "\\ddydx\\r t",
-    "\\p" : "\\partial#1",
-    "\\pp" : "\\frac{\\partial}{\\p#1}",
-    "\\pzpx" : "\\frac{\\p#1}{\\p#2}",
-    "\\dpzpx" : "\\dfrac{\\p#1}{\\p#2}",
-    "\\qed" : "\\htmlClass{qed}{}",
-    "\\contradiction" : "\\mathrel↯"
-};    
+    "\\d": "\\mathop{\\mathrm d#1}",
+    "\\dx": "\\d x",
+    "\\dt": "\\d t",
+    "\\dy": "\\d y",
+    "\\dd": "\\frac{\\d{}}{\\d#1}",
+    "\\dydx": "\\frac{\\d#1}{\\d#2}",
+    "\\dddx": "\\dfrac{\\d}{\\d#1}",
+    "\\ddydx": "\\dfrac{\\d#1}{\\d#2}",
+    "\\drdt": "\\dydx\\r t",
+    "\\ddrdt": "\\ddydx\\r t",
+    "\\p": "\\partial#1",
+    "\\pp": "\\frac{\\partial}{\\p#1}",
+    "\\pzpx": "\\frac{\\p#1}{\\p#2}",
+    "\\dpzpx": "\\dfrac{\\p#1}{\\p#2}",
+    "\\qed": "\\htmlClass{qed}{}",
+    "\\contradiction": "\\mathrel↯"
+};
+
+// if there are katex macros
+Object.assign(window.katexMacros, "");
 
 // queue for render calls before katex is ready
 window.katexQueue = window.katexQueue || [];
 
 // render katex with my options, when katex is ready
-window.renderMath = function(container) {
+window.renderMath = function (container) {
     if (typeof window.katex === "undefined") {
         window.katexQueue.push(container);
         return;
     }
     renderMathInElement(container, {
-            delimiters: window.katexDelimiters,
-            macros: window.katexMacros,
-            trust: true
-        }
+        delimiters: window.katexDelimiters,
+        macros: window.katexMacros,
+        trust: true
+    }
     );
 }
 
 document.addEventListener(
-    "DOMContentLoaded", function() {
+    "DOMContentLoaded", function () {
         window.renderMath(document.body);
 
         while (window.katexQueue.length) {

@@ -19,3 +19,22 @@ Page :: struct {
 	front_matter:   Front_Matter,
 	markdown:       string,
 }
+
+Layout :: enum {
+	Chapter,
+	Section,
+}
+
+Lib :: enum {
+	KaTeX,
+	Three_JS,
+}
+
+Front_Matter :: struct {
+	title:        string,
+	layout:       Layout,
+	chapter:      string,
+	section:      string,
+	libs:         [dynamic]Lib,
+	katex_macros: map[string]string,
+}

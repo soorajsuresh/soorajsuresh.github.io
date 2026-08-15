@@ -1,11 +1,12 @@
 package sitegen
 
+import "core:encoding/json"
 import "core:flags/example"
 import "core:fmt"
 import "core:os"
 import "core:strings"
 
-DEBUG: bool = true
+DEBUG: bool = false
 
 pages: [dynamic]Page
 directories: [dynamic]Directory
@@ -21,6 +22,8 @@ root_directory := Directory {
 }
 
 main :: proc() {
+	defer free_memory()
+
 	append(&directories, root_directory)
 	create_directories_in(&directories[0])
 	create_pages()
@@ -70,75 +73,95 @@ generate_html_file_from_page :: proc(page: ^Page) {
 		return
 	}
 
-	builder := strings.builder_make()
-	strings.write_string(&builder, "<!DOCTYPE html>\n")
-	strings.write_string(&builder, "<html>\n")
+	html_string_builder := strings.builder_make()
+	strings.write_string(&html_string_builder, "<!DOCTYPE html>\n")
+	strings.write_string(&html_string_builder, "<html>\n")
+
+	// TODO: make index.js for every index.md; marshal the katex macros in, modeled after include-katex.js; write including the index.js into the html
+	js_string_builder := strings.builder_make()
 
 	// head
-	strings.write_string(&builder, "\t<head>\n")
+	strings.write_string(&html_string_builder, "\t<head>\n")
 
 	// title
 	if page.front_matter.title == "" {
-		strings.write_string(&builder, fmt.aprintf("\t\t<title>%s</title>\n", page.name))
+		strings.write_string(
+			&html_string_builder,
+			fmt.aprintf("\t\t<title>%s</title>\n", page.name),
+		)
 	} else {
 		strings.write_string(
-			&builder,
+			&html_string_builder,
 			fmt.aprintf("\t\t<title>%s</title>\n", page.front_matter.title),
 		)
 	}
 
 	// main style
 	strings.write_string(
-		&builder,
+		&html_string_builder,
 		fmt.aprintf("\t\t<link rel=\"stylesheet\" href=\"%s\">\n", main_style),
 	)
 
 	// layout
 	switch page.front_matter.layout {
-	case "chapter":
+	case Layout.Chapter:
 		strings.write_string(
-			&builder,
+			&html_string_builder,
 			"\t\t<link rel=\"stylesheet\" href=\"/assets/chapter.css\">\n",
 		)
-	case "section":
+	case Layout.Section:
+		append(&page.front_matter.libs, Lib.KaTeX)
 		strings.write_string(
-			&builder,
+			&html_string_builder,
 			"\t\t<link rel=\"stylesheet\" href=\"/assets/section.css\">\n",
 		)
-		strings.write_string(&builder, "\t\t<link rel=\"stylesheet\" href=\"/assets/math.css\">\n")
+		strings.write_string(
+			&html_string_builder,
+			"\t\t<link rel=\"stylesheet\" href=\"/assets/math.css\">\n",
+		)
 	}
 
 	//libraries
 	for lib in page.front_matter.libs {
 
 		// include katex
-		if lib == "katex" {
+		if lib == Lib.KaTeX {
 			strings.write_string(
-				&builder,
+				&html_string_builder,
 				"\t\t<link rel=\"stylesheet\" href=\"/assets/katex/katex.min.css\">\n",
 			)
 			strings.write_string(
-				&builder,
+				&html_string_builder,
 				"\t\t<script defer src=\"/assets/katex/katex.min.js\"></script>\n",
 			)
 			strings.write_string(
-				&builder,
+				&html_string_builder,
 				"\t\t<script defer src=\"/assets/katex/contrib/auto-render.min.js\"></script>\n",
 			)
 			strings.write_string(
-				&builder,
+				&html_string_builder,
 				"\t\t<script src=\"/assets/include-katex.js\"></script>\n",
 			)
+
+			// katex macros
+			for macro, definition in page.front_matter.katex_macros {
+				data: []byte
+				error: json.Marshal_Error
+				data, error = json.marshal(page.front_matter.katex_macros)
+			}
 		}
 	}
 
-	strings.write_string(&builder, "\t</head>\n")
+	strings.write_string(&html_string_builder, "\t</head>\n")
 
 	// body
-	strings.write_string(&builder, "\t<body>\n")
+	strings.write_string(&html_string_builder, "\t<body>\n")
 
 	// automatic h1
-	strings.write_string(&builder, fmt.aprintf("\t\t<h1>%s</h1>\n", page.front_matter.title))
+	strings.write_string(
+		&html_string_builder,
+		fmt.aprintf("\t\t<h1>%s</h1>\n", page.front_matter.title),
+	)
 
 	// automatic body for index.md linking to subdirectories
 	directory := page.directory
@@ -162,21 +185,24 @@ generate_html_file_from_page :: proc(page: ^Page) {
 		subdirectory := directories[subdirectory_index]
 
 		h2: string = subdirectory.name
-		strings.write_string(&builder, fmt.aprintf("\t\t<h2>%s</h2>\n", title_from_kebab(h2)))
+		strings.write_string(
+			&html_string_builder,
+			fmt.aprintf("\t\t<h2>%s</h2>\n", title_from_kebab(h2)),
+		)
 
 		building_list: bool = false
 		for subsubdirectory_index in subdirectory.subdirectory_indices {
 			subsubdirectory := directories[subsubdirectory_index]
 
 			if !building_list {
-				strings.write_string(&builder, "\t\t<ul>\n")
+				strings.write_string(&html_string_builder, "\t\t<ul>\n")
 				building_list = true
 			}
 
 			if building_list {
 				link := subsubdirectory.generated_path
 				strings.write_string(
-					&builder,
+					&html_string_builder,
 					fmt.aprintf(
 						"\t\t\t<li><a href=\"%s\">%s</a></li>\n",
 						link,
@@ -187,17 +213,17 @@ generate_html_file_from_page :: proc(page: ^Page) {
 		}
 
 		if building_list {
-			strings.write_string(&builder, "\t\t</ul>\n")
+			strings.write_string(&html_string_builder, "\t\t</ul>\n")
 		}
 	}
 
 	// manual body
-	strings.write_string(&builder, markdown_to_html(page.markdown))
-	strings.write_string(&builder, "\t</body>\n")
-	strings.write_string(&builder, "</html>\n")
+	strings.write_string(&html_string_builder, markdown_to_html(page.markdown))
+	strings.write_string(&html_string_builder, "\t</body>\n")
+	strings.write_string(&html_string_builder, "</html>\n")
 
 	// generate .html file
-	output := strings.to_string(builder)
+	output := strings.to_string(html_string_builder)
 	error = os.write_entire_file_from_string(output_path, output)
 	if error != nil {
 		fmt.println("Error:", error, "while writing file at", output_path)
@@ -400,4 +426,15 @@ title_from_kebab :: proc(input: string) -> string {
 		strings.write_string(&builder, fmt.aprintf("%c%s", c, part[1:]))
 	}
 	return strings.to_string(builder)
+}
+
+free_memory :: proc() {
+	for directory in directories {
+		delete(directory.subdirectory_indices)
+		delete(directory.page_indices)
+	}
+	for page in pages {
+		delete(page.front_matter.libs)
+		delete(page.front_matter.katex_macros)
+	}
 }

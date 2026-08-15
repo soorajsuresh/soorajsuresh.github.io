@@ -3,14 +3,6 @@ package sitegen
 import "core:fmt"
 import "core:strings"
 
-Front_Matter :: struct {
-	title:   string,
-	layout:  string,
-	chapter: string,
-	section: string,
-	libs:    [dynamic]string,
-}
-
 parse_front_matter :: proc(input: string) -> (front_matter: Front_Matter, markdown: string) {
 	front_matter = Front_Matter{}
 	markdown = input
@@ -28,6 +20,7 @@ parse_front_matter :: proc(input: string) -> (front_matter: Front_Matter, markdo
 
 	// parse front matter text
 	reading_libs: bool = false
+	reading_katex_macros: bool = false
 	for line in strings.split_lines(front_matter_text) {
 
 		// title
@@ -38,17 +31,20 @@ parse_front_matter :: proc(input: string) -> (front_matter: Front_Matter, markdo
 
 		// layout
 		if strings.has_prefix(line, "layout: ") {
-			front_matter.layout = line[8:]
-			continue
+			layout_string := line[8:]
+			switch layout_string {
+			case "chapter":
+				front_matter.layout = Layout.Chapter
+			case "section":
+				front_matter.layout = Layout.Section
+			}
 		}
 
 		// chapter and section
 		if strings.has_prefix(line, "chapter: ") {
-			front_matter.layout = line[9:]
 			continue
 		}
 		if strings.has_prefix(line, "section: ") {
-			front_matter.layout = line[9:]
 			continue
 		}
 
@@ -58,11 +54,31 @@ parse_front_matter :: proc(input: string) -> (front_matter: Front_Matter, markdo
 			continue
 		}
 		if reading_libs {
-			if strings.has_prefix(line, "    - ") {
-				append(&front_matter.libs, line[6:])
+			if strings.has_prefix(line, "    ") {
+				lib_string := line[4:]
+				switch lib_string {
+				case "katex":
+					append(&front_matter.libs, Lib.KaTeX)
+				}
 				continue
 			}
 			reading_libs = false
+		}
+
+		// katex macros
+		if strings.has_prefix(line, "katex_macros:") {
+			reading_katex_macros = true
+			continue
+		}
+		if reading_katex_macros {
+			if strings.has_prefix(line, "    ") {
+				parts := strings.split(line, ":")
+				macro := strings.trim_space(parts[0])
+				definition := strings.trim_space(parts[1])
+				if DEBUG {fmt.println("macro:", macro, '\n', "definition:", definition)}
+				front_matter.katex_macros = make(map[string]string)
+				front_matter.katex_macros[macro] = definition
+			}
 		}
 	}
 
