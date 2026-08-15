@@ -42,7 +42,7 @@ window.katexMacros = {
 };
 
 // if there are katex macros
-Object.assign(window.katexMacros, "__KATEX_MACROS__");
+Object.assign(window.katexMacros, {"\\d":"\\textbf{d}","\\RR":"test\\textbf{R}\\R"});
 
 // queue for render calls before katex is ready
 window.katexQueue = window.katexQueue || [];

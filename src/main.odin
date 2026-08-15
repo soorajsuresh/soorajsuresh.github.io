@@ -6,14 +6,13 @@ import "core:fmt"
 import "core:os"
 import "core:strings"
 
-DEBUG: bool = false
+DEBUG: bool = true
 
 pages: [dynamic]Page
 directories: [dynamic]Directory
 
 content_directory_path: string : "../content"
 generated_directory_path: string : "../generated"
-main_style: string : "/assets/css/main.css"
 
 root_directory := Directory {
 	name           = "content",
@@ -21,11 +20,14 @@ root_directory := Directory {
 	generated_path = generated_directory_path,
 }
 
+main_style: string : "/assets/css/main.css"
+
 main :: proc() {
 	defer free_memory()
 
 	append(&directories, root_directory)
-	create_directories_in(&directories[0])
+	create_directories_in(&root_directory)
+
 	create_pages()
 
 	if DEBUG {
@@ -59,11 +61,11 @@ main :: proc() {
 	}
 
 	for &page in pages {
-		generate_html_file_from_page(&page)
+		generate_from_page(&page)
 	}
 }
 
-generate_html_file_from_page :: proc(page: ^Page) {
+generate_from_page :: proc(page: ^Page) {
 	input_path := page.content_path
 	output_path := page.generated_path
 
@@ -74,11 +76,10 @@ generate_html_file_from_page :: proc(page: ^Page) {
 	}
 
 	html_string_builder := strings.builder_make()
+	js_string_builder := strings.builder_make()
+
 	strings.write_string(&html_string_builder, "<!DOCTYPE html>\n")
 	strings.write_string(&html_string_builder, "<html>\n")
-
-	// TODO: make index.js for every index.md; marshal the katex macros in, modeled after include-katex.js; write including the index.js into the html
-	js_string_builder := strings.builder_make()
 
 	// head
 	strings.write_string(&html_string_builder, "\t<head>\n")
@@ -138,19 +139,50 @@ generate_html_file_from_page :: proc(page: ^Page) {
 				&html_string_builder,
 				"\t\t<script defer src=\"/assets/katex/contrib/auto-render.min.js\"></script>\n",
 			)
-			strings.write_string(
-				&html_string_builder,
-				"\t\t<script src=\"/assets/include-katex.js\"></script>\n",
+
+			// js
+			include_katex: []byte
+			include_katex, error = os.read_entire_file(
+				"../assets/include-katex.js",
+				context.allocator,
 			)
+			if error != nil {
+				fmt.println("Error:", error, "while reading file at", "../assets/include-katex.js")
+				return
+			}
+			katex_js_string := string(include_katex)
 
 			// katex macros
-			for macro, definition in page.front_matter.katex_macros {
+			if len(page.front_matter.katex_macros) > 0 {
 				data: []byte
 				error: json.Marshal_Error
 				data, error = json.marshal(page.front_matter.katex_macros)
+				if error != nil {
+					fmt.println(
+						"Error:",
+						error,
+						"while JSON marshalling front_matter.katex_macros of",
+						page.name,
+					)
+					return
+				}
+				katex_js_string, _ = strings.replace(
+					katex_js_string,
+					"\"__KATEX_MACROS__\"",
+					string(data),
+					1,
+				)
 			}
+
+			strings.write_string(&js_string_builder, katex_js_string)
 		}
 	}
+
+	// load .js
+	strings.write_string(
+		&html_string_builder,
+		fmt.aprintf("\t\t<script src=\"%s.js\"></script>\n", page.name),
+	)
 
 	strings.write_string(&html_string_builder, "\t</head>\n")
 
@@ -222,8 +254,17 @@ generate_html_file_from_page :: proc(page: ^Page) {
 	strings.write_string(&html_string_builder, "\t</body>\n")
 	strings.write_string(&html_string_builder, "</html>\n")
 
+	// generate .js file
+	js_output_path, _ := strings.replace(output_path, ".html", ".js", 1)
+	output := strings.to_string(js_string_builder)
+	error = os.write_entire_file_from_string(js_output_path, output)
+	if error != nil {
+		fmt.println("Error:", error, "while writing file at", output_path)
+		return
+	}
+
 	// generate .html file
-	output := strings.to_string(html_string_builder)
+	output = strings.to_string(html_string_builder)
 	error = os.write_entire_file_from_string(output_path, output)
 	if error != nil {
 		fmt.println("Error:", error, "while writing file at", output_path)

@@ -67,16 +67,17 @@ parse_front_matter :: proc(input: string) -> (front_matter: Front_Matter, markdo
 
 		// katex macros
 		if strings.has_prefix(line, "katex_macros:") {
+			if DEBUG {fmt.println("Found KaTeX macros!")}
 			reading_katex_macros = true
+			front_matter.katex_macros = make(map[string]string)
 			continue
 		}
 		if reading_katex_macros {
 			if strings.has_prefix(line, "    ") {
-				parts := strings.split(line, ":")
-				macro := strings.trim_space(parts[0])
-				definition := strings.trim_space(parts[1])
-				if DEBUG {fmt.println("macro:", macro, '\n', "definition:", definition)}
-				front_matter.katex_macros = make(map[string]string)
+				parts := strings.split(line[4:], ":")
+				macro := strings.trim(parts[0], "\"")
+				definition := strings.trim(parts[1], "\"")
+				if DEBUG {fmt.println("macro:", macro, "\ndefinition:", definition)}
 				front_matter.katex_macros[macro] = definition
 			}
 		}
