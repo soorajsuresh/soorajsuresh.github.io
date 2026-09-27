@@ -3,6 +3,8 @@ package sitegen
 Directory_ID :: distinct int
 Page_ID :: distinct int
 
+NO_DIRECTORY :: Directory_ID(-1)
+
 Directory :: struct {
 	name:                 string,
 	content_path:         string,

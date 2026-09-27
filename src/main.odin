@@ -1,7 +1,6 @@
 package sitegen
 
 import "core:encoding/json"
-import "core:flags/example"
 import "core:fmt"
 import "core:os"
 import "core:strings"
@@ -11,58 +10,38 @@ DEBUG: bool = true
 pages: [dynamic]Page
 directories: [dynamic]Directory
 
-content_directory_path: string : "../content"
-generated_directory_path: string : "../generated"
-
-root_directory := Directory {
-	name           = "content",
-	content_path   = content_directory_path,
-	generated_path = generated_directory_path,
-}
 
 main_style: string : "/assets/css/main.css"
 
 main :: proc() {
 	defer free_memory()
 
-	append(&directories, root_directory)
-	create_directories_in(&root_directory)
+	content_directory_path: string : "../content"
+	generated_directory_path: string : "../generated"
 
+	root_directory := Directory {
+		name           = "content",
+		content_path   = content_directory_path,
+		generated_path = generated_directory_path,
+	}
+
+	append(&directories, root_directory)
+	create_directories_in_directory_with_ID(Directory_ID(0))
 	create_pages()
 
-	if DEBUG {
-		fmt.println("Directories:")
-		fmt.println()
-
-		for &directory in directories {
-			fmt.println("Directory:", directory.name)
-
-			fmt.println("Pages inside:")
-			for page_index in directory.page_indices {
-				page := pages[Page_ID(page_index)]
-				fmt.println("	", page.name)
-			}
-
-			fmt.println("Subdirectories inside:")
-			for subdirectory_index in directory.subdirectory_indices {
-				fmt.println("	- ", directories[subdirectory_index].name)
-			}
-			fmt.println()
-		}
-	}
-
-	if DEBUG {
-		fmt.println()
-		fmt.println("Pages:")
-		for page in pages {
-			fmt.println(page.directory.name, "->", page.name)
-		}
-		fmt.println()
-	}
+	debug_print_directories()
+	debug_print_pages()
 
 	for &page in pages {
 		generate_from_page(&page)
 	}
+}
+
+generate_from_directory :: proc(directory_index: Directory_ID) {
+	directory := &directories[directory_index]
+	generated_path := directory.generated_path
+	generated_directory_path := fmt.aprintf("%s/%s", generated_path, directory.name)
+	os.make_directory(generated_directory_path)
 }
 
 generate_from_page :: proc(page: ^Page) {
@@ -272,15 +251,16 @@ generate_from_page :: proc(page: ^Page) {
 	}
 }
 
-create_directories_in :: proc(directory: ^Directory) {
-	content_path := directory.content_path
-	generated_path := directory.generated_path
+create_directories_in_directory_with_ID :: proc(directory_id: Directory_ID) {
+	directory := &directories[directory_id]
+	directory_content_path := directory.content_path
+	directory_generated_path := directory.generated_path
 
-	error: os.Error
 	folder: ^os.File
-	folder, error = os.open(content_path)
+	error: os.Error
+	folder, error = os.open(directory_content_path)
 	if error != nil {
-		fmt.println("Error:", error, "while opening folder at", content_path)
+		fmt.println("Error:", error, "while opening folder at", directory_content_path)
 		return
 	}
 
@@ -294,95 +274,119 @@ create_directories_in :: proc(directory: ^Directory) {
 	// create directories and missing index.md files
 	for item in items {
 		if item.type == os.File_Type.Directory {
-			if DEBUG {fmt.println("Found directory:", item.name)}
-			content_directory_path := fmt.aprintf("%s/%s", content_path, item.name)
-			generated_directory_path := fmt.aprintf("%s/%s", generated_path, item.name)
-			if DEBUG {fmt.println("content_directory_path:", content_directory_path)}
-			if DEBUG {fmt.println("generated_directory_path:", generated_directory_path)}
+			debug("Found directory:", item.name)
 
-			subdirectory := Directory {
-				name           = item.name,
-				content_path   = content_directory_path,
-				generated_path = generated_directory_path,
-			}
+			subdirectory_index := directory_create(directory_id, item)
 
-			if DEBUG {
-				fmt.println("Creating Directory in:", directory.name)
-				fmt.println("name:", subdirectory.name)
-				fmt.println("content_path:", subdirectory.content_path)
-				fmt.println("generated_path:", subdirectory.generated_path)
-				fmt.println()
-			}
+			generate_from_directory(subdirectory_index)
 
-			subdirectory_index := Directory_ID(len(directories))
-			append(&directories, subdirectory)
-			append(&directory.subdirectory_indices, subdirectory_index)
-
-			// look for missing index.md
-			folder, error = os.open(content_directory_path)
-			if error != nil {
-				fmt.println("Error:", error, "while opening folder at", content_directory_path)
-				return
-			}
-
-			items: []os.File_Info
-			items, error = os.read_dir(folder, 0, context.allocator)
-			if error != nil {
-				return
-			}
-			os.close(folder)
-
-			// use Page?
-			found_index: bool = false
-			for item in items {
-				if item.type == os.File_Type.Regular {
-					if strings.has_suffix(item.name, "index.md") {
-						found_index = true
-					}
-				}
-			}
-
-			// create missing index.md
-			if !found_index {
-				if DEBUG {fmt.println("Missing index.md!")}
-				front_matter_text := fmt.aprintf(
-					"---\ntitle: %s\n---",
-					title_from_kebab(item.name),
-				)
-				error = os.write_entire_file_from_string(
-					fmt.aprintf("%s%s", item.fullpath, "/index.md"),
-					front_matter_text,
-				)
-				if error != nil {
-					fmt.println("Error:", error, "while writing to", item.fullpath, "/index.md")
-					return
-				}
-			}
-
-			os.make_directory(generated_directory_path)
-
-			create_directories_in(&directories[subdirectory_index])
+			create_directories_in_directory_with_ID(subdirectory_index)
 		}
 	}
 
-	if DEBUG {
-		fmt.println("Subdirectories created in:", directory.name)
-		for subdirectory_index in directory.subdirectory_indices {
-			fmt.println("	- ", directories[subdirectory_index].name)
-		}
-		fmt.println()
+	debug("Subdirectories created in", directory.name, ":")
+	for subdirectory_index in directory.subdirectory_indices {
+		debug("	- ", directories[subdirectory_index].name)
 	}
+	debug()
 }
 
+directory_create :: proc(
+	directory_id: Directory_ID,
+	directory_file_info: os.File_Info,
+) -> Directory_ID {
+	directory := &directories[directory_id]
+	directory_content_path := directory.content_path
+	directory_generated_path := directory.generated_path
+	subdirectory_content_path := fmt.aprintf(
+		"%s/%s",
+		directory_content_path,
+		directory_file_info.name,
+	)
+	subdirectory_generated_path := fmt.aprintf(
+		"%s/%s",
+		directory_generated_path,
+		directory_file_info.name,
+	)
+	debug("content_directory_path:", subdirectory_content_path)
+	debug("generated_directory_path:", subdirectory_generated_path)
+
+	subdirectory := Directory {
+		name           = directory_file_info.name,
+		content_path   = subdirectory_content_path,
+		generated_path = subdirectory_generated_path,
+	}
+
+	debug("Creating Subdirectory in:", directory_file_info.name)
+	debug("name:", subdirectory.name)
+	debug("content_path:", subdirectory.content_path)
+	debug("generated_path:", subdirectory.generated_path)
+	debug()
+
+
+	subdirectory_index := Directory_ID(len(directories))
+	append(&directories, subdirectory)
+	append(&directories[directory_id].subdirectory_indices, subdirectory_index)
+
+	// look for missing index.md in subdirectory
+	folder: ^os.File
+	error: os.Error
+	folder, error = os.open(subdirectory.content_path)
+	if error != nil {
+		fmt.println("Error:", error, "while opening folder at", subdirectory.content_path)
+		return NO_DIRECTORY
+	}
+
+	subitems: []os.File_Info
+	subitems, error = os.read_dir(folder, 0, context.allocator)
+	if error != nil {
+		return NO_DIRECTORY
+	}
+	os.close(folder)
+
+	// use Page?
+	found_index: bool = false
+	for subitem in subitems {
+		if subitem.type == os.File_Type.Regular {
+			if strings.has_suffix(subitem.name, "index.md") {
+				found_index = true
+			}
+		}
+	}
+
+	// create missing index.md
+	if !found_index {
+		debug("Missing index.md!")
+		front_matter_text := fmt.aprintf(
+			"---\ntitle: %s\n---",
+			title_from_kebab(directory_file_info.name),
+		)
+		error = os.write_entire_file_from_string(
+			fmt.aprintf("%s%s", directory_file_info.fullpath, "/index.md"),
+			front_matter_text,
+		)
+		if error != nil {
+			fmt.println(
+				"Error:",
+				error,
+				"while writing to",
+				directory_file_info.fullpath,
+				"/index.md",
+			)
+			return NO_DIRECTORY
+		}
+	}
+
+	return subdirectory_index
+}
+
+// searches directories for .md files and creates corresponding pages
 create_pages :: proc() {
+	debug("Creating pages!")
 
-	if DEBUG {fmt.println("Creating pages!")}
-
-	// pages in directories
 	for &directory in directories {
-		if DEBUG {fmt.println("In directory:", directory.name)}
+		debug("In directory:", directory.name)
 
-		// look for .md files
 		error: os.Error
 		folder: ^os.File
 
@@ -402,7 +406,7 @@ create_pages :: proc() {
 		for item in items {
 			if item.type == os.File_Type.Regular {
 				if strings.has_suffix(item.name, ".md") {
-					if DEBUG {fmt.println("Found .md file!")}
+					debug("Found .md file!")
 					page_create(&directory, item, directory.content_path, directory.generated_path)
 				}
 			}
@@ -437,16 +441,14 @@ page_create :: proc(
 		markdown       = markdown,
 	}
 
-	if DEBUG {
-		fmt.println("Created Page:")
-		fmt.println("directory:", page.directory.name)
-		fmt.println("name:", page.name)
-		fmt.println("content_path:", page.content_path)
-		fmt.println("generated_path:", page.generated_path)
-		fmt.println("front_matter:", page.front_matter)
-		fmt.println("markdown:", page.markdown)
-		fmt.println()
-	}
+	debug("Created Page:")
+	debug("directory:", page.directory.name)
+	debug("name:", page.name)
+	debug("content_path:", page.content_path)
+	debug("generated_path:", page.generated_path)
+	debug("front_matter:", page.front_matter)
+	debug("markdown:", page.markdown)
+	debug()
 
 	page_index := Page_ID(len(pages))
 	append(&pages, page)
@@ -478,4 +480,39 @@ free_memory :: proc() {
 		delete(page.front_matter.libs)
 		delete(page.front_matter.katex_macros)
 	}
+}
+
+debug :: proc(args: ..any) {
+	if DEBUG {fmt.println(..args)}
+}
+
+debug_print_directories :: proc() {
+
+	debug("Directories:")
+	debug()
+
+	for &directory in directories {
+		debug("Directory:", directory.name)
+
+		debug("Pages inside:")
+		for page_index in directory.page_indices {
+			page := pages[Page_ID(page_index)]
+			debug("	", page.name)
+		}
+
+		debug("Subdirectories inside:")
+		for subdirectory_index in directory.subdirectory_indices {
+			debug("	- ", directories[subdirectory_index].name)
+		}
+		debug()
+	}
+}
+
+debug_print_pages :: proc() {
+	debug()
+	debug("Pages:")
+	for page in pages {
+		debug(page.directory.name, "->", page.name)
+	}
+	debug()
 }
