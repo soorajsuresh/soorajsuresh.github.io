@@ -40,10 +40,6 @@ main :: proc() {
 generate_from_directory :: proc(directory_index: Directory_ID) {
 	directory := &directories[directory_index]
 	generated_directory_path := directory.generated_path
-	debug("===========================================================================")
-	debug("Generating Directory!")
-	debug(generated_directory_path)
-	debug("===========================================================================")
 	os.make_directory(generated_directory_path)
 }
 
@@ -210,7 +206,6 @@ generate_from_page :: proc(page: ^Page) {
 		// subsubdirectories
 		for subsubdirectory_index in subdirectory.subdirectory_indices {
 			subsubdirectory := directories[subsubdirectory_index]
-			debug("we in here")
 			debug("subsubdirectory content path: ", subsubdirectory.content_path)
 			debug("subsubdirectory generated path: ", subsubdirectory.generated_path)
 
@@ -231,6 +226,31 @@ generate_from_page :: proc(page: ^Page) {
 					),
 				)
 			}
+		}
+
+		// .md files within subdirectory different from index
+		for index in subdirectory.page_indices {
+			page := pages[index]
+
+			if page.name == "index" {
+				continue
+			}
+
+			if !building_list {
+				strings.write_string(&html_string_builder, "\t\t<ul>\n")
+				building_list = true
+			}
+
+			url := url_from_path(page.generated_path)
+			debug("url: ", url)
+			strings.write_string(
+				&html_string_builder,
+				fmt.aprintf(
+					"\t\t\t<li><a href=\"%s\">%s</a></li>\n",
+					url,
+					title_from_kebab(page.name),
+				),
+			)
 		}
 
 		if building_list {

@@ -1,9 +1,11 @@
 * {
     margin: 0;
     padding: 0;
+    color: #FFFFFF
 }
 
 :root {
+    background-color: #000000;
     display: table;
     margin: auto;
     font-family: Arial;
@@ -16,13 +18,15 @@ body {
     max-width: 600px;
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
     display: block;
 }
 
 h1 {
     font: bold 170% sans-serif;
-    margin-top: 0.67em; 
+    margin-top: 0.67em;
     margin-bottom: 0.67em;
 }
 
@@ -45,6 +49,20 @@ p {
     margin-bottom: 1em;
 }
 
-a:hover, a:active, .toggle:hover  {
-    color: orange;
+ul {
+    list-style-type: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:visited {
+    color: #b0b0b0
+}
+
+a:hover,
+a:active,
+.toggle:hover {
+    color: cyan
 }
