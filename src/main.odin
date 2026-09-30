@@ -220,13 +220,13 @@ generate_from_page :: proc(page: ^Page) {
 			}
 
 			if building_list {
-				link := subsubdirectory.generated_path
-				debug("link: ", link)
+				url := url_from_path(subsubdirectory.generated_path)
+				debug("url: ", url)
 				strings.write_string(
 					&html_string_builder,
 					fmt.aprintf(
 						"\t\t\t<li><a href=\"%s\">%s</a></li>\n",
-						link,
+						url,
 						title_from_kebab(subsubdirectory.name),
 					),
 				)
@@ -336,7 +336,7 @@ subdirectory_create_in_directory_with_id :: proc(
 	append(&directories[directory_id].subdirectory_indices, subdirectory_index)
 
 	// look for missing index.md in subdirectory
-	/*folder: ^os.File
+	folder: ^os.File
 	error: os.Error
 	folder, error = os.open(subdirectory.content_path)
 	if error != nil {
@@ -382,7 +382,7 @@ subdirectory_create_in_directory_with_id :: proc(
 			)
 			return NO_DIRECTORY
 		}
-	}*/
+	}
 
 	return subdirectory_index
 }
@@ -476,6 +476,10 @@ title_from_kebab :: proc(input: string) -> string {
 		strings.write_string(&builder, fmt.aprintf("%c%s", c, part[1:]))
 	}
 	return strings.to_string(builder)
+}
+
+url_from_path :: proc(path: string) -> string {
+	return strings.trim_prefix(path, "..")
 }
 
 free_memory :: proc() {
