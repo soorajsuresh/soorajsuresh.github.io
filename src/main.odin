@@ -26,7 +26,7 @@ main :: proc() {
 	}
 
 	append(&directories, root_directory)
-	create_directories_in_directory_with_ID(Directory_ID(0))
+	create_subdirectories_in_directory_with_ID(Directory_ID(0))
 	create_pages()
 
 	debug_print_directories()
@@ -39,8 +39,11 @@ main :: proc() {
 
 generate_from_directory :: proc(directory_index: Directory_ID) {
 	directory := &directories[directory_index]
-	generated_path := directory.generated_path
-	generated_directory_path := fmt.aprintf("%s/%s", generated_path, directory.name)
+	generated_directory_path := directory.generated_path
+	debug("===========================================================================")
+	debug("Generating Directory!")
+	debug(generated_directory_path)
+	debug("===========================================================================")
 	os.make_directory(generated_directory_path)
 }
 
@@ -195,6 +198,7 @@ generate_from_page :: proc(page: ^Page) {
 	for subdirectory_index in directory.subdirectory_indices {
 		subdirectory := directories[subdirectory_index]
 
+		// automatic h2
 		h2: string = subdirectory.name
 		strings.write_string(
 			&html_string_builder,
@@ -202,8 +206,13 @@ generate_from_page :: proc(page: ^Page) {
 		)
 
 		building_list: bool = false
+
+		// subsubdirectories
 		for subsubdirectory_index in subdirectory.subdirectory_indices {
 			subsubdirectory := directories[subsubdirectory_index]
+			debug("we in here")
+			debug("subsubdirectory content path: ", subsubdirectory.content_path)
+			debug("subsubdirectory generated path: ", subsubdirectory.generated_path)
 
 			if !building_list {
 				strings.write_string(&html_string_builder, "\t\t<ul>\n")
@@ -212,6 +221,7 @@ generate_from_page :: proc(page: ^Page) {
 
 			if building_list {
 				link := subsubdirectory.generated_path
+				debug("link: ", link)
 				strings.write_string(
 					&html_string_builder,
 					fmt.aprintf(
@@ -251,7 +261,7 @@ generate_from_page :: proc(page: ^Page) {
 	}
 }
 
-create_directories_in_directory_with_ID :: proc(directory_id: Directory_ID) {
+create_subdirectories_in_directory_with_ID :: proc(directory_id: Directory_ID) {
 	directory := &directories[directory_id]
 	directory_content_path := directory.content_path
 	directory_generated_path := directory.generated_path
@@ -271,19 +281,20 @@ create_directories_in_directory_with_ID :: proc(directory_id: Directory_ID) {
 	}
 	os.close(folder)
 
-	// create directories and missing index.md files
+	// create subdirectories and missing index.md files
 	for item in items {
 		if item.type == os.File_Type.Directory {
-			debug("Found directory:", item.name)
+			debug("Found subdirectory:", item.name)
 
-			subdirectory_index := directory_create(directory_id, item)
+			subdirectory_index := subdirectory_create_in_directory_with_id(directory_id, item)
 
 			generate_from_directory(subdirectory_index)
 
-			create_directories_in_directory_with_ID(subdirectory_index)
+			create_subdirectories_in_directory_with_ID(subdirectory_index)
 		}
 	}
 
+	directory = &directories[directory_id]
 	debug("Subdirectories created in", directory.name, ":")
 	for subdirectory_index in directory.subdirectory_indices {
 		debug("	- ", directories[subdirectory_index].name)
@@ -291,9 +302,9 @@ create_directories_in_directory_with_ID :: proc(directory_id: Directory_ID) {
 	debug()
 }
 
-directory_create :: proc(
+subdirectory_create_in_directory_with_id :: proc(
 	directory_id: Directory_ID,
-	directory_file_info: os.File_Info,
+	subdirectory_file_info: os.File_Info,
 ) -> Directory_ID {
 	directory := &directories[directory_id]
 	directory_content_path := directory.content_path
@@ -301,35 +312,31 @@ directory_create :: proc(
 	subdirectory_content_path := fmt.aprintf(
 		"%s/%s",
 		directory_content_path,
-		directory_file_info.name,
+		subdirectory_file_info.name,
 	)
 	subdirectory_generated_path := fmt.aprintf(
 		"%s/%s",
 		directory_generated_path,
-		directory_file_info.name,
+		subdirectory_file_info.name,
 	)
-	debug("content_directory_path:", subdirectory_content_path)
-	debug("generated_directory_path:", subdirectory_generated_path)
-
 	subdirectory := Directory {
-		name           = directory_file_info.name,
+		name           = subdirectory_file_info.name,
 		content_path   = subdirectory_content_path,
 		generated_path = subdirectory_generated_path,
 	}
 
-	debug("Creating Subdirectory in:", directory_file_info.name)
+	debug("Creating Subdirectory in:", directory.name)
 	debug("name:", subdirectory.name)
 	debug("content_path:", subdirectory.content_path)
 	debug("generated_path:", subdirectory.generated_path)
 	debug()
-
 
 	subdirectory_index := Directory_ID(len(directories))
 	append(&directories, subdirectory)
 	append(&directories[directory_id].subdirectory_indices, subdirectory_index)
 
 	// look for missing index.md in subdirectory
-	folder: ^os.File
+	/*folder: ^os.File
 	error: os.Error
 	folder, error = os.open(subdirectory.content_path)
 	if error != nil {
@@ -359,10 +366,10 @@ directory_create :: proc(
 		debug("Missing index.md!")
 		front_matter_text := fmt.aprintf(
 			"---\ntitle: %s\n---",
-			title_from_kebab(directory_file_info.name),
+			title_from_kebab(subdirectory_file_info.name),
 		)
 		error = os.write_entire_file_from_string(
-			fmt.aprintf("%s%s", directory_file_info.fullpath, "/index.md"),
+			fmt.aprintf("%s%s", subdirectory_file_info.fullpath, "/index.md"),
 			front_matter_text,
 		)
 		if error != nil {
@@ -370,12 +377,12 @@ directory_create :: proc(
 				"Error:",
 				error,
 				"while writing to",
-				directory_file_info.fullpath,
+				subdirectory_file_info.fullpath,
 				"/index.md",
 			)
 			return NO_DIRECTORY
 		}
-	}
+	}*/
 
 	return subdirectory_index
 }
