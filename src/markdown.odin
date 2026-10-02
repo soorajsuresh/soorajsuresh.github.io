@@ -19,6 +19,9 @@ parse_front_matter :: proc(input: string) -> (front_matter: Front_Matter, markdo
 	markdown = input[front_matter_text_end + 3:]
 
 	// parse front matter text
+	//building_description: bool = false
+	//description_builder := strings.builder_make()
+
 	reading_libs: bool = false
 	reading_katex_macros: bool = false
 	for line in strings.split_lines(front_matter_text) {
@@ -28,6 +31,23 @@ parse_front_matter :: proc(input: string) -> (front_matter: Front_Matter, markdo
 			front_matter.title = line[7:]
 			continue
 		}
+
+		// description
+		if strings.has_prefix(line, "description: ") {
+			//building_description = true
+			//strings.write_string(&description_builder, line[13:])
+			front_matter.description = line[13:] //strings.to_string(description_builder)
+			//continue
+		}
+
+		/*if building_description {
+			if strings.has_prefix(line, "    ") {
+				strings.write_string(&description_builder, fmt.aprintf("%s\n", line[4:]))
+				continue
+			}
+			building_description = false
+			front_matter.description = strings.to_string(description_builder)
+		}*/
 
 		// layout
 		if strings.has_prefix(line, "layout: ") {

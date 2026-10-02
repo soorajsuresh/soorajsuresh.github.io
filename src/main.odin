@@ -173,6 +173,12 @@ generate_from_page :: proc(page: ^Page) {
 		fmt.aprintf("\t\t<h1>%s</h1>\n", page.front_matter.title),
 	)
 
+	// description
+	strings.write_string(
+		&html_string_builder,
+		fmt.aprintf("\t\t<p>%s</p>\n", page.front_matter.description),
+	)
+
 	// automatic body for index.md linking to subdirectories
 	directory := page.directory
 
@@ -206,8 +212,6 @@ generate_from_page :: proc(page: ^Page) {
 		// subsubdirectories
 		for subsubdirectory_index in subdirectory.subdirectory_indices {
 			subsubdirectory := directories[subsubdirectory_index]
-			debug("subsubdirectory content path: ", subsubdirectory.content_path)
-			debug("subsubdirectory generated path: ", subsubdirectory.generated_path)
 
 			if !building_list {
 				strings.write_string(&html_string_builder, "\t\t<ul>\n")
@@ -216,7 +220,6 @@ generate_from_page :: proc(page: ^Page) {
 
 			if building_list {
 				url := url_from_path(subsubdirectory.generated_path)
-				debug("url: ", url)
 				strings.write_string(
 					&html_string_builder,
 					fmt.aprintf(
@@ -242,7 +245,6 @@ generate_from_page :: proc(page: ^Page) {
 			}
 
 			url := url_from_path(page.generated_path)
-			debug("url: ", url)
 			strings.write_string(
 				&html_string_builder,
 				fmt.aprintf(
@@ -544,6 +546,7 @@ debug_print_pages :: proc() {
 	debug("Pages:")
 	for page in pages {
 		debug(page.directory.name, "->", page.name)
+		debug("description:", page.front_matter.description)
 	}
 	debug()
 }
