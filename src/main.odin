@@ -197,7 +197,7 @@ generate_from_page :: proc(page: ^Page) {
 	}
 	os.close(folder)
 
-	for subdirectory_index in directory.subdirectory_indices {
+	for subdirectory_index in directory.subdirectory_IDs {
 		subdirectory := directories[subdirectory_index]
 
 		// automatic h2
@@ -210,11 +210,11 @@ generate_from_page :: proc(page: ^Page) {
 		building_list: bool = false
 
 		// subsubdirectories
-		for subsubdirectory_index in subdirectory.subdirectory_indices {
+		for subsubdirectory_index in subdirectory.subdirectory_IDs {
 			subsubdirectory := directories[subsubdirectory_index]
 
 			if !building_list {
-				strings.write_string(&html_string_builder, "\t\t<ul>\n")
+				strings.write_string(&html_string_builder, "\t\t<ul class=\"subdirectories\">\n")
 				building_list = true
 			}
 
@@ -223,16 +223,26 @@ generate_from_page :: proc(page: ^Page) {
 				strings.write_string(
 					&html_string_builder,
 					fmt.aprintf(
-						"\t\t\t<li><a href=\"%s\">%s</a></li>\n",
+						"\t\t\t<div class=\"subdirectory\">\n" +
+						"\t\t\t\t<li><a href=\"%s\">%s</a></li>\n" +
+						"\t\t\t\t<p>%s</p>\n" +
+						"\t\t\t</div>\n",
 						url,
 						title_from_kebab(subsubdirectory.name),
+						pages[subsubdirectory.index_page_ID].front_matter.description,
 					),
 				)
 			}
+			debug("we in here")
+			debug(pages[subsubdirectory.index_page_ID])
+			debug(pages[subsubdirectory.index_page_ID].front_matter)
+			debug(pages[subsubdirectory.index_page_ID].front_matter.description)
 		}
 
 		// .md files within subdirectory different from index
-		for index in subdirectory.page_indices {
+		// TODO: rename index
+		// TODO: use index_page_ID instead of string comparison?
+		for index in subdirectory.page_IDs {
 			page := pages[index]
 
 			if page.name == "index" {
@@ -303,22 +313,19 @@ create_subdirectories_in_directory_with_ID :: proc(directory_id: Directory_ID) {
 	}
 	os.close(folder)
 
-	// create subdirectories and missing index.md files
+	// create subdirectories
 	for item in items {
 		if item.type == os.File_Type.Directory {
 			debug("Found subdirectory:", item.name)
-
 			subdirectory_index := subdirectory_create_in_directory_with_id(directory_id, item)
-
 			generate_from_directory(subdirectory_index)
-
 			create_subdirectories_in_directory_with_ID(subdirectory_index)
 		}
 	}
 
 	directory = &directories[directory_id]
 	debug("Subdirectories created in", directory.name, ":")
-	for subdirectory_index in directory.subdirectory_indices {
+	for subdirectory_index in directory.subdirectory_IDs {
 		debug("	- ", directories[subdirectory_index].name)
 	}
 	debug()
@@ -353,12 +360,11 @@ subdirectory_create_in_directory_with_id :: proc(
 	debug("generated_path:", subdirectory.generated_path)
 	debug()
 
-	subdirectory_index := Directory_ID(len(directories))
-	append(&directories, subdirectory)
-	append(&directories[directory_id].subdirectory_indices, subdirectory_index)
-
+	// TODO: move this out to the create pages proc...
+	// TODO: once it's moved out, pages can be used instead of File_Infos
+	// TODO: once pages are used, index page id can be checked / stored
 	// look for missing index.md in subdirectory
-	folder: ^os.File
+	/*folder: ^os.File
 	error: os.Error
 	folder, error = os.open(subdirectory.content_path)
 	if error != nil {
@@ -373,7 +379,6 @@ subdirectory_create_in_directory_with_id :: proc(
 	}
 	os.close(folder)
 
-	// use Page?
 	found_index: bool = false
 	for subitem in subitems {
 		if subitem.type == os.File_Type.Regular {
@@ -404,7 +409,11 @@ subdirectory_create_in_directory_with_id :: proc(
 			)
 			return NO_DIRECTORY
 		}
-	}
+	}*/
+
+	subdirectory_index := Directory_ID(len(directories))
+	append(&directories, subdirectory)
+	append(&directories[directory_id].subdirectory_IDs, subdirectory_index)
 
 	return subdirectory_index
 }
@@ -432,10 +441,48 @@ create_pages :: proc() {
 			return
 		}
 
+		// search for index.md
+		debug("Looking for index.md!")
+		found_index: bool = false
+		for item in items {
+			if item.type == os.File_Type.Regular {
+				if strings.has_suffix(item.name, "index.md") {
+					debug("Found index.md!")
+					found_index = true
+				}
+			}
+		}
+
+		if !found_index {
+			debug("Missing index.md!")
+			front_matter_text := fmt.aprintf(
+				"---\ntitle: %s\n---",
+				title_from_kebab(directory.name),
+			)
+			debug("Creating index.md!")
+			error = os.write_entire_file_from_string(
+				fmt.aprintf("%s%s", directory.content_path, "/index.md"),
+				front_matter_text,
+			)
+			if error != nil {
+				fmt.println(
+					"Error:",
+					error,
+					"while writing to",
+					directory.content_path,
+					"/index.md",
+				)
+				return
+			}
+			debug("Created index.md!")
+		}
+
+		// create pages
+		debug("Looking for .md files!")
 		for item in items {
 			if item.type == os.File_Type.Regular {
 				if strings.has_suffix(item.name, ".md") {
-					debug("Found .md file!")
+					debug("Found .md file! Creating Page!")
 					page_create(&directory, item, directory.content_path, directory.generated_path)
 				}
 			}
@@ -481,9 +528,13 @@ page_create :: proc(
 
 	page_index := Page_ID(len(pages))
 	append(&pages, page)
-	append(&directory.page_indices, page_index)
+	append(&directory.page_IDs, page_index)
+	if page.name == "index" {
+		directory.index_page_ID = page_index
+	}
 }
 
+// TODO: don't capitalize certain words (e.g. "of")
 title_from_kebab :: proc(input: string) -> string {
 	parts := strings.split(input, "-")
 	builder := strings.builder_make()
@@ -506,8 +557,8 @@ url_from_path :: proc(path: string) -> string {
 
 free_memory :: proc() {
 	for directory in directories {
-		delete(directory.subdirectory_indices)
-		delete(directory.page_indices)
+		delete(directory.subdirectory_IDs)
+		delete(directory.page_IDs)
 	}
 	for page in pages {
 		delete(page.front_matter.libs)
@@ -528,13 +579,13 @@ debug_print_directories :: proc() {
 		debug("Directory:", directory.name)
 
 		debug("Pages inside:")
-		for page_index in directory.page_indices {
+		for page_index in directory.page_IDs {
 			page := pages[Page_ID(page_index)]
 			debug("	", page.name)
 		}
 
 		debug("Subdirectories inside:")
-		for subdirectory_index in directory.subdirectory_indices {
+		for subdirectory_index in directory.subdirectory_IDs {
 			debug("	- ", directories[subdirectory_index].name)
 		}
 		debug()

@@ -6,11 +6,12 @@ Page_ID :: distinct int
 NO_DIRECTORY :: Directory_ID(-1)
 
 Directory :: struct {
-	name:                 string,
-	content_path:         string,
-	generated_path:       string,
-	subdirectory_indices: [dynamic]Directory_ID,
-	page_indices:         [dynamic]Page_ID,
+	name:             string,
+	content_path:     string,
+	generated_path:   string,
+	subdirectory_IDs: [dynamic]Directory_ID,
+	page_IDs:         [dynamic]Page_ID,
+	index_page_ID:    Page_ID,
 }
 
 Page :: struct {
