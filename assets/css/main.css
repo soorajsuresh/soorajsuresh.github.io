@@ -59,13 +59,27 @@ a {
 
 .subdirectories {
     display: grid;
-    grid-template-columns: auto auto;
+    grid-template-columns: 1fr 1fr;
     gap: 1rem;
 }
 
 .subdirectories .subdirectory {
     background-color: blue;
+    padding: 0;
+}
+
+.subdirectories .subdirectory a {
+    display: block;
     padding: 1rem;
+}
+
+.subdirectories .subdirectory a:hover {
+    background: cyan
+}
+
+.subdirectories .subdirectory p {
+    margin: 0;
+    color: #b0b0b0
 }
 
 a:visited {

@@ -223,10 +223,12 @@ generate_from_page :: proc(page: ^Page) {
 				strings.write_string(
 					&html_string_builder,
 					fmt.aprintf(
-						"\t\t\t<div class=\"subdirectory\">\n" +
-						"\t\t\t\t<li><a href=\"%s\">%s</a></li>\n" +
-						"\t\t\t\t<p>%s</p>\n" +
-						"\t\t\t</div>\n",
+						"\t\t\t<li class=\"subdirectory\">\n" +
+						"\t\t\t\t<a href=\"%s\">\n" +
+						"\t\t\t\t\t<span>%s</span>\n" +
+						"\t\t\t\t\t<p>%s</p>\n" +
+						"\t\t\t\t</a>\n" +
+						"\t\t\t</li>\n",
 						url,
 						title_from_kebab(subsubdirectory.name),
 						pages[subsubdirectory.index_page_ID].front_matter.description,
