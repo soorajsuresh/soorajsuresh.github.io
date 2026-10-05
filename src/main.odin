@@ -76,9 +76,16 @@ generate_from_page :: proc(page: ^Page) {
 	}
 
 	// main style
+	style_info: os.File_Info
+	style_info, error = os.stat("../assets/css/main.css", context.allocator)
+	if error != nil {
+		fmt.println("Error:", error, "while getting file info for", main_style)
+		return
+	}
+	style_version := style_info.modification_time
 	strings.write_string(
 		&html_string_builder,
-		fmt.aprintf("\t\t<link rel=\"stylesheet\" href=\"%s\">\n", main_style),
+		fmt.aprintf("\t\t<link rel=\"stylesheet\" href=\"%s?v=%d\">\n", main_style, style_version),
 	)
 
 	// layout
