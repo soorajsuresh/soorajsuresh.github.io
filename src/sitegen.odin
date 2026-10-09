@@ -36,6 +36,7 @@ Lib :: enum {
 Front_Matter :: struct {
 	title:        string,
 	description:  string,
+	video:        string,
 	layout:       Layout,
 	chapter:      string,
 	section:      string,

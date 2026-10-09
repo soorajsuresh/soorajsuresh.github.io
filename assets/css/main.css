@@ -57,37 +57,54 @@ a {
     text-decoration: none;
 }
 
-.subdirectories {
+.subsubdirectories {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1rem;
 }
 
-.subdirectories .subdirectory {
+.subsubdirectories>.subsubdirectory {
+    min-width: 0;
     background-color: blue;
     padding: 0;
 }
 
-.subdirectories .subdirectory a {
+.subsubdirectories>.subsubdirectory>a {
     display: block;
     padding: 1rem;
+    position: relative;
+    z-index: 1;
+    isolation: isolate;
 }
 
-.subdirectories .subdirectory a:hover {
-    background: cyan
+.subsubdirectories>.subsubdirectory>a:hover {
+    background: cyan;
 }
 
-.subdirectories .subdirectory p {
+.subsubdirectories>.subsubdirectory>a>p {
     margin: 0;
-    color: #b0b0b0
+    color: #b0b0b0;
 }
 
-/*a:visited {
-    color: #b0b0b0
+.subsubdirectories>.subsubdirectory>a::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 255, 0.65);
+    z-index: 0;
 }
 
-a:hover,
-a:active,
-.toggle:hover {
-    color: cyan
-}*/
+.subsubdirectories>.subsubdirectory>a>video {
+    position: absolute;
+    inset: 0;
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+.subsubdirectories>.subsubdirectory>a>span,
+.subsubdirectories>.subsubdirectory>a>p {
+    position: relative;
+    z-index: 1;
+}

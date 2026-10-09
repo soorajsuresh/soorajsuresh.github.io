@@ -186,7 +186,7 @@ generate_from_page :: proc(page: ^Page) {
 		fmt.aprintf("\t\t<p>%s</p>\n", page.front_matter.description),
 	)
 
-	// automatic body for index.md linking to subdirectories
+	// links to subdirectories
 	directory := page.directory
 
 	folder: ^os.File
@@ -207,21 +207,36 @@ generate_from_page :: proc(page: ^Page) {
 	for subdirectory_index in directory.subdirectory_IDs {
 		subdirectory := directories[subdirectory_index]
 
-		// automatic h2
+		// display subdirectories as h2
 		h2: string = subdirectory.name
 		strings.write_string(
 			&html_string_builder,
 			fmt.aprintf("\t\t<h2>%s</h2>\n", title_from_kebab(h2)),
 		)
+		/*subdirectory_url := url_from_path(subdirectory.generated_path)
+		strings.write_string(
+			&html_string_builder,
+			fmt.aprintf(
+				"\t\t\t\t<a href=\"%s\">\n" +
+				"\t\t\t\t\t<span>%s</span>\n" +
+				"\t\t\t\t\t<p>%s</p>\n" +
+				"\t\t\t\t</a>\n",//"\t\t\t<li class=\"subdirectory\">\n" +
+				subdirectory_url, //"\t\t\t</li>\n",
+				title_from_kebab(subdirectory.name),
+				pages[subdirectory.index_page_ID].front_matter.description,
+			),
+		)*/
 
+		// display subsubdirectories as tiles
 		building_list: bool = false
-
-		// subsubdirectories
 		for subsubdirectory_index in subdirectory.subdirectory_IDs {
 			subsubdirectory := directories[subsubdirectory_index]
 
 			if !building_list {
-				strings.write_string(&html_string_builder, "\t\t<ul class=\"subdirectories\">\n")
+				strings.write_string(
+					&html_string_builder,
+					"\t\t<ul class=\"subsubdirectories\">\n",
+				)
 				building_list = true
 			}
 
@@ -230,31 +245,46 @@ generate_from_page :: proc(page: ^Page) {
 				strings.write_string(
 					&html_string_builder,
 					fmt.aprintf(
-						"\t\t\t<li class=\"subdirectory\">\n" +
-						"\t\t\t\t<a href=\"%s\">\n" +
+						"\t\t\t<li class=\"subsubdirectory\">\n" + "\t\t\t\t<a href=\"%s\">\n",
+						url,
+					),
+				)
+
+				// background video for tile
+				if pages[subsubdirectory.index_page_ID].front_matter.video != "" {
+					strings.write_string(
+						&html_string_builder,
+						fmt.aprintf(
+							"\t\t\t\t\t<video autoplay muted loop playsinline>\n" +
+							"\t\t\t\t\t\t<source src=\"/assets/videos/%s\" type=\"video/mp4\">\n" +
+							"\t\t\t\t\t</video>\n",
+							pages[subsubdirectory.index_page_ID].front_matter.video,
+						),
+					)
+				}
+
+				strings.write_string(
+					&html_string_builder,
+					fmt.aprintf(
 						"\t\t\t\t\t<span>%s</span>\n" +
 						"\t\t\t\t\t<p>%s</p>\n" +
 						"\t\t\t\t</a>\n" +
 						"\t\t\t</li>\n",
-						url,
 						title_from_kebab(subsubdirectory.name),
 						pages[subsubdirectory.index_page_ID].front_matter.description,
 					),
 				)
 			}
-			debug("we in here")
 			debug(pages[subsubdirectory.index_page_ID])
 			debug(pages[subsubdirectory.index_page_ID].front_matter)
 			debug(pages[subsubdirectory.index_page_ID].front_matter.description)
 		}
 
 		// .md files within subdirectory different from index
-		// TODO: rename index
-		// TODO: use index_page_ID instead of string comparison?
-		for index in subdirectory.page_IDs {
-			page := pages[index]
+		for page_ID in subdirectory.page_IDs {
+			page := pages[page_ID]
 
-			if page.name == "index" {
+			if page_ID == subdirectory.index_page_ID {
 				continue
 			}
 
@@ -368,57 +398,6 @@ subdirectory_create_in_directory_with_id :: proc(
 	debug("content_path:", subdirectory.content_path)
 	debug("generated_path:", subdirectory.generated_path)
 	debug()
-
-	// TODO: move this out to the create pages proc...
-	// TODO: once it's moved out, pages can be used instead of File_Infos
-	// TODO: once pages are used, index page id can be checked / stored
-	// look for missing index.md in subdirectory
-	/*folder: ^os.File
-	error: os.Error
-	folder, error = os.open(subdirectory.content_path)
-	if error != nil {
-		fmt.println("Error:", error, "while opening folder at", subdirectory.content_path)
-		return NO_DIRECTORY
-	}
-
-	subitems: []os.File_Info
-	subitems, error = os.read_dir(folder, 0, context.allocator)
-	if error != nil {
-		return NO_DIRECTORY
-	}
-	os.close(folder)
-
-	found_index: bool = false
-	for subitem in subitems {
-		if subitem.type == os.File_Type.Regular {
-			if strings.has_suffix(subitem.name, "index.md") {
-				found_index = true
-			}
-		}
-	}
-
-	// create missing index.md
-	if !found_index {
-		debug("Missing index.md!")
-		front_matter_text := fmt.aprintf(
-			"---\ntitle: %s\n---",
-			title_from_kebab(subdirectory_file_info.name),
-		)
-		error = os.write_entire_file_from_string(
-			fmt.aprintf("%s%s", subdirectory_file_info.fullpath, "/index.md"),
-			front_matter_text,
-		)
-		if error != nil {
-			fmt.println(
-				"Error:",
-				error,
-				"while writing to",
-				subdirectory_file_info.fullpath,
-				"/index.md",
-			)
-			return NO_DIRECTORY
-		}
-	}*/
 
 	subdirectory_index := Directory_ID(len(directories))
 	append(&directories, subdirectory)

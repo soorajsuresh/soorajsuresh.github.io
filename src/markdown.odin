@@ -34,20 +34,14 @@ parse_front_matter :: proc(input: string) -> (front_matter: Front_Matter, markdo
 
 		// description
 		if strings.has_prefix(line, "description: ") {
-			//building_description = true
-			//strings.write_string(&description_builder, line[13:])
-			front_matter.description = line[13:] //strings.to_string(description_builder)
-			//continue
+			front_matter.description = line[13:]
+			continue
 		}
 
-		/*if building_description {
-			if strings.has_prefix(line, "    ") {
-				strings.write_string(&description_builder, fmt.aprintf("%s\n", line[4:]))
-				continue
-			}
-			building_description = false
-			front_matter.description = strings.to_string(description_builder)
-		}*/
+		// video
+		if strings.has_prefix(line, "video: ") {
+			front_matter.video = line[7:]
+		}
 
 		// layout
 		if strings.has_prefix(line, "layout: ") {
