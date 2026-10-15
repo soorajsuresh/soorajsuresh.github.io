@@ -1,0 +1,21 @@
+.katex {
+    font-size: 1em;
+}
+
+span.definition,
+span.definition * {
+    color: #3882d2
+}
+
+.display {
+    text-align: center;
+    margin: 1em 0;
+    white-space: nowrap;
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+}
+
+.mord.text .mord {
+    font-family: sans-serif;
+}

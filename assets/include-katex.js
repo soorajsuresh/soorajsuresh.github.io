@@ -53,6 +53,9 @@ window.renderMath = function (container) {
         window.katexQueue.push(container);
         return;
     }
+
+    //katexSetUpCustomFonts()
+
     renderMathInElement(container, {
         delimiters: window.katexDelimiters,
         macros: window.katexMacros,
@@ -71,3 +74,35 @@ document.addEventListener(
         }
     }
 );
+
+// yoinked from https://yingtongli.me/blog/2022/09/24/katex-custom-fonts.html
+function katexSetUpCustomFonts() {
+
+    // All of these are textords in math mode
+    const mathTextSymbols = "0123456789/@.\"";
+    for (let i = 0; i < mathTextSymbols.length; i++) {
+        const ch = mathTextSymbols.charAt(i);
+        katex.__defineSymbol("math", "custom", "textord", ch, ch);
+    }
+
+    // All of these are textords in text mode
+    const textSymbols = "0123456789!@*()-=+\";:?/.,";
+    for (let i = 0; i < textSymbols.length; i++) {
+        const ch = textSymbols.charAt(i);
+        katex.__defineSymbol("text", "custom", "textord", ch, ch);
+    }
+
+    // All of these are textords in text mode, and mathords in math mode
+    const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    for (let i = 0; i < letters.length; i++) {
+        const ch = letters.charAt(i);
+        katex.__defineSymbol("math", "custom", "mathord", ch, ch);
+        katex.__defineSymbol("text", "custom", "textord", ch, ch);
+    }
+
+    katex.__setFontMetrics("custom-Regular", {});
+    katex.__setFontMetrics("Math-Italic", {});
+    katex.__setFontMetrics("AMS-Regular", {})
+}
+
+

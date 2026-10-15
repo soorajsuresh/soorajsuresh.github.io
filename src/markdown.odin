@@ -18,10 +18,6 @@ parse_front_matter :: proc(input: string) -> (front_matter: Front_Matter, markdo
 	front_matter_text := input[front_matter_text_start:front_matter_text_end]
 	markdown = input[front_matter_text_end + 3:]
 
-	// parse front matter text
-	//building_description: bool = false
-	//description_builder := strings.builder_make()
-
 	reading_libs: bool = false
 	reading_katex_macros: bool = false
 	for line in strings.split_lines(front_matter_text) {
@@ -41,6 +37,7 @@ parse_front_matter :: proc(input: string) -> (front_matter: Front_Matter, markdo
 		// video
 		if strings.has_prefix(line, "video: ") {
 			front_matter.video = line[7:]
+			continue
 		}
 
 		// layout
@@ -52,6 +49,7 @@ parse_front_matter :: proc(input: string) -> (front_matter: Front_Matter, markdo
 			case "section":
 				front_matter.layout = Layout.Section
 			}
+			continue
 		}
 
 		// chapter and section
@@ -81,7 +79,7 @@ parse_front_matter :: proc(input: string) -> (front_matter: Front_Matter, markdo
 
 		// katex macros
 		if strings.has_prefix(line, "katex_macros:") {
-			if DEBUG {fmt.println("Found KaTeX macros!")}
+			debug("Found KaTeX macros!")
 			reading_katex_macros = true
 			front_matter.katex_macros = make(map[string]string)
 			continue
@@ -91,9 +89,11 @@ parse_front_matter :: proc(input: string) -> (front_matter: Front_Matter, markdo
 				parts := strings.split(line[4:], ":")
 				macro := strings.trim(parts[0], "\"")
 				definition := strings.trim(parts[1], "\"")
-				if DEBUG {fmt.println("macro:", macro, "\ndefinition:", definition)}
+				debug("macro:", macro, "\ndefinition:", definition)
 				front_matter.katex_macros[macro] = definition
+				continue
 			}
+			reading_katex_macros = false
 		}
 	}
 
@@ -154,11 +154,93 @@ markdown_to_html :: proc(input: string) -> string {
 
 		// paragraphs
 		if line != "" {
+
+			// start paragraph
 			if !building_paragraph {
 				building_paragraph = true
 				strings.write_string(&builder, "\t\t<p>\n\t\t\t")
 			}
-			strings.write_string(&builder, line)
+
+			// parse line
+			for i := 0; i < len(line); i += 1 {
+				if line[i] == '\\' {
+
+					// skip '\'
+					i += 1
+
+					// TODO: think about [] being used within a command...
+					// display math
+					if line[i] == '[' {
+						strings.write_string(&builder, fmt.aprintf("<div class=\"display\">$"))
+
+						i += 1 // skip '['
+
+						// parse display math line
+						text: string = ""
+						for i < len(line) {
+
+							// end at '\]'
+							if line[i] == '\\' {
+								if line[i + 1] == ']' {
+									break
+								}
+							}
+
+							// write , and . as text
+							if line[i] == ',' || line[i] == '.' {
+								strings.write_string(&builder, "\\text{")
+								strings.write_byte(&builder, line[i])
+								strings.write_string(&builder, " }")
+								i += 1
+								continue
+							}
+
+							strings.write_byte(&builder, line[i])
+							i += 1
+						}
+						//text = line[display_start:i - 1]
+
+						strings.write_string(&builder, fmt.aprintf("$</div>"))
+
+						break
+					}
+
+					// commands
+					accum: int = 1 // to reverse advancing i
+
+					// TODO: think about {} being used within a command...
+					command_start := i
+					for i < len(line) && line[i] != '{' {
+						i += 1
+						accum += 1
+					}
+					command := line[command_start:i]
+
+					switch command {
+
+					// defn
+					case "defn":
+						argument_start := i + 1 // skip '{'
+						i += 1
+						accum += 1
+						for i < len(line) && line[i] != '}' {
+							i += 1
+							accum += 1
+						}
+						argument := line[argument_start:i]
+						strings.write_string(
+							&builder,
+							fmt.aprintf("<span class=\"definition\">%s</span>", argument),
+						)
+						i += 1 // skip '}'
+						accum += 1
+					case:
+						i -= accum
+					}
+				}
+
+				strings.write_byte(&builder, line[i])
+			}
 		} else if line == "" {
 			if building_paragraph {
 				strings.write_string(&builder, "\n\t\t</p>\n")

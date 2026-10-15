@@ -20,9 +20,10 @@ main :: proc() {
 	generated_directory_path: string : "../generated"
 
 	root_directory := Directory {
-		name           = "content",
-		content_path   = content_directory_path,
-		generated_path = generated_directory_path,
+		name                = "content",
+		content_path        = content_directory_path,
+		generated_path      = generated_directory_path,
+		parent_directory_ID = NO_DIRECTORY,
 	}
 
 	append(&directories, root_directory)
@@ -49,7 +50,7 @@ generate_from_page :: proc(page: ^Page) {
 
 	data, error := os.read_entire_file(input_path, context.allocator)
 	if error != nil {
-		fmt.println("Error:", error, "while reading file at", input_path)
+		debug("Error:", error, "while reading file at", input_path)
 		return
 	}
 
@@ -79,7 +80,7 @@ generate_from_page :: proc(page: ^Page) {
 	style_info: os.File_Info
 	style_info, error = os.stat("../assets/css/main.css", context.allocator)
 	if error != nil {
-		fmt.println("Error:", error, "while getting file info for", main_style)
+		debug("Error:", error, "while getting file info for", main_style)
 		return
 	}
 	style_version := style_info.modification_time
@@ -96,6 +97,7 @@ generate_from_page :: proc(page: ^Page) {
 			"\t\t<link rel=\"stylesheet\" href=\"/assets/chapter.css\">\n",
 		)
 	case Layout.Section:
+		// add KaTeX as a lib for any section
 		append(&page.front_matter.libs, Lib.KaTeX)
 		strings.write_string(
 			&html_string_builder,
@@ -107,7 +109,23 @@ generate_from_page :: proc(page: ^Page) {
 		)
 	}
 
-	//libraries
+	// multivariable calculus KaTeX commands
+	directory := page.directory
+	for directory != nil {
+		if directory.name == "multivariable-calculus" {
+			page.front_matter.katex_macros["\\i"] = "\\boldsymbol{\\mathrm i}"
+			page.front_matter.katex_macros["\\j"] = "\\boldsymbol{\\mathrm j}"
+			page.front_matter.katex_macros["\\k"] = "\\boldsymbol{\\mathrm k}"
+			page.front_matter.katex_macros["\\r"] = "\\boldsymbol{\\mathrm r}"
+		}
+		if directory.parent_directory_ID != NO_DIRECTORY {
+			directory = &directories[directory.parent_directory_ID]
+		} else {
+			break
+		}
+	}
+
+	// libraries
 	for lib in page.front_matter.libs {
 
 		// include katex
@@ -132,7 +150,7 @@ generate_from_page :: proc(page: ^Page) {
 				context.allocator,
 			)
 			if error != nil {
-				fmt.println("Error:", error, "while reading file at", "../assets/include-katex.js")
+				debug("Error:", error, "while reading file at", "../assets/include-katex.js")
 				return
 			}
 			katex_js_string := string(include_katex)
@@ -143,7 +161,7 @@ generate_from_page :: proc(page: ^Page) {
 				error: json.Marshal_Error
 				data, error = json.marshal(page.front_matter.katex_macros)
 				if error != nil {
-					fmt.println(
+					debug(
 						"Error:",
 						error,
 						"while JSON marshalling front_matter.katex_macros of",
@@ -160,6 +178,12 @@ generate_from_page :: proc(page: ^Page) {
 			}
 
 			strings.write_string(&js_string_builder, katex_js_string)
+
+
+			strings.write_string(
+				&html_string_builder,
+				"\t\t<link rel=\"stylesheet\" href=\"/assets/css/math.css\">\n",
+			)
 		}
 	}
 
@@ -180,132 +204,61 @@ generate_from_page :: proc(page: ^Page) {
 		fmt.aprintf("\t\t<h1>%s</h1>\n", page.front_matter.title),
 	)
 
-	// description
-	strings.write_string(
-		&html_string_builder,
-		fmt.aprintf("\t\t<p>%s</p>\n", page.front_matter.description),
-	)
+	// index.md generates links to subdirectories
+	if page.name == "index" {
 
-	// links to subdirectories
-	directory := page.directory
+		directory := page.directory
 
-	folder: ^os.File
-	folder, error = os.open(directory.content_path)
-	if error != nil {
-		fmt.println("Error:", error, "while opening", directory.content_path)
-		return
-	}
-
-	items: []os.File_Info
-	items, error = os.read_dir(folder, 0, context.allocator)
-	if error != nil {
-		fmt.println("Error:", error, "while reading directory", folder)
-		return
-	}
-	os.close(folder)
-
-	for subdirectory_index in directory.subdirectory_IDs {
-		subdirectory := directories[subdirectory_index]
-
-		// display subdirectories as h2
-		h2: string = subdirectory.name
-		strings.write_string(
-			&html_string_builder,
-			fmt.aprintf("\t\t<h2>%s</h2>\n", title_from_kebab(h2)),
-		)
-		/*subdirectory_url := url_from_path(subdirectory.generated_path)
-		strings.write_string(
-			&html_string_builder,
-			fmt.aprintf(
-				"\t\t\t\t<a href=\"%s\">\n" +
-				"\t\t\t\t\t<span>%s</span>\n" +
-				"\t\t\t\t\t<p>%s</p>\n" +
-				"\t\t\t\t</a>\n",//"\t\t\t<li class=\"subdirectory\">\n" +
-				subdirectory_url, //"\t\t\t</li>\n",
-				title_from_kebab(subdirectory.name),
-				pages[subdirectory.index_page_ID].front_matter.description,
-			),
-		)*/
-
-		// display subsubdirectories as tiles
-		building_list: bool = false
-		for subsubdirectory_index in subdirectory.subdirectory_IDs {
-			subsubdirectory := directories[subsubdirectory_index]
-
-			if !building_list {
-				strings.write_string(
-					&html_string_builder,
-					"\t\t<ul class=\"subsubdirectories\">\n",
-				)
-				building_list = true
-			}
-
-			if building_list {
-				url := url_from_path(subsubdirectory.generated_path)
-				strings.write_string(
-					&html_string_builder,
-					fmt.aprintf(
-						"\t\t\t<li class=\"subsubdirectory\">\n" + "\t\t\t\t<a href=\"%s\">\n",
-						url,
-					),
-				)
-
-				// background video for tile
-				if pages[subsubdirectory.index_page_ID].front_matter.video != "" {
-					strings.write_string(
-						&html_string_builder,
-						fmt.aprintf(
-							"\t\t\t\t\t<video autoplay muted loop playsinline>\n" +
-							"\t\t\t\t\t\t<source src=\"/assets/videos/%s\" type=\"video/mp4\">\n" +
-							"\t\t\t\t\t</video>\n",
-							pages[subsubdirectory.index_page_ID].front_matter.video,
-						),
-					)
-				}
-
-				strings.write_string(
-					&html_string_builder,
-					fmt.aprintf(
-						"\t\t\t\t\t<span>%s</span>\n" +
-						"\t\t\t\t\t<p>%s</p>\n" +
-						"\t\t\t\t</a>\n" +
-						"\t\t\t</li>\n",
-						title_from_kebab(subsubdirectory.name),
-						pages[subsubdirectory.index_page_ID].front_matter.description,
-					),
-				)
-			}
-			debug(pages[subsubdirectory.index_page_ID])
-			debug(pages[subsubdirectory.index_page_ID].front_matter)
-			debug(pages[subsubdirectory.index_page_ID].front_matter.description)
+		folder: ^os.File
+		folder, error = os.open(directory.content_path)
+		if error != nil {
+			debug("Error:", error, "while opening", directory.content_path)
+			return
 		}
 
-		// .md files within subdirectory different from index
-		for page_ID in subdirectory.page_IDs {
-			page := pages[page_ID]
+		items: []os.File_Info
+		items, error = os.read_dir(folder, 0, context.allocator)
+		if error != nil {
+			debug("Error:", error, "while reading directory", folder)
+			return
+		}
+		os.close(folder)
 
-			if page_ID == subdirectory.index_page_ID {
-				continue
-			}
+		for subdirectory_ID in directory.subdirectory_IDs {
+			subdirectory := directories[subdirectory_ID]
 
-			if !building_list {
-				strings.write_string(&html_string_builder, "\t\t<ul>\n")
-				building_list = true
-			}
-
+			page := pages[subdirectory.index_page_ID]
 			url := url_from_path(page.generated_path)
+			h2: string = subdirectory.name
+
 			strings.write_string(
 				&html_string_builder,
-				fmt.aprintf(
-					"\t\t\t<li><a href=\"%s\">%s</a></li>\n",
-					url,
-					title_from_kebab(page.name),
-				),
+				fmt.aprintf("\t\t<a href=\"%s\"><h2>%s</h2></a>\n", url, title_from_kebab(h2)),
+			)
+
+			strings.write_string(
+				&html_string_builder,
+				fmt.aprintf("\t\t<p>%s</p>\n", page.front_matter.description),
 			)
 		}
 
-		if building_list {
-			strings.write_string(&html_string_builder, "\t\t</ul>\n")
+		for page_ID in directory.page_IDs {
+			if page_ID == directory.index_page_ID {
+				continue
+			}
+			page := pages[page_ID]
+			url := url_from_path(page.generated_path)
+			h2: string = page.name
+
+			strings.write_string(
+				&html_string_builder,
+				fmt.aprintf("\t\t<a href=\"%s\"><h2>%s</h2></a>\n", url, title_from_kebab(h2)),
+			)
+
+			strings.write_string(
+				&html_string_builder,
+				fmt.aprintf("\t\t<p>%s</p>\n", page.front_matter.description),
+			)
 		}
 	}
 
@@ -319,7 +272,7 @@ generate_from_page :: proc(page: ^Page) {
 	output := strings.to_string(js_string_builder)
 	error = os.write_entire_file_from_string(js_output_path, output)
 	if error != nil {
-		fmt.println("Error:", error, "while writing file at", output_path)
+		debug("Error:", error, "while writing file at", output_path)
 		return
 	}
 
@@ -327,7 +280,7 @@ generate_from_page :: proc(page: ^Page) {
 	output = strings.to_string(html_string_builder)
 	error = os.write_entire_file_from_string(output_path, output)
 	if error != nil {
-		fmt.println("Error:", error, "while writing file at", output_path)
+		debug("Error:", error, "while writing file at", output_path)
 		return
 	}
 }
@@ -341,7 +294,7 @@ create_subdirectories_in_directory_with_ID :: proc(directory_id: Directory_ID) {
 	error: os.Error
 	folder, error = os.open(directory_content_path)
 	if error != nil {
-		fmt.println("Error:", error, "while opening folder at", directory_content_path)
+		debug("Error:", error, "while opening folder at", directory_content_path)
 		return
 	}
 
@@ -388,9 +341,10 @@ subdirectory_create_in_directory_with_id :: proc(
 		subdirectory_file_info.name,
 	)
 	subdirectory := Directory {
-		name           = subdirectory_file_info.name,
-		content_path   = subdirectory_content_path,
-		generated_path = subdirectory_generated_path,
+		name                = subdirectory_file_info.name,
+		content_path        = subdirectory_content_path,
+		generated_path      = subdirectory_generated_path,
+		parent_directory_ID = directory_id,
 	}
 
 	debug("Creating Subdirectory in:", directory.name)
@@ -418,14 +372,14 @@ create_pages :: proc() {
 
 		folder, error = os.open(directory.content_path)
 		if error != nil {
-			fmt.println("Error:", error, "while opening folder at", directory.content_path)
+			debug("Error:", error, "while opening folder at", directory.content_path)
 			return
 		}
 
 		items: []os.File_Info
 		items, error = os.read_dir(folder, 0, context.allocator)
 		if error != nil {
-			fmt.println("Error:", error, "while reading directory", folder)
+			debug("Error:", error, "while reading directory", folder)
 			return
 		}
 
@@ -453,13 +407,7 @@ create_pages :: proc() {
 				front_matter_text,
 			)
 			if error != nil {
-				fmt.println(
-					"Error:",
-					error,
-					"while writing to",
-					directory.content_path,
-					"/index.md",
-				)
+				debug("Error:", error, "while writing to", directory.content_path, "/index.md")
 				return
 			}
 			debug("Created index.md!")
@@ -490,7 +438,7 @@ page_create :: proc(
 
 	data, error := os.read_entire_file(content_file_path, context.allocator)
 	if error != nil {
-		fmt.println("Error:", error, "while reading file at", content_file_path)
+		debug("Error:", error, "while reading file at", content_file_path)
 		return
 	}
 
@@ -557,6 +505,7 @@ free_memory :: proc() {
 debug :: proc(args: ..any) {
 	if DEBUG {fmt.println(..args)}
 }
+
 
 debug_print_directories :: proc() {
 

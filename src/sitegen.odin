@@ -6,14 +6,16 @@ Page_ID :: distinct int
 NO_DIRECTORY :: Directory_ID(-1)
 
 Directory :: struct {
-	name:             string,
-	content_path:     string,
-	generated_path:   string,
-	subdirectory_IDs: [dynamic]Directory_ID,
-	page_IDs:         [dynamic]Page_ID,
-	index_page_ID:    Page_ID,
+	name:                string,
+	content_path:        string,
+	generated_path:      string,
+	parent_directory_ID: Directory_ID,
+	subdirectory_IDs:    [dynamic]Directory_ID,
+	page_IDs:            [dynamic]Page_ID,
+	index_page_ID:       Page_ID,
 }
 
+// TODO: Should directory just be an ID?
 Page :: struct {
 	directory:      ^Directory,
 	name:           string,

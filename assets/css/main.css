@@ -1,14 +1,14 @@
 * {
     margin: 0;
     padding: 0;
-    color: #FFFFFF
 }
 
 :root {
-    background-color: #000000;
+    color: #e0f0ff;
+    background-color: #0d1117;
     display: table;
     margin: auto;
-    font-family: Arial;
+    font-family: sans-serif;
 }
 
 body {
@@ -25,19 +25,22 @@ h3 {
 }
 
 h1 {
-    font: bold 170% sans-serif;
+    font-size: 170%;
+    font-weight: bold;
     margin-top: 0.67em;
     margin-bottom: 0.67em;
 }
 
 h2 {
-    font: bold 140% sans-serif;
+    font-size: 140%;
+    font-weight: bold;
     margin-top: 0.83em;
     margin-bottom: 0.83em;
 }
 
 h3 {
-    font: bold 120% sans-serif;
+    font-size: 120%;
+    font-weight: bold;
     margin-top: 1em;
     margin-bottom: 1em;
     margin-right: 8px;
@@ -55,6 +58,15 @@ ul {
 
 a {
     text-decoration: none;
+    color: #3882d2
+}
+
+a:hover {
+    color: #609bdb;
+}
+
+a>h2 {
+    color: inherit;
 }
 
 .subsubdirectories {
@@ -63,34 +75,34 @@ a {
     gap: 1rem;
 }
 
-.subsubdirectories>.subsubdirectory {
+/*.subsubdirectories>.subsubdirectory {
     min-width: 0;
     background-color: blue;
     padding: 0;
-}
+}*/
 
-.subsubdirectories>.subsubdirectory>a {
+/*.subsubdirectories>.subsubdirectory>a {
     display: block;
     padding: 1rem;
     position: relative;
     z-index: 1;
     isolation: isolate;
-}
+}*/
 
-.subsubdirectories>.subsubdirectory>a:hover {
+/*.subsubdirectories>.subsubdirectory>a:hover {
     background: cyan;
-}
+}*/
 
 .subsubdirectories>.subsubdirectory>a>p {
     margin: 0;
-    color: #b0b0b0;
+    color: #e0f0ff;
 }
 
-.subsubdirectories>.subsubdirectory>a::before {
-    content: "";
+/*.subsubdirectories>.subsubdirectory>a::before {
+    /*content: "";
     position: absolute;
     inset: 0;
-    background: rgba(0, 0, 255, 0.65);
+    background: rgba(0, 0, 255, 0.85);
     z-index: 0;
 }
 
@@ -101,7 +113,7 @@ a {
     width: 100%;
     height: 100%;
     z-index: -1;
-}
+}*/
 
 .subsubdirectories>.subsubdirectory>a>span,
 .subsubdirectories>.subsubdirectory>a>p {
