@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Am I cooked?</title>
+		<link rel="stylesheet" href="/assets/css/main.css?v=2026-10-15 23:16:24.882276300 +0000 UTC">
+		<link rel="stylesheet" href="am-i-cooked.css">
+		<script src="am-i-cooked.js" defer></script>
+	</head>
+	<body>
+        <h1>Am I cooked? Calculator</h1>
+        <p>
+            Enter either a score and total or a percentage for each of Exam 1 and Exam 2.<br> Then click on the "Am I cooked?" button to receive your result.
+        </p>
+        <div class="exams">
+            <div id="exam1" class="exam">
+                <h2>Exam 1</h2>
+                <div class="exam-inputs">
+                    <div class="score-inputs">
+                        <div>
+                            <label for="score1">Score:</label>
+                            <input id="score1">
+                        </div>
+                        <div>
+                            <label for="total1">Total:</label>
+                            <input id="total1">
+                        </div>
+                    </div>
+                    <div class="percent-input">
+                        <label for="percent1">Percentage:</label>
+                        <input id="percent1">
+                    </div>
+                </div>
+            </div>
+            <div id="exam2" class="exam">
+                <h2>Exam 2</h2>
+                <div class="exam-inputs">
+                    <div class="score-inputs">
+                        <div>
+                            <label for="score2">Score:</label>
+                            <input id="score2">
+                        </div>
+                        <div>
+                            <label for="total2">Total:</label>
+                            <input id="total2">
+                        </div>
+                    </div>
+                    <div class="percent-input">
+                        <label for="percent2">Percentage:</label>
+                        <input id="percent2">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="calculate-container">
+            <button id="calculate">Am I cooked?</button>
+        </div>
+
+        <div id="result"></div>
+	</body>
+</html>

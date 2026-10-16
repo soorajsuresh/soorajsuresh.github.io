@@ -413,16 +413,59 @@ create_pages :: proc() {
 			debug("Created index.md!")
 		}
 
-		// create pages
-		debug("Looking for .md files!")
+		// create pages from .md files
+		debug("Looking for .md, .html, .js, and .css files!")
 		for item in items {
 			if item.type == os.File_Type.Regular {
 				if strings.has_suffix(item.name, ".md") {
 					debug("Found .md file! Creating Page!")
 					page_create(&directory, item, directory.content_path, directory.generated_path)
 				}
+
+				if strings.has_suffix(item.name, ".html") {
+					debug("Found .html file!")
+					debug("Generating copy of .html file!")
+					source_path := fmt.aprintf("%s/%s", directory.content_path, item.name)
+					destination_path := fmt.aprintf("%s/%s", directory.generated_path, item.name)
+
+					debug(destination_path)
+
+					error = os.copy_file(destination_path, source_path)
+					if error != nil {
+						debug("Error copying file:", error)
+					}
+				}
+
+				if strings.has_suffix(item.name, ".js") {
+					debug("Found .js file!")
+					debug("Generating copy of .js file!")
+					source_path := fmt.aprintf("%s/%s", directory.content_path, item.name)
+					destination_path := fmt.aprintf("%s/%s", directory.generated_path, item.name)
+
+					debug(destination_path)
+
+					error = os.copy_file(destination_path, source_path)
+					if error != nil {
+						debug("Error copying file:", error)
+					}
+				}
+
+				if strings.has_suffix(item.name, ".css") {
+					debug("Found .css file!")
+					debug("Generating copy of .css file!")
+					source_path := fmt.aprintf("%s/%s", directory.content_path, item.name)
+					destination_path := fmt.aprintf("%s/%s", directory.generated_path, item.name)
+
+					debug(destination_path)
+
+					error = os.copy_file(destination_path, source_path)
+					if error != nil {
+						debug("Error copying file:", error)
+					}
+				}
 			}
 		}
+
 	}
 }
 
