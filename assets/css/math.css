@@ -4,16 +4,26 @@
 
 span.definition,
 span.definition * {
-    color: #3882d2
+    /*color: var(--accent-color);*/
+    font-weight: bold;
+}
+
+.display-wrapper {
+    max-width: 100%;
+    padding-inline: 1rem;
+    overflow-x: auto;
+    overflow-y: hidden;
 }
 
 .display {
-    text-align: center;
-    margin: 1em 0;
-    white-space: nowrap;
+    width: max-content;
+    min-width: 100%;
     display: flex;
     justify-content: center;
     align-items: baseline;
+    margin: 1em 0;
+    white-space: nowrap;
+    /*text-align: center;*/
 }
 
 .mord.text .mord {

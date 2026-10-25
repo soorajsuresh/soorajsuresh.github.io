@@ -4,7 +4,7 @@ layout: section
 chapter: 1
 section: 5
 katex_macros:
-    "\d":"\boldsymbol{\mathrm d}"
+    "\d":"\vec d"
 ---
 
 If $L$ is a line and $A$ and $B$ are distinct points on $L$, then $\overrightarrow{AB}$ is called a \defn{vector along $L$}.

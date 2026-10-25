@@ -171,6 +171,10 @@ markdown_to_html :: proc(input: string) -> string {
 					// TODO: think about [] being used within a command...
 					// display math
 					if line[i] == '[' {
+						strings.write_string(
+							&builder,
+							fmt.aprintf("<div class=\"display-wrapper\">"),
+						)
 						strings.write_string(&builder, fmt.aprintf("<div class=\"display\">$"))
 
 						i += 1 // skip '['
@@ -201,6 +205,7 @@ markdown_to_html :: proc(input: string) -> string {
 						//text = line[display_start:i - 1]
 
 						strings.write_string(&builder, fmt.aprintf("$</div>"))
+						strings.write_string(&builder, fmt.aprintf("</div>"))
 
 						break
 					}

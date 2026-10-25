@@ -58,7 +58,7 @@ generate_from_page :: proc(page: ^Page) {
 	js_string_builder := strings.builder_make()
 
 	strings.write_string(&html_string_builder, "<!DOCTYPE html>\n")
-	strings.write_string(&html_string_builder, "<html>\n")
+	strings.write_string(&html_string_builder, "<html class=\"dark\">\n")
 
 	// head
 	strings.write_string(&html_string_builder, "\t<head>\n")
@@ -75,6 +75,12 @@ generate_from_page :: proc(page: ^Page) {
 			fmt.aprintf("\t\t<title>%s</title>\n", page.front_matter.title),
 		)
 	}
+
+	// viewport for mobile
+	strings.write_string(
+		&html_string_builder,
+		fmt.aprintf("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">"),
+	)
 
 	// main style
 	style_info: os.File_Info
@@ -113,10 +119,10 @@ generate_from_page :: proc(page: ^Page) {
 	directory := page.directory
 	for directory != nil {
 		if directory.name == "multivariable-calculus" {
-			page.front_matter.katex_macros["\\i"] = "\\boldsymbol{\\mathrm i}"
-			page.front_matter.katex_macros["\\j"] = "\\boldsymbol{\\mathrm j}"
-			page.front_matter.katex_macros["\\k"] = "\\boldsymbol{\\mathrm k}"
-			page.front_matter.katex_macros["\\r"] = "\\boldsymbol{\\mathrm r}"
+			page.front_matter.katex_macros["\\i"] = "\\vec i"
+			page.front_matter.katex_macros["\\j"] = "\\vec j"
+			page.front_matter.katex_macros["\\k"] = "\\vec k"
+			page.front_matter.katex_macros["\\r"] = "\\vec r"
 		}
 		if directory.parent_directory_ID != NO_DIRECTORY {
 			directory = &directories[directory.parent_directory_ID]
