@@ -43,7 +43,7 @@ window.katexMacros = {
 };
 
 // if there are katex macros
-Object.assign(window.katexMacros, {"\\i":"\\vec i","\\j":"\\vec j","\\r":"\\vec r","\\k":"\\vec k"});
+Object.assign(window.katexMacros, {"\\j":"\\vec j","\\r":"\\vec r","\\i":"\\vec i","\\k":"\\vec k"});
 
 // queue for render calls before katex is ready
 window.katexQueue = window.katexQueue || [];

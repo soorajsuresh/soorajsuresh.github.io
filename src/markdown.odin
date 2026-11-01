@@ -100,7 +100,6 @@ parse_front_matter :: proc(input: string) -> (front_matter: Front_Matter, markdo
 	return front_matter, markdown
 }
 
-building_environment: bool = false
 markdown_to_html :: proc(input: string) -> string {
 	builder := strings.builder_make()
 	building_list: bool = false
@@ -158,9 +157,6 @@ markdown_to_html :: proc(input: string) -> string {
 
 		// block-level environments
 		if strings.has_prefix(line, "\\begin{") {
-			if !building_environment {
-				building_environment = true
-			}
 
 			// get environment name
 			environment_name_start := len("\\begin{")
@@ -218,6 +214,8 @@ markdown_to_html :: proc(input: string) -> string {
 				strings.write_string(&builder, "\n\t\t</p>\n")
 				building_paragraph = false
 			}
+
+			continue
 		}
 
 		// parse line
@@ -251,7 +249,7 @@ markdown_parse_line :: proc(line: string, builder: ^strings.Builder) {
 
 			// TODO: think about [] being used within a command...
 			// display math
-			if line[i] == '[' {
+			if i < len(line) && line[i] == '[' {
 				strings.write_string(builder, fmt.aprintf("<div class=\"display-wrapper\">"))
 				strings.write_string(builder, fmt.aprintf("<div class=\"display\">$"))
 
@@ -263,7 +261,8 @@ markdown_parse_line :: proc(line: string, builder: ^strings.Builder) {
 
 					// end at '\]'
 					if line[i] == '\\' {
-						if line[i + 1] == ']' {
+						if i < len(line) - 1 && line[i + 1] == ']' {
+							i += 1
 							break
 						}
 					}
@@ -277,15 +276,15 @@ markdown_parse_line :: proc(line: string, builder: ^strings.Builder) {
 						continue
 					}
 
+					// write non-text non-\] byte
 					strings.write_byte(builder, line[i])
 					i += 1
 				}
-				//text = line[display_start:i - 1]
 
 				strings.write_string(builder, fmt.aprintf("$</div>"))
 				strings.write_string(builder, fmt.aprintf("</div>"))
 
-				break
+				continue
 			}
 
 			// commands
@@ -303,9 +302,10 @@ markdown_parse_line :: proc(line: string, builder: ^strings.Builder) {
 
 			// defn
 			case "defn":
-				argument_start := i + 1 // skip '{'
+				// skip '{'
 				i += 1
 				accum += 1
+				argument_start := i
 				for i < len(line) && line[i] != '}' {
 					i += 1
 					accum += 1
@@ -315,7 +315,9 @@ markdown_parse_line :: proc(line: string, builder: ^strings.Builder) {
 					builder,
 					fmt.aprintf("<span class=\"definition\">%s</span>", argument),
 				)
-				i += 1 // skip '}'
+
+				// skip '}'
+				i += 1
 				accum += 1
 			case:
 				i -= accum
@@ -323,7 +325,9 @@ markdown_parse_line :: proc(line: string, builder: ^strings.Builder) {
 		}
 
 		// write non-display non-command byte
-		strings.write_byte(builder, line[i])
+		if (i < len(line)) {
+			strings.write_byte(builder, line[i])
+		}
 	}
 }
 

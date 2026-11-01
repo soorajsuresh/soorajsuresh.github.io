@@ -40,11 +40,10 @@ paragraph
 test
 \end{example}
 
-
 \begin{example}
 multiple 
 
-paragraph with display math \[x\] and \defn{definitions}
+paragraph with display math \[x\] and \defn{definitions}.
 
 test
 \end{example}
