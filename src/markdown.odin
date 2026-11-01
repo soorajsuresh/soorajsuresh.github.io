@@ -100,12 +100,16 @@ parse_front_matter :: proc(input: string) -> (front_matter: Front_Matter, markdo
 	return front_matter, markdown
 }
 
+building_environment: bool = false
 markdown_to_html :: proc(input: string) -> string {
 	builder := strings.builder_make()
-	building_paragraph: bool = false
 	building_list: bool = false
+	building_paragraph: bool = false
+	input_lines: []string = strings.split_lines(input)
 
-	for line in strings.split_lines(input) {
+	for line_number := 0; line_number < len(input_lines); line_number += 1 {
+
+		line: string = input_lines[line_number]
 
 		// heading 1
 		if strings.has_prefix(line, "# ") {
@@ -152,7 +156,56 @@ markdown_to_html :: proc(input: string) -> string {
 			continue
 		}
 
-		// paragraphs
+		// block-level environments
+		if strings.has_prefix(line, "\\begin{") {
+			if !building_environment {
+				building_environment = true
+			}
+
+			// get environment name
+			environment_name_start := len("\\begin{")
+			environment_name_end := strings.index(line, "}")
+			environment_name := line[environment_name_start:environment_name_end]
+			content_start := environment_name_end + 1
+			ending_delimiter := strings.concatenate([]string{"\\end{", environment_name, "}"})
+			environment_start_line_number := line_number
+
+			environment_lines: [dynamic]string
+			defer delete(environment_lines)
+			for line_number < len(input_lines) {
+				line = input_lines[line_number]
+
+				// content ends on this line
+				start := content_start if line_number == environment_start_line_number else 0
+				content_end := strings.index(line[start:], ending_delimiter)
+				if content_end >= 0 {
+					append(&environment_lines, line[start:start + content_end])
+					line_number += 1
+					break
+				}
+
+				append(&environment_lines, line[start:])
+				line_number += 1
+
+				// TODO: could not find ending delimeter error
+			}
+
+			environment_content := strings.join(environment_lines[:], "\n")
+			environment_html := markdown_to_html(environment_content)
+
+			strings.write_string(
+				&builder,
+				fmt.aprintf(
+					"\t\t<div class=\"%s\">\n%s\t\t</div>\n",
+					environment_name,
+					environment_html,
+				),
+			)
+
+			continue
+		}
+
+		// paragraph
 		if line != "" {
 
 			// start paragraph
@@ -160,110 +213,118 @@ markdown_to_html :: proc(input: string) -> string {
 				building_paragraph = true
 				strings.write_string(&builder, "\t\t<p>\n\t\t\t")
 			}
-
-			// parse line
-			for i := 0; i < len(line); i += 1 {
-				if line[i] == '\\' {
-
-					// skip '\'
-					i += 1
-
-					// TODO: think about [] being used within a command...
-					// display math
-					if line[i] == '[' {
-						strings.write_string(
-							&builder,
-							fmt.aprintf("<div class=\"display-wrapper\">"),
-						)
-						strings.write_string(&builder, fmt.aprintf("<div class=\"display\">$"))
-
-						i += 1 // skip '['
-
-						// parse display math line
-						text: string = ""
-						for i < len(line) {
-
-							// end at '\]'
-							if line[i] == '\\' {
-								if line[i + 1] == ']' {
-									break
-								}
-							}
-
-							// write , and . as text
-							if line[i] == ',' || line[i] == '.' {
-								strings.write_string(&builder, "\\text{")
-								strings.write_byte(&builder, line[i])
-								strings.write_string(&builder, " }")
-								i += 1
-								continue
-							}
-
-							strings.write_byte(&builder, line[i])
-							i += 1
-						}
-						//text = line[display_start:i - 1]
-
-						strings.write_string(&builder, fmt.aprintf("$</div>"))
-						strings.write_string(&builder, fmt.aprintf("</div>"))
-
-						break
-					}
-
-					// commands
-					accum: int = 1 // to reverse advancing i
-
-					// TODO: think about {} being used within a command...
-					command_start := i
-					for i < len(line) && line[i] != '{' {
-						i += 1
-						accum += 1
-					}
-					command := line[command_start:i]
-
-					switch command {
-
-					// defn
-					case "defn":
-						argument_start := i + 1 // skip '{'
-						i += 1
-						accum += 1
-						for i < len(line) && line[i] != '}' {
-							i += 1
-							accum += 1
-						}
-						argument := line[argument_start:i]
-						strings.write_string(
-							&builder,
-							fmt.aprintf("<span class=\"definition\">%s</span>", argument),
-						)
-						i += 1 // skip '}'
-						accum += 1
-					case:
-						i -= accum
-					}
-				}
-
-				strings.write_byte(&builder, line[i])
-			}
 		} else if line == "" {
 			if building_paragraph {
 				strings.write_string(&builder, "\n\t\t</p>\n")
 				building_paragraph = false
 			}
 		}
+
+		// parse line
+		markdown_parse_line(line, &builder)
 	}
 
 	// done with file, so close any opened elements
 	if building_list {
 		strings.write_string(&builder, "\t\t</ul>\n")
+		building_list = false
 	}
 
 	if building_paragraph {
 		strings.write_string(&builder, "\n\t\t</p>\n")
+		building_paragraph = false
 	}
 
 	return strings.to_string(builder)
+}
+
+markdown_parse_line :: proc(line: string, builder: ^strings.Builder) {
+
+	// parse line
+	for i := 0; i < len(line); i += 1 {
+		if line[i] == '\\' {
+
+			// skip '\'
+			i += 1
+
+			// TODO: inline environments
+
+			// TODO: think about [] being used within a command...
+			// display math
+			if line[i] == '[' {
+				strings.write_string(builder, fmt.aprintf("<div class=\"display-wrapper\">"))
+				strings.write_string(builder, fmt.aprintf("<div class=\"display\">$"))
+
+				i += 1 // skip '['
+
+				// parse display math line
+				text: string = ""
+				for i < len(line) {
+
+					// end at '\]'
+					if line[i] == '\\' {
+						if line[i + 1] == ']' {
+							break
+						}
+					}
+
+					// write , and . as text
+					if line[i] == ',' || line[i] == '.' {
+						strings.write_string(builder, "\\text{")
+						strings.write_byte(builder, line[i])
+						strings.write_string(builder, " }")
+						i += 1
+						continue
+					}
+
+					strings.write_byte(builder, line[i])
+					i += 1
+				}
+				//text = line[display_start:i - 1]
+
+				strings.write_string(builder, fmt.aprintf("$</div>"))
+				strings.write_string(builder, fmt.aprintf("</div>"))
+
+				break
+			}
+
+			// commands
+			accum: int = 1 // to reverse advancing i
+
+			// TODO: think about {} being used within a command...
+			command_start := i
+			for i < len(line) && line[i] != '{' {
+				i += 1
+				accum += 1
+			}
+			command := line[command_start:i]
+
+			switch command {
+
+			// defn
+			case "defn":
+				argument_start := i + 1 // skip '{'
+				i += 1
+				accum += 1
+				for i < len(line) && line[i] != '}' {
+					i += 1
+					accum += 1
+				}
+				argument := line[argument_start:i]
+				strings.write_string(
+					builder,
+					fmt.aprintf("<span class=\"definition\">%s</span>", argument),
+				)
+				i += 1 // skip '}'
+				accum += 1
+			case:
+				i -= accum
+			}
+		}
+
+		// write non-display non-command byte
+		strings.write_byte(builder, line[i])
+	}
 }
 
 markdown_parse_link :: proc(link: string) -> (html: string) {

@@ -20,3 +20,31 @@ The equations \[x=x_0+ta,\quad y=y_0+tb,\quad z=z_0+tc\] are called \defn{parame
 The equation \[x\i+y\j+z\k=\parens{x_0+ta}\i+\parens{y_0+tb}\j+\parens{z_0+tc}\k\] is called a \defn{vector equation of $L$}.
 
 Letting $\r$ denote $x\i+y\j+z\k$ and $\r_0$ denote $x_0\i+y_0\j+z_0\k$, the vector equation of $L$ is \[\r=\r_0+t\d.\]
+
+\begin{example}test\end{example}
+
+\begin{example}another
+test\end{example}
+
+\begin{example}
+one
+more
+test
+\end{example}
+
+\begin{example}
+# multiple 
+
+paragraph
+
+test
+\end{example}
+
+
+\begin{example}
+multiple 
+
+paragraph with display math \[x\] and \defn{definitions}
+
+test
+\end{example}
